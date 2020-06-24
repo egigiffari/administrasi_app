@@ -74,8 +74,8 @@ Route::middleware('auth')->group(function(){
     
     // REQUEST
     // Request
-    Route::get('/request/pengajuan/{id}', "RequestController@index")->name("request.pengajuan.index");
-    Route::get('/request/pengajuan/create/{id}', "RequestController@create")->name("request.pengajuan.create");
+    // Route::get('/request/pengajuan/{id}', "RequestController@index")->name("request.pengajuan.index");
+    // Route::get('/request/pengajuan/create/{id}', "RequestController@create")->name("request.pengajuan.create");
     Route::resource('/request/pengajuan', "RequestController")->names([
         'index' => 'request.pengajuan.index',
         'create' => 'request.pengajuan.create',

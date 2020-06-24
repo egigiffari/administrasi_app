@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RequestCategory;
 use App\Request;
+use App\RequestItems;
 
 class RequestController extends Controller
 {
@@ -80,6 +81,12 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $request = Request::findOrFail($id);
+        $request_name = $request->categories->name;
+
+        RequestItems::where('request_id', $id)->delete();
+        $request->delete();
+
+        return redirect()->back()->withSuccess("$request_name, Has Been Deleted");
     }
 }

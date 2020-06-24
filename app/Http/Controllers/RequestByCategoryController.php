@@ -86,11 +86,9 @@ class RequestByCategoryController extends Controller
            'date' => 'required',
            'total' => 'required',
            'amount' => 'required',
-
         ]);
 
         $category_request = RequestCategory::findOrFail($request->category_id);
-        // dd($category_request->types->name);
 
         if (preg_match('/pembelian/', $category_request->types->name)) {
             
@@ -120,7 +118,6 @@ class RequestByCategoryController extends Controller
         }
         
         
-
         $date = explode(' - ', $request->date);
         $start_date = explode('/', $date[0]);
         $start_date = implode('-',[$start_date[2], $start_date[0], $start_date[1]]);
@@ -207,8 +204,6 @@ class RequestByCategoryController extends Controller
             array_push($data_items, $temp);
         }
 
-        // dd($data_items);
-
         // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
         RequestApprove::insert($approvers);
 
@@ -262,6 +257,13 @@ class RequestByCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $request = Request::findOrFail($id);
+        $request_name = $request->categories->name;
+
+        RequestItems::where('request_id', $id)->delete();
+        $request->delete();
+        
+
+        return redirect()->back()->withSuccess("$request_name, Has Been Deleted");
     }
 }
