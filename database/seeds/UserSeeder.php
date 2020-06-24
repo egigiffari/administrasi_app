@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
                 'image' => 'uploads/users/default.png',
                 'signature' => 'uploads/users/signature/default.png',
                 'phone' => "061 09839434",
-                'address' => '',
+                'address' => 'Maha',
                 'email_verified_at' => now(),
                 'password' => bcrypt('admin'),
                 'remember_token' => '',

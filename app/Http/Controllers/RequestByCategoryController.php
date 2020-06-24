@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\RequestApprove;
 use App\RequestCategory;
+use App\RequestItems;
 use App\RequestResponsible;
 // use App\Request;
 use App\User;
@@ -84,8 +85,41 @@ class RequestByCategoryController extends Controller
            'perihal' => 'required',
            'date' => 'required',
            'total' => 'required',
-           'amount' => 'required'
+           'amount' => 'required',
+
         ]);
+
+        $category_request = RequestCategory::findOrFail($request->category_id);
+        // dd($category_request->types->name);
+
+        if (preg_match('/pembelian/', $category_request->types->name)) {
+            
+            $this->validate($request, [
+                'item' => 'required',
+                'unit' => 'required',
+                'qty' => 'required',
+                'price' => 'required',
+                'sub' => 'required',
+                'desc' => 'required',
+            ]);
+
+        }elseif(preg_match('/biaya/', $category_request->types->name)){
+
+            $this->validate($request, [
+                'item' => 'required',
+                'name' => 'required',
+                'merk' => 'required',
+                'spec' => 'required',
+                'unit' => 'required',
+                'qty' => 'required',
+                'price' => 'required',
+                'sub' => 'required',
+                'desc' => 'required',
+            ]);
+
+        }
+        
+        
 
         $date = explode(' - ', $request->date);
         $start_date = explode('/', $date[0]);
@@ -129,8 +163,57 @@ class RequestByCategoryController extends Controller
             array_push($approvers, $temp);
         }
 
+        // PREPARE REQUEST ITEMS
+        $data_items = [];
+
+        $items = $request->item;
+        $names = $request->name;
+        $merks = $request->merk;
+        $specs = $request->spec;
+        $units = $request->unit;
+        $qtys = $request->qty;
+        $prices = $request->price;
+        $subs = $request->sub;
+        $descs = $request->desc;
+
+        for ($i=0; $i < count($items); $i++) {
+            
+            $item_id = Product::findOrFail($items[$i]);
+            if ($item_id) {
+                $name = $item_id->name;
+                $merk = $item_id->brand->name;
+                $spec = $item_id->spec;
+            }else{
+                $name = $names[$i];
+                $merk = $merks[$i];
+                $spec = $specs[$i];
+            }
+            
+            $temp = [
+                'request_id' => $request_code->id,
+                'items' => $items[$i],
+                'name' => $name,
+                'merk' => $merk,
+                'spec' => $spec,
+                'unit' => $units[$i],
+                'qty' => $qtys[$i],
+                'price' => $prices[$i],
+                'sub' => $subs[$i],
+                'desc' => $descs[$i],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            array_push($data_items, $temp);
+        }
+
+        // dd($data_items);
+
         // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
         RequestApprove::insert($approvers);
+
+        // INSERT DATA REQUEST ITEM TO REQUEST ITEMS TABLE
+        RequestItems::insert($data_items);
 
 
 

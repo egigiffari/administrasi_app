@@ -20,11 +20,12 @@ class CreateRequestItemsTable extends Migration
             $table->string('name');
             $table->string('merk');
             $table->string('spec');
+            $table->string('unit');
             $table->double('qty');
             $table->double('price');
             $table->double('sub');
             $table->text('desc');
-            $table->string('image');
+            $table->string('image')->default('uploads/requests/items/default.jpg');
             $table->timestamps();
         });
     }
