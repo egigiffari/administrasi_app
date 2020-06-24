@@ -11,6 +11,7 @@ use App\RequestResponsible;
 use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RequestByCategoryController extends Controller
@@ -37,6 +38,10 @@ class RequestByCategoryController extends Controller
     public function index(RequestCategory $id)
     {
         $requests = \App\Request::where('category_id', 'like' ,$id->id)->orderBy('updated_at', 'desc')->paginate(10);
+        if (Auth::user()->level->capacity == 10) {
+            $requests = \App\Request::where('applicant_id', Auth::id())->where('category_id', 'like' ,$id->id)->orderBy('updated_at', 'desc')->paginate(10);
+        }
+        // dd($requests[0]);
         $category = $id;
         return view('request.request_category.index', compact('requests', 'category'));
     }
@@ -223,7 +228,12 @@ class RequestByCategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $request = \App\Request::findOrFail($id);
+        $category = RequestCategory::findOrFail($request->category_id);
+        $items = RequestItems::where('request_id', $request->id)->get();
+        $responsibles = RequestApprove::where('request_id', $request->id)->get();
+        // dd($responsible);
+        return view('request.request_category.detail', compact('request', 'items', 'category', 'responsibles'));
     }
 
     /**
@@ -261,6 +271,7 @@ class RequestByCategoryController extends Controller
         $request_name = $request->categories->name;
 
         RequestItems::where('request_id', $id)->delete();
+        RequestApprove::where('request_id', $id)->delete();
         $request->delete();
         
 

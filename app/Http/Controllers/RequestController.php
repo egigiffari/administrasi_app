@@ -3,11 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\RequestCategory;
-use App\Request;
+// use App\Request;
+use App\RequestApprove;
 use App\RequestItems;
+use Carbon\Carbon;
+
+use App\Providers\AppServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class RequestController extends Controller
 {
+
+    public function boot()
+    {
+        config(['app.locale' => 'id']);
+        Carbon::setLocale('id');
+        date_default_timezone_set('Asia/Jakarta');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +62,12 @@ class RequestController extends Controller
      */
     public function show($id)
     {
-        //
+        $request = \App\Request::findOrFail($id);
+        $category = RequestCategory::findOrFail($request->category_id);
+        $items = RequestItems::where('request_id', $request->id)->get();
+        $responsibles = RequestApprove::where('request_id', $request->id)->orderBy('priority', 'asc')->get();
+        // dd($responsible);
+        return view('request.request_category.detail', compact('request', 'items', 'category', 'responsibles'));
     }
 
     /**
@@ -85,8 +105,20 @@ class RequestController extends Controller
         $request_name = $request->categories->name;
 
         RequestItems::where('request_id', $id)->delete();
+        RequestApprove::where('request_id', $id)->delete();
         $request->delete();
 
         return redirect()->back()->withSuccess("$request_name, Has Been Deleted");
+    }
+
+    public function approve(Request $request)
+    {
+        $this->validate($request, ['status' => 'required']);
+        $status = $request->status;
+        $approve = RequestApprove::where('request_id', $request->request_id)->where('user_id', Auth::id())->first();
+        RequestApprove::whereId($approve->id)->update(['status' => $status]);
+
+        return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
+        
     }
 }

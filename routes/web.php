@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function(){
     // Request
     // Route::get('/request/pengajuan/{id}', "RequestController@index")->name("request.pengajuan.index");
     // Route::get('/request/pengajuan/create/{id}', "RequestController@create")->name("request.pengajuan.create");
+    Route::patch('/request/pengajuan/approve/', "RequestController@approve")->name("request.pengajuan.approve");
     Route::resource('/request/pengajuan', "RequestController")->names([
         'index' => 'request.pengajuan.index',
         'create' => 'request.pengajuan.create',
@@ -90,6 +91,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/request/by-category/{id}/index', 'RequestByCategoryController@index')->name('requestby.category.index');
     Route::get('/request/by-category/{id}/create', 'RequestByCategoryController@create')->name('requestby.category.create');
     Route::post('/request/by-category/store', 'RequestByCategoryController@store')->name('requestby.category.store');
+    Route::get('/request/by-category/{id}/show', 'RequestByCategoryController@show')->name('requestby.category.show');
     // End Request By Category
     // Type Request
     Route::resource('/request/type', 'RequestTypeController')->names([

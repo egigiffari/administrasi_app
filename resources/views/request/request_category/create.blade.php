@@ -27,18 +27,19 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3 col-sm-offset-0">
 
-                            @if(preg_match('/user/', Auth::user()->level->name))
-                            @elseif(preg_match('/common admin, manager, administrator/', Auth::user()->level->name))
+                            @if(Auth::user()->level->capacity == 10)
+                                <input type="hidden" name="applicant_id" value="{{ Auth::id() }}">
+                            @else
+                                <div class="col-xs-12 form-group has-feedback">
+                                    <label for="applicant_id" class="title">Pengaju</label>
+                                    <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
+                                    @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
                             @endif
 
-                            <div class="col-xs-12 form-group has-feedback">
-                                <label for="applicant_id" class="title">Pengaju</label>
-                                <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
-                                  @foreach($users as $user)
-                                  <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                  @endforeach
-                              </select>
-                            </div>
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="code" class="title">Code</label>

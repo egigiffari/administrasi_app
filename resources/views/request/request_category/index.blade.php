@@ -42,8 +42,11 @@
                                <form action="{{ route('request.pengajuan.destroy', $request->id) }}" method="post">
                                    @csrf
                                    @method('delete')
+                                   <a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
                                    <a href="{{ route('request.pengajuan.edit', $request->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> edit</a>
+                                   @if(!preg_match('/user/', Auth::user()->level->name))
                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                   @endif
                                </form>
                             </td>
                        </tr>
