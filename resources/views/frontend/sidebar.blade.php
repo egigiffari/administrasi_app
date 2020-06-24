@@ -60,6 +60,7 @@
             <div class="menu_section">
                 <h3>Setting</h3>
                 <ul class="nav side-menu">
+                    <li><a href="{{ route('user.profile') }}"><i class="fa fa-user"></i> Profile</a></li>
                     <li class=""><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('user.index') }}">List Users</a></li>

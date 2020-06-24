@@ -57,6 +57,10 @@
                                 <input class="form-control has-feedback-left" name="image" id="inputSuccess5" type="file" placeholder="Image" accept="image/x-png,image/gif,image/jpeg">
                                 <span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
                             </div>
+                            <div class="col-xs-12 form-group has-feedback">
+                                <input class="form-control has-feedback-left" name="signature" id="inputSuccess5" type="file" placeholder="signature" accept="image/x-png,image/gif,image/jpeg">
+                                <span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
+                            </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="profile_title">
@@ -125,6 +129,10 @@
     <!-- jQuery autocomplete -->
     <script src="/frontend/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
     <script>
-        
-    </script>
+        $(function () {
+
+            $('.select2_multiple').select2();
+            
+        });
+  </script>
 @endsection

@@ -26,6 +26,11 @@
                     <input type="hidden" name="creator_id" value="{{ Auth::user()->id }}">
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3 col-sm-offset-0">
+
+                            @if(preg_match('/user/', Auth::user()->level->name))
+                            @elseif(preg_match('/common admin, manager, administrator/', Auth::user()->level->name))
+                            @endif
+
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="applicant_id" class="title">Pengaju</label>
                                 <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
@@ -61,7 +66,7 @@
                     <!-- PEMBELIAN BARANG/MATERIAL/TOOLS -->
                     <div class="row">
                         <div class="col-12">
-                            @if($category->types->name == 'Pembelian')
+                            @if(preg_match('/pembelian/', $category->types->name))
                                 <div class="row cart-shop">
                                     <div class="col-sm-12 col-md-2 col-xl-2">
                                         <div class="col-xs-12 form-group has-feedback">
@@ -98,6 +103,12 @@
                                         <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
                                         </div>
                                     </div>
+                                    <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="desc" class="title">Keterangan</label>
+                                        <input class="form-control desc" value="" name="desc[]" id="desc" type="text">
+                                        </div>
+                                    </div>
                                     <div class="item-btn col-sm-12 col-md-2 col-xl-2">
                                         <div class="col-xs-12 form-group has-feedback">
                                             <label for="sub" class="title"></label>
@@ -106,7 +117,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @elseif($category->types->name == 'Biaya')
+                            @elseif(preg_match('/biaya/', $category->types->name))
                                 <div class="row cart-shop">
                                     <input class="form-control" value="0" name="item[]" id="item" type="hidden" readonly>
                                     <div class="col-sm-12 col-md-2 col-xl-2">
@@ -149,6 +160,12 @@
                                         <div class="col-xs-12 form-group has-feedback">
                                         <label for="sub" class="title">Sub Price</label>
                                         <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="desc" class="title">Keterangan</label>
+                                        <input class="form-control desc" value="" name="desc[]" id="desc" type="text">
                                         </div>
                                     </div>
                                     <div class="item-btn col-sm-12 col-md-2 col-xl-2">
@@ -332,7 +349,7 @@
             $(document).on('click', '.add-btn', function (e) {
                 e.preventDefault();
                 var html;
-                <?php if($category->types->name == 'Pembelian') : ?> 
+                <?php if(preg_match('/pembelian/', $category->types->name)) : ?> 
                 html = 
                     `
                     <div class="row cart-shop">
@@ -371,6 +388,12 @@
                             <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
                             </div>
                         </div>
+                        <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="desc" class="title">Keterangan</label>
+                            <input class="form-control desc" value="" name="desc[]" id="desc" type="text">
+                            </div>
+                        </div>
                         <div class="item-btn col-sm-12 col-md-2 col-xl-2">
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="sub" class="title"></label>
@@ -380,7 +403,7 @@
                         </div>
                     </div>
                 `
-                <?php elseif($category->types->name == 'Biaya') : ?>
+                <?php elseif(preg_match('/biaya/', $category->types->name)) : ?>
                 html = 
                 `
                     <div class="row cart-shop">
@@ -425,6 +448,12 @@
                             <div class="col-xs-12 form-group has-feedback">
                             <label for="sub" class="title">Sub Price</label>
                             <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="desc" class="title">Keterangan</label>
+                            <input class="form-control desc" value="" name="desc[]" id="desc" type="text">
                             </div>
                         </div>
                         <div class="item-btn col-sm-12 col-md-2 col-xl-2">

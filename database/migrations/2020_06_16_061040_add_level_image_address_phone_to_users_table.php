@@ -17,6 +17,7 @@ class AddLevelImageAddressPhoneToUsersTable extends Migration
             $table->string('address')->after('email');
             $table->string('phone')->after('email');
             $table->string('image')->after('email');
+            $table->string('signature')->after('email');
             $table->integer('division_id')->after('email');
             $table->integer('level_id')->after('email');
         });
@@ -35,6 +36,7 @@ class AddLevelImageAddressPhoneToUsersTable extends Migration
             $table->dropColumn('address');
             $table->dropColumn('level_id');
             $table->dropColumn('image');
+            $table->dropColumn('signature');
         });
     }
 }

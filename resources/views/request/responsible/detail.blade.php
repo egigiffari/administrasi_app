@@ -71,8 +71,8 @@
                         </div>
 
                         <div class="form-group">
-                                <button type="reset" class="btn btn-danger">Reset Product</button>
-                                <button type="submit" class="btn btn-primary">Save Product</button>
+                                <button type="reset" class="btn btn-danger">Reset Penanggungjawab</button>
+                                <button type="submit" class="btn btn-primary">Save Penanggungjawab</button>
                         </div>
 
                     </form>
@@ -112,32 +112,6 @@
                     {{$responsibles->links()}}
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="profile_title">
-                        <div class="col-md-6"><h2>Transaction</h2></div>
-                        <div class="clearfix"></div>
-                    </div>
-                <div class="col-sm-12 col-md-12 col-xl-12">
-                    <table class="table tabel-striped">
-                        <thead>
-                            <th>Date</th>
-                            <th>User</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 day ago</td>
-                                <td>Egi</td>
-                                <td>1</td>
-                                <td>Rp. 5,000</td>
-                                <td>Rp. 5,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div> -->
         </div>
     </div>
 

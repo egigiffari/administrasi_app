@@ -114,13 +114,19 @@
     <script src="/frontend/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
 
     <script>
-        var merk = [
-            <?php foreach($brands as $brand) : ?>
-                "<?php echo($brand->name) ?>",
-            <?php endforeach ?>
-        ];
-        $('#autocomplete-custom-append').autocomplete({
-            lookup: merk
+
+        $(function () {
+            var merk = [
+                <?php foreach($brands as $brand) : ?>
+                    "<?php echo($brand->name) ?>",
+                <?php endforeach ?>
+            ];
+            $('#autocomplete-custom-append').autocomplete({
+                lookup: merk
+            });
+
+            $('.select2_multiple').select2();
+            
         });
   </script>
 

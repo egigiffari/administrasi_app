@@ -13,11 +13,13 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
+            [
             'name' => 'administrator',
-            'email' => 'admin@gmail.com',
+            'email' => 'superadmin@gmail.com',
             'level_id' => 1,
             'division_id' => 1,
             'image' => 'uploads/users/default.png',
+            'signature' => 'uploads/users/signature/default.png',
             'phone' => "061 09839434",
             'address' => 'PT. Maha Akbar Sejahtera',
             'email_verified_at' => now(),
@@ -25,6 +27,37 @@ class UserSeeder extends Seeder
             'remember_token' => '',
             'created_at' => now(),
             'updated_at' => now(),
+            ],
+            [
+                'name' => 'administrator',
+                'email' => 'admin@gmail.com',
+                'level_id' => 1,
+                'division_id' => 1,
+                'image' => 'uploads/users/default.png',
+                'signature' => 'uploads/users/signature/default.png',
+                'phone' => "061 09839434",
+                'address' => 'PT. Maha Akbar Sejahtera',
+                'email_verified_at' => now(),
+                'password' => bcrypt('admin'),
+                'remember_token' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'layla sarantika',
+                'email' => 'lailasarantika@gmail.com',
+                'level_id' => 1,
+                'division_id' => 1,
+                'image' => 'uploads/users/default.png',
+                'signature' => 'uploads/users/signature/default.png',
+                'phone' => "061 09839434",
+                'address' => '',
+                'email_verified_at' => now(),
+                'password' => bcrypt('admin'),
+                'remember_token' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

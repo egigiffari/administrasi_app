@@ -1,7 +1,7 @@
 
 @extends('frontend.home')
-@section('title', 'Create Users')
-@section('title-content', 'Create Users')
+@section('title', 'Edit Users')
+@section('title-content', 'Edit Users')
 @section('content')
     @if(count($errors)>0)
         @foreach($errors->all() as $error)
@@ -63,7 +63,22 @@
                                 <div class="profile_img">
                                     <div id="crop-avatar">
                                         <!-- Current avatar -->
-                                        <img title="Change the avatar" class="img-responsive avatar-view" alt="Avatar" src="{{asset($user->image)}}">
+                                        <img title="Change the avatar" class="img-responsive avatar-view" alt="Avatar" style="max-width:100px;" src="{{asset($user->image)}}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            <div class="col-xs-12 form-group has-feedback">
+                                <input class="form-control has-feedback-left" name="signature" id="inputSuccess5" type="file" placeholder="signature" accept="image/x-png,image/gif,image/jpeg">
+                                <span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-xs-12 form-group has-feedback">
+                                <div class="profile_img">
+                                    <div id="crop-avatar">
+                                        <!-- Current avatar -->
+                                        <img title="Change the avatar" class="img-responsive avatar-view" alt="Avatar" style="max-width:100px;" src="{{asset($user->signature)}}">
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +150,10 @@
     <!-- jQuery autocomplete -->
     <script src="/frontend/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
     <script>
-        
-    </script>
+        $(function () {
+
+            $('.select2_multiple').select2();
+            
+        });
+  </script>
 @endsection

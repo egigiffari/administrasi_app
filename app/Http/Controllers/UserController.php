@@ -7,12 +7,15 @@ use App\Level;
 use App\Position;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use PositionSeeder;
 
 class UserController extends Controller
 {
 
     protected $url_file = "uploads/users/";
+    protected $url_file_signature = "uploads/users/signature/";
     protected $image_name = 'default.png';
 
     /**
@@ -75,7 +78,8 @@ class UserController extends Controller
             'level_id' => $request->level,
             'division_id' => $request->division,
             'password' => $password,
-            'image' => $this->url_file . $this->image_name
+            'image' => $this->url_file . $this->image_name,
+            'signature' => $this->url_file_signature . $this->image_name
         ];
 
         if ($request->has('image')) {
@@ -83,6 +87,13 @@ class UserController extends Controller
             $this->image_name = time().$image->getClientOriginalName();
             $data['image'] = $this->url_file . $this->image_name;
             $image->move($this->url_file, $this->image_name);
+        }
+
+        if ($request->has('signature')) {
+            $image = $request->image;
+            $this->image_name = time().$image->getClientOriginalName();
+            $data['signature'] = $this->url_file_signature . $this->image_name;
+            $image->move($this->url_file_signature , $this->image_name);
         }
 
         $user = User::create($data);
@@ -165,9 +176,24 @@ class UserController extends Controller
             $image = $request->image;
             $this->image_name = time().$image->getClientOriginalName();
             $image_name = $this->url_file . $this->image_name;
+            if ($user->signature != $this->url_file . 'default.png') {
+                File::delete($user->image);
+            }
             $image->move($this->url_file, $this->image_name);
             User::whereId($id)->update(['image' => $image_name]);
         }
+
+        if ($request->has('signature')) {
+            $image = $request->signature;
+            $this->image_name = time().$image->getClientOriginalName();
+            $image_name_signature = $this->url_file_signature . $this->image_name;
+            if ($user->signature != $this->url_file_signature . 'default.png') {
+                File::delete($user->signature);
+            }
+            $image->move($this->url_file_signature, $this->image_name);
+            User::whereId($id)->update(['signature' => $image_name_signature]);
+        }
+        
 
         $data = [
             'name' => $request->name,
@@ -191,6 +217,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function profile()
+    {
+        $user = User::findOrFail(Auth::id());
+        return view('user.profile', compact('user'));
+    }
+
     public function destroy($id)
     {
         $user = User::findorfail($id);

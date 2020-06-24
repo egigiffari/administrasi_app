@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function(){
     // USER
     Route::get('user/trash', "UserController@trash_user")->name('user.trash');
     Route::get('user/restore/{id}', "UserController@restore_user")->name('user.restore');
+    Route::get('user/profile', "UserController@profile")->name('user.profile');
     Route::delete('user/permanent-delete/{id}', "UserController@permanent_delete")->name('user.permanent');
     Route::resource('/user', "UserController");
     // END USER
