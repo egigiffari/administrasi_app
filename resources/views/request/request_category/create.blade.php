@@ -61,55 +61,111 @@
                     <!-- PEMBELIAN BARANG/MATERIAL/TOOLS -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-2 col-xl-2">
-                                    <div class="col-xs-12 form-group has-feedback">
-                                        <label for="item" class="title">Nama Barang</label>
-                                        <select name="item[]" id="item" class="items form-control js-example-matcher-start">
-                                            <option value="">Please Select Code Item</option>
-                                            @foreach($items as $item)
-                                            <option value="{{ $item->id }}">{{ $item->code . '/' . $item->name . '/' . "Rp " . number_format($item->last_price) }}</option>
-                                            @endforeach
-                                        </select>
+                            @if($category->types->name == 'Pembelian')
+                                <div class="row cart-shop">
+                                    <div class="col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="item" class="title">Nama Barang</label>
+                                            <select name="item[]" id="item" class="items form-control js-example-matcher-start">
+                                                <option value="">Please Select Code Item</option>
+                                                @foreach($items as $item)
+                                                <option value="{{ $item->id }}">{{ $item->code . '/' . $item->name . '/' . "Rp " . number_format($item->last_price) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="code" class="unit">Satuan</label>
+                                            <input class="form-control" value="unit" name="unit[]" id="unit" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="item-qty col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="qty" class="title">Qty</label>
+                                        <input class="form-control qty" value="1" name="qty[]" id="qty" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="item-price col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="price" class="title">Price</label>
+                                        <input class="form-control price-item" value="0" name="price[]" id="price" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="sub" class="title">Sub Price</label>
+                                        <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="item-btn col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="sub" class="title"></label>
+                                            <br>
+                                            <button class="btn btn-danger btn-block delete-btn" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-2 col-xl-2">
-                                    <div class="col-xs-12 form-group has-feedback">
-                                        <label for="code" class="unit">Satua</label>
-                                        <input class="form-control" value="unit" name="unit[]" id="unit" type="text" readonly>
+                            @elseif($category->types->name == 'Biaya')
+                                <div class="row cart-shop">
+                                    <input class="form-control" value="0" name="item[]" id="item" type="hidden" readonly>
+                                    <div class="col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="code" class="unit">Name</label>
+                                            <input class="form-control" value="name" name="name[]" id="name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="code" class="unit">Merk</label>
+                                            <input class="form-control" value="merk" name="merk[]" id="merk" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="code" class="unit">Spesifikasi</label>
+                                            <input class="form-control" value="spec" name="spec[]" id="spec" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="code" class="unit">Satuan</label>
+                                            <input class="form-control" value="unit" name="unit[]" id="unit" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="item-qty col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="qty" class="title">Qty</label>
+                                        <input class="form-control qty" value="1" name="qty[]" id="qty" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="item-price col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="price" class="title">Price</label>
+                                        <input class="form-control price-item" value="0" name="price[]" id="price" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                        <label for="sub" class="title">Sub Price</label>
+                                        <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="item-btn col-sm-12 col-md-2 col-xl-2">
+                                        <div class="col-xs-12 form-group has-feedback">
+                                            <label for="sub" class="title"></label>
+                                            <br>
+                                            <button class="btn btn-danger btn-block delete-btn" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-2 col-xl-2">
+                            @else
+                            @endif
+                            <br class="cart-sparator">
+                            <div class="add-contain row" style="margin-top:30px;">
+                                <div class="add-item addcol-sm-2 col-md-2 col-xl-2">
                                     <div class="col-xs-12 form-group has-feedback">
-                                    <label for="qty" class="title">Qty</label>
-                                    <input class="form-control" value="1" name="qty[]" id="qty" type="number">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-2 col-xl-2">
-                                    <div class="col-xs-12 form-group has-feedback">
-                                    <label for="price" class="title">Price</label>
-                                    <input class="form-control" value="0" name="price[]" id="price" type="number">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-2 col-xl-2">
-                                    <div class="col-xs-12 form-group has-feedback">
-                                    <label for="sub" class="title">Sub Price</label>
-                                    <input class="form-control" value="0" name="sub[]" id="sub" type="number" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-2 col-xl-2">
-                                    <div class="col-xs-12 form-group has-feedback">
-                                        <label for="sub" class="title"></label>
-                                        <br>
-                                        <button class="btn btn-danger btn-block" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row" style="margin-top:30px;">
-                                <div class="col-sm-2 col-md-2 col-xl-2">
-                                    <div class="col-xs-12 form-group has-feedback">
-                                    <button id="add-item" class="btn btn-primary btn-block">Tambah Item</button>
+                                    <button id="add-item" class="btn btn-primary btn-block add-btn">Tambah Item</button>
                                     </div>
                                 </div>
                             </div>
@@ -126,12 +182,12 @@
                         <div class="col-sm-12 col-md-4 col-xl-4 col-md-offset-8 col-xl-offset-8">
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="total" class="title">Total</label>
-                                <input class="form-control" name="total" id="total" type="number">
+                                <input class="form-control" name="total" id="total" value="0" type="text" readonly>
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="amount" class="title">Terbilang</label>
-                                <input class="form-control" name="amount" id="amount" type="text">
+                                <input class="form-control" name="amount" id="amount" type="text" readonly>
                             </div>
 
                             <div class="col-xs-12 form-group">
@@ -161,32 +217,61 @@
     <script src="/frontend/vendors/select2/dist/js/select2.full.min.js"></script>
     <!-- jQuery autocomplete -->
     <script src="/frontend/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- Terbilang -->
+    <script src="/frontend/vendors/tebilang/terbilang.min.js"></script>
 <!-- bootstrap-daterangepicker -->
     <script src="/frontend/vendors/moment/min/moment.min.js"></script>
     <script src="/frontend/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script>
-        $(".js-example-matcher-start").select2({
-            matcher: function(params, data) {
-                // If there are no search terms, return all of the data
-                if ($.trim(params.term) === '') { return data; }
 
-                // Do not display the item if there is no 'text' property
-                if (typeof data.text === 'undefined') { return null; }
+        function select2Search(){
+            $(".js-example-matcher-start").each(function (index, element) {
+                $(this).select2({
+                matcher: function(params, data) {
+                    // If there are no search terms, return all of the data
+                    if ($.trim(params.term) === '') { return data; }
 
-                // `params.term` is the user's search term
-                // `data.id` should be checked against
-                // `data.text` should be checked against
-                var q = params.term.toLowerCase();
-                if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
-                    return $.extend({}, data, true);
+                    // Do not display the item if there is no 'text' property
+                    if (typeof data.text === 'undefined') { return null; }
+
+                    // `params.term` is the user's search term
+                    // `data.id` should be checked against
+                    // `data.text` should be checked against
+                    var q = params.term.toLowerCase();
+                    if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
+                        return $.extend({}, data, true);
+                    }
+
+                    // Return `null` if the term should not be displayed
+                    return null;
                 }
+                });
+            });
+        }
 
-                // Return `null` if the term should not be displayed
-                return null;
-            }
-        });
+        select2Search();
+        // $(".js-example-matcher-start").select2({
+        //     matcher: function(params, data) {
+        //         // If there are no search terms, return all of the data
+        //         if ($.trim(params.term) === '') { return data; }
+
+        //         // Do not display the item if there is no 'text' property
+        //         if (typeof data.text === 'undefined') { return null; }
+
+        //         // `params.term` is the user's search term
+        //         // `data.id` should be checked against
+        //         // `data.text` should be checked against
+        //         var q = params.term.toLowerCase();
+        //         if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
+        //             return $.extend({}, data, true);
+        //         }
+
+        //         // Return `null` if the term should not be displayed
+        //         return null;
+        //     }
+        // });
     </script>
-    <script type="text/javascript">
+    <script>
 
         $(function() {
             var start = moment().subtract(29, 'days');
@@ -220,7 +305,169 @@
     </script>
 
     <script>
-    //    Menggunakan Ajax untuk dana otomatis
+
+        $(function () {
+             
+            $(document).on('change', '.qty', function () {
+                if (isNaN($(this).val()) || $(this).val() <= 0) {
+                    $(this).val(1)
+                }
+                updateTotal();
+            });
+
+            $(document).on('change', '.price-item', function () {
+                if (isNaN($(this).val()) || $(this).val() <= 0) {
+                    $(this).val(1)
+                }
+                updateTotal();
+            });
+
+            $(document).on('click', '.delete-btn', function(e){
+                e.preventDefault();
+                var parent = $(this).parent('.form-group').parent('.item-btn').parent('.cart-shop');
+                parent.remove();
+                updateTotal();
+            });
+
+            $(document).on('click', '.add-btn', function (e) {
+                e.preventDefault();
+                var html;
+                <?php if($category->types->name == 'Pembelian') : ?> 
+                html = 
+                    `
+                    <div class="row cart-shop">
+                        <div class="col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="item" class="title">Nama Barang</label>
+                                <select name="item[]" id="item" class="items form-control js-example-matcher-start">
+                                    <option value="">Please Select Code Item</option>
+                                    @foreach($items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->code . '/' . $item->name . '/' . "Rp " . number_format($item->last_price) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="code" class="unit">Satuan</label>
+                                <input class="form-control" value="unit" name="unit[]" id="unit" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item-qty col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="qty" class="title">Qty</label>
+                            <input class="form-control qty" value="1" name="qty[]" id="qty" type="number">
+                            </div>
+                        </div>
+                        <div class="item-price col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="price" class="title">Price</label>
+                            <input class="form-control price-item" value="0" name="price[]" id="price" type="text">
+                            </div>
+                        </div>
+                        <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="sub" class="title">Sub Price</label>
+                            <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item-btn col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="sub" class="title"></label>
+                                <br>
+                                <button class="btn btn-danger btn-block delete-btn" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+                <?php elseif($category->types->name == 'Biaya') : ?>
+                html = 
+                `
+                    <div class="row cart-shop">
+                        <input class="form-control" value="0" name="item[]" id="item" type="hidden" readonly>
+                        <div class="col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="code" class="unit">Name</label>
+                                <input class="form-control" value="name" name="name[]" id="name" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="code" class="unit">Merk</label>
+                                <input class="form-control" value="merk" name="merk[]" id="merk" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="code" class="unit">Spesifikasi</label>
+                                <input class="form-control" value="spec" name="spec[]" id="spec" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="code" class="unit">Satuan</label>
+                                <input class="form-control" value="unit" name="unit[]" id="unit" type="text">
+                            </div>
+                        </div>
+                        <div class="item-qty col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="qty" class="title">Qty</label>
+                            <input class="form-control qty" value="1" name="qty[]" id="qty" type="number">
+                            </div>
+                        </div>
+                        <div class="item-price col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="price" class="title">Price</label>
+                            <input class="form-control price-item" value="0" name="price[]" id="price" type="text">
+                            </div>
+                        </div>
+                        <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                            <label for="sub" class="title">Sub Price</label>
+                            <input class="form-control sub" value="0" name="sub[]" id="sub" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item-btn col-sm-12 col-md-2 col-xl-2">
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="sub" class="title"></label>
+                                <br>
+                                <button class="btn btn-danger btn-block delete-btn" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                <?php endif; ?>
+
+                $('.cart-sparator').before(html);
+                select2Search();
+            });
+            
+            function updateTotal () {
+                var total = 0;
+                $('.cart-shop').each(function(index, element){
+                    let qty = $(this).children('.item-qty').children('.form-group').children('.qty').val();
+                    let price = $(this).children('.item-price').children('.form-group').children('.price-item').val();
+                    let subtotal = parseFloat(qty) * parseFloat(price) ;
+                    total = total + subtotal;
+                    total = Math.round(total * 100) / 100;
+
+                    var sub = $(this).children('.item-sub').children('.form-group').children('.sub');
+                    sub.val(subtotal);
+                });
+                $('#total').val(total);
+                $('#amount').val(terbilang(total) + ' Rupiah');
+                if (isNaN(total) || total <= 0) {
+                $('#amount').val('');
+                }
+                    
+            }
+
+        });
+
+
+        
+
     </script>
 
 @endsection
