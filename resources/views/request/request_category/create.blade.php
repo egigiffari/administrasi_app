@@ -25,7 +25,7 @@
                     <input type="hidden" name="category_id" value="{{ $category->id }}">
                     <input type="hidden" name="creator_id" value="{{ Auth::user()->id }}">
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3">
+                        <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3 col-sm-offset-0">
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="applicant_id" class="title">Pengaju</label>
                                 <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
@@ -49,7 +49,81 @@
                                 <label for="perihal" class="title">Perihal</label>
                                 <input class="form-control" name="perihal" id="perihal" type="text">
                             </div>
+         
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ln_solid"></div>
+                        </div>
+                    </div>
 
+                    <!-- PEMBELIAN BARANG/MATERIAL/TOOLS -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                        <label for="item" class="title">Nama Barang</label>
+                                        <select name="item[]" id="item" class="items form-control js-example-matcher-start">
+                                            <option value="">Please Select Code Item</option>
+                                            @foreach($items as $item)
+                                            <option value="{{ $item->id }}">{{ $item->code . '/' . $item->name . '/' . "Rp " . number_format($item->last_price) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                        <label for="code" class="unit">Satua</label>
+                                        <input class="form-control" value="unit" name="unit[]" id="unit" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                    <label for="qty" class="title">Qty</label>
+                                    <input class="form-control" value="1" name="qty[]" id="qty" type="number">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                    <label for="price" class="title">Price</label>
+                                    <input class="form-control" value="0" name="price[]" id="price" type="number">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                    <label for="sub" class="title">Sub Price</label>
+                                    <input class="form-control" value="0" name="sub[]" id="sub" type="number" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                        <label for="sub" class="title"></label>
+                                        <br>
+                                        <button class="btn btn-danger btn-block" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top:30px;">
+                                <div class="col-sm-2 col-md-2 col-xl-2">
+                                    <div class="col-xs-12 form-group has-feedback">
+                                    <button id="add-item" class="btn btn-primary btn-block">Tambah Item</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PEMBELIAN BARANG/MATERIAL/TOOLS -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ln_solid"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-xl-4 col-md-offset-8 col-xl-offset-8">
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="total" class="title">Total</label>
                                 <input class="form-control" name="total" id="total" type="number">
@@ -62,8 +136,8 @@
 
                             <div class="col-xs-12 form-group">
                                 <button class="btn btn-primary">Create Pengajuan</button>
-                            </div>            
-                        </div> 
+                            </div>  
+                        </div>
                     </div>
 
                 </form>
@@ -111,8 +185,7 @@
                 return null;
             }
         });
-  </script>
-
+    </script>
     <script type="text/javascript">
 
         $(function() {
@@ -146,4 +219,9 @@
 
     </script>
 
+    <script>
+    //    Menggunakan Ajax untuk dana otomatis
+    </script>
+
 @endsection
+

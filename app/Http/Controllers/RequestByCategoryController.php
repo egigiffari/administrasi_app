@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use App\RequestApprove;
 use App\RequestCategory;
 use App\RequestResponsible;
@@ -48,6 +49,7 @@ class RequestByCategoryController extends Controller
     {
         $category = $id;
         $users = User::all();
+        $items = Product::all();
         $code = \App\Request::where('code', 'like', "%" . $id->code . "%")->orderBy('id', 'desc')->first();
         if ($code) {
             $code = explode('/', $code->code);
@@ -63,7 +65,7 @@ class RequestByCategoryController extends Controller
         }else {
             $code = '001' . $category->code . $this->numberToRomanRepresentation(date('m')) . '/' . date('Y');
         }
-        return view('request.request_category.create', compact('code', 'users','category'));
+        return view('request.request_category.create', compact('code', 'users','category', 'items'));
     }
 
     /**
@@ -106,11 +108,13 @@ class RequestByCategoryController extends Controller
             'amount' => $request->amount,
         ];
 
-        // dd($data);
+        // INSERT DATA TO REQUESTS TABLE
         \App\Request::create($data);
+        // GET DATA REQUEST FROM LAST INPUT
         $request_code = \App\Request::where('code', $request->code)->first();
+        // SEARCH DATA RESPONSIBLE REQUEST FROM CATEGORY ID
         $responsibles = RequestResponsible::where('category_id', $request->category_id)->get();
-        
+        // INSERT DATA RESPONSIBLE IN 1 ARRAY
         $approvers = [];
         foreach ($responsibles as $responsible) {
             $temp = [
@@ -125,7 +129,10 @@ class RequestByCategoryController extends Controller
             array_push($approvers, $temp);
         }
 
+        // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
         RequestApprove::insert($approvers);
+
+
 
         return redirect()->back()->withSuccess("Pengajuan Has Been Created");
     }

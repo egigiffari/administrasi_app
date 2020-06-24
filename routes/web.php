@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function(){
     // PRODUCT
     route::get('/product/list', 'ProductController@index')->name('product.index');
     route::patch('/product/image/{id}', 'ProductController@update_image')->name('product.image');
+    route::post('/product/all/', 'ProductController@getAllProduct')->name('product.all');
     route::resource('/product', 'ProductController');
     // END PRODUCT
     

@@ -6,6 +6,7 @@ use App\Brand;
 use App\Product;
 use App\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\VarDumper\VarDumper;
@@ -226,4 +227,11 @@ class ProductController extends Controller
         // Redirect To Page Create Product
         return redirect()->back()->with('success', "Product Image: $new_gambar , Has Been Updated");
     } 
+
+    public function getAllProduct(Request $request)
+    {
+        if ($request->ajax()) {
+            return Response::json(Product::whereId($request->id));
+        }
+    }
 }
