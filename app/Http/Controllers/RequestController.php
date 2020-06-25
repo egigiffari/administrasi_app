@@ -114,11 +114,45 @@ class RequestController extends Controller
     public function approve(Request $request)
     {
         $this->validate($request, ['status' => 'required']);
+        if (preg_match('/all-/',$request->status))
+        {
+            $approve = RequestApprove::where('request_id', $request->request_id)->get();
+            $status = $request->status;
+            if ($status == 'all-reset')
+            {
+                for ($i=0; $i < count($approve) ; $i++) { 
+                    RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'waiting']);
+                }
+            } elseif ($status == 'all-acc')
+            {
+                for ($i=0; $i < count($approve) ; $i++) { 
+                    RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'acc']);
+                }
+            } elseif ($status == 'all-revision')
+            {
+                for ($i=0; $i < count($approve) ; $i++) { 
+                    RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'revision']);
+                }
+            }
+
+            return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
+            
+        }
         $status = $request->status;
         $approve = RequestApprove::where('request_id', $request->request_id)->where('user_id', Auth::id())->first();
         RequestApprove::whereId($approve->id)->update(['status' => $status]);
 
         return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
         
+    }
+
+
+
+    public function deleteItem($id)
+    {
+        $item = RequestItems::findOrFail($id);
+        $item->delete();
+
+        return redirect()->back()->withSuccess("Items Has Been Deleted");
     }
 }

@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function(){
     // Route::get('/request/pengajuan/{id}', "RequestController@index")->name("request.pengajuan.index");
     // Route::get('/request/pengajuan/create/{id}', "RequestController@create")->name("request.pengajuan.create");
     Route::patch('/request/pengajuan/approve/', "RequestController@approve")->name("request.pengajuan.approve");
+    Route::delete('/request/pengajuan/{id}/delete-items', "RequestController@deleteItem")->name("request.pengajuan.delete-item");
     Route::resource('/request/pengajuan', "RequestController")->names([
         'index' => 'request.pengajuan.index',
         'create' => 'request.pengajuan.create',
@@ -95,7 +96,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/request/by-category/{id}/edit', 'RequestByCategoryController@edit')->name('requestby.category.edit');
     Route::patch('/request/by-category/{id}/update', 'RequestByCategoryController@update')->name('requestby.category.update');
     Route::get('/request/by-category/{id}/revision', 'RequestByCategoryController@revision')->name('requestby.category.revision');
-    Route::patch('/request/by-category/{id}/update-rev', 'RequestByCategoryController@updateRev')->name('requestby.category.update-rev');
+    Route::patch('/request/by-category/update-rev', 'RequestByCategoryController@updateRev')->name('requestby.category.update-rev');
     // End Request By Category
     // Type Request
     Route::resource('/request/type', 'RequestTypeController')->names([

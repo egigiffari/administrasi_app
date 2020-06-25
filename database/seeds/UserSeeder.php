@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-            'name' => 'administrator',
+            'name' => 'Super Su',
             'email' => 'superadmin@gmail.com',
             'level_id' => 1,
             'division_id' => 1,
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
             ],
             [
-                'name' => 'administrator',
+                'name' => 'Administrator',
                 'email' => 'admin@gmail.com',
                 'level_id' => 1,
                 'division_id' => 1,

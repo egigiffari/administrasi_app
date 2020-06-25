@@ -5024,7 +5024,6 @@ if (typeof NProgress != 'undefined') {
 	   
 		}  
 	   
-	$('.select2_multiple').select2();
 	   
 	$(document).ready(function() {
 				

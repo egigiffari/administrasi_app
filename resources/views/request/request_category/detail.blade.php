@@ -17,10 +17,10 @@
         <a href="{{ route('requestby.category.index', $category->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
         @foreach($responsibles as $responsible)
         @if($responsible->status == 'revision')
-        <a href="{{ route('requestby.category.revision', $category->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
+        <a href="{{ route('requestby.category.revision', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
         @break
         @elseif($responsible->status == 'waiting')
-        <a href="{{ route('requestby.category.edit', $category->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
+        <a href="{{ route('requestby.category.edit', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
         @break
         @else
         @endif
@@ -163,11 +163,28 @@
                         @if($data['user_id'] == Auth::id())
                             <?php $i = $loop->index - 1; ($i <= 0 ? $i = 0 : $i)?>
                             @if($datas[$i]['status'] == 'acc' || $datas[$i]['user_id'] == Auth::id())
+                                @if($datas[$loop->index]['status'] == 'waiting')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
                                 <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
                                 <button type="submit" name="status" value="hold" class="btn btn-info pull-right"><i class="fa fa-check-square-o"></i> Hold</button>
+                                @elseif($datas[$loop->index]['status'] == 'acc')
+                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
+                                <button type="submit" name="status" value="hold" class="btn btn-info pull-right"><i class="fa fa-check-square-o"></i> Hold</button>
                                 <button type="submit" name="status" value="revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                                @elseIf($datas[$loop->index]['status'] == 'revision')
+                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
+                                <button type="submit" name="status" value="hold" class="btn btn-info pull-right"><i class="fa fa-check-square-o"></i> Hold</button>
+                                @elseIf($datas[$loop->index]['status'] == 'hold')
+                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
+                                <button type="submit" name="status" value="revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                                @endif
                             @endif
+                        @elseif(Auth::user()->level->name == 'administrator' || Auth::user()->email == 'superadmin@gmail.com')
+                          <button type="submit" name="status" value="all-acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                          <button type="submit" name="status" value="all-revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                          <button type="submit" name="status" value="all-reset" class="btn btn-primary pull-right"><i class="fa fa-history"></i> Reset</button>
                         @endif
                         @endforeach
                         </form>

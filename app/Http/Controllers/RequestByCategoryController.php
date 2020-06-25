@@ -53,6 +53,13 @@ class RequestByCategoryController extends Controller
      */
     public function create(RequestCategory $id)
     {
+        $check_responsible = RequestResponsible::where('category_id', '=', $id->id)->get();
+
+        // dd( count($check_responsible) == 0);
+        if(count($check_responsible) == 0){
+            return redirect()->back()->withWarning('Pengajuan Belum Memiliki Penanggung Jawab');
+        }
+
         $category = $id;
         $users = User::all();
         $items = Product::all();
@@ -244,7 +251,12 @@ class RequestByCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $request = \App\Request::findOrFail($id);
+        $category = RequestCategory::findOrFail($request->categories->id);
+        $items_req = RequestItems::where('request_id', $id)->get();
+        $items = Product::all();
+        $users = User::all();
+        return view('request.request_category.edit', compact('request', 'items', 'items_req', 'category' , 'users'));
     }
 
     /**
@@ -256,7 +268,129 @@ class RequestByCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request_update = \App\Request::whereId($id);
+
+        $this->validate($request, [
+            'category_id' => 'required',
+            'creator_id' => 'required',
+            'code' => 'required',
+            'applicant_id' => 'required',
+            'perihal' => 'required',
+            'date' => 'required',
+            'total' => 'required',
+            'amount' => 'required',
+         ]);
+ 
+         $category_request = RequestCategory::findOrFail($request->category_id);
+ 
+         if (preg_match('/pembelian/', $category_request->types->name)) {
+             
+             $this->validate($request, [
+                 'item' => 'required',
+                 'unit' => 'required',
+                 'qty' => 'required',
+                 'price' => 'required',
+                 'sub' => 'required',
+                 'desc' => 'required',
+             ]);
+ 
+         }elseif(preg_match('/biaya/', $category_request->types->name)){
+ 
+             $this->validate($request, [
+                 'item' => 'required',
+                 'name' => 'required',
+                 'merk' => 'required',
+                 'spec' => 'required',
+                 'unit' => 'required',
+                 'qty' => 'required',
+                 'price' => 'required',
+                 'sub' => 'required',
+                 'desc' => 'required',
+             ]);
+ 
+         }
+
+        $date = explode(' - ', $request->date);
+        $start_date = explode('/', $date[0]);
+        $start_date = implode('-',[$start_date[2], $start_date[0], $start_date[1]]);
+        $start_date = $start_date . ' ' . date('H:i:s');
+        $expire_date = explode('/', $date[1]);
+        $expire_date = implode('-',[$expire_date[2], $expire_date[0], $expire_date[1]]);
+        $expire_date = $expire_date . ' ' . date('H:i:s');
+
+        $data = [
+            'category_id' => $request->category_id,
+            'creator_id' => $request->creator_id,
+            'applicant_id' => $request->applicant_id,
+            'code' => $request->code,
+            'perihal' => $request->perihal,
+            'start_date' => $start_date,
+            'expire_date' => $expire_date,
+            'total' => $request->total,
+            'amount' => $request->amount,
+        ];
+
+        // INSERT DATA TO REQUESTS TABLE
+        \App\Request::whereId($id)->update($data);
+        // SEARCH DATA APPROVE REQUEST FROM REQUEST APPROVE
+        $responsibles = RequestApprove::where('request_id', $id)->get();
+        // INSERT DATA CHANGE ALL STATUS APPROVE TO WAITING
+        $approvers = [];
+        for ($i=0; $i < count($responsibles); $i++) { 
+            $data = ['status' => 'waiting'];
+            RequestApprove::whereId($responsibles[$i]['id'])->update($data);
+        }
+
+        // GET ALL ITEMS AND DELETE ALL
+        RequestItems::where('request_id', $id)->delete();
+        // INSERT NEW ITEMS
+        $data_items = [];
+
+        $items = $request->item;
+        $names = $request->name;
+        $merks = $request->merk;
+        $specs = $request->spec;
+        $units = $request->unit;
+        $qtys = $request->qty;
+        $prices = $request->price;
+        $subs = $request->sub;
+        $descs = $request->desc;
+
+        for ($i=0; $i < count($items); $i++) {
+            
+            $item_id = Product::findOrFail($items[$i]);
+            if ($item_id) {
+                $name = $item_id->name;
+                $merk = $item_id->brand->name;
+                $spec = $item_id->spec;
+            }else{
+                $name = $names[$i];
+                $merk = $merks[$i];
+                $spec = $specs[$i];
+            }
+            
+            $temp = [
+                'request_id' => $id,
+                'items' => $items[$i],
+                'name' => $name,
+                'merk' => $merk,
+                'spec' => $spec,
+                'unit' => $units[$i],
+                'qty' => $qtys[$i],
+                'price' => $prices[$i],
+                'sub' => $subs[$i],
+                'desc' => $descs[$i],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            array_push($data_items, $temp);
+        }
+
+        // INSERT DATA REQUEST ITEM TO REQUEST ITEMS TABLE
+        RequestItems::insert($data_items);
+
+        return redirect()->route('request.pengajuan.show', $id)->withSuccess("Pengajuan Has Been Updated");
     }
 
     /**
@@ -276,5 +410,156 @@ class RequestByCategoryController extends Controller
         
 
         return redirect()->back()->withSuccess("$request_name, Has Been Deleted");
+    }
+
+    public function revision($id)
+    {
+        $request = \App\Request::findOrFail($id);
+        $code = 'Rev-' . $request->code;
+        $category = RequestCategory::findOrFail($request->categories->id);
+        $items_req = RequestItems::where('request_id', $id)->get();
+        $items = Product::all();
+        $users = User::all();
+        return view('request.request_category.revisi', compact('request', 'items', 'items_req', 'category' , 'users', 'code'));
+    }
+
+    public function updateRev(Request $request)
+    {
+        $this->validate($request, [
+           'category_id' => 'required',
+           'creator_id' => 'required',
+           'code' => 'required',
+           'applicant_id' => 'required',
+           'perihal' => 'required',
+           'date' => 'required',
+           'total' => 'required',
+           'amount' => 'required',
+        ]);
+
+        $category_request = RequestCategory::findOrFail($request->category_id);
+
+        if (preg_match('/pembelian/', $category_request->types->name)) {
+            
+            $this->validate($request, [
+                'item' => 'required',
+                'unit' => 'required',
+                'qty' => 'required',
+                'price' => 'required',
+                'sub' => 'required',
+                'desc' => 'required',
+            ]);
+
+        }elseif(preg_match('/biaya/', $category_request->types->name)){
+
+            $this->validate($request, [
+                'item' => 'required',
+                'name' => 'required',
+                'merk' => 'required',
+                'spec' => 'required',
+                'unit' => 'required',
+                'qty' => 'required',
+                'price' => 'required',
+                'sub' => 'required',
+                'desc' => 'required',
+            ]);
+
+        }
+        
+        
+        $date = explode(' - ', $request->date);
+        $start_date = explode('/', $date[0]);
+        $start_date = implode('-',[$start_date[2], $start_date[0], $start_date[1]]);
+        $start_date = $start_date . ' ' . date('H:i:s');
+        $expire_date = explode('/', $date[1]);
+        $expire_date = implode('-',[$expire_date[2], $expire_date[0], $expire_date[1]]);
+        $expire_date = $expire_date . ' ' . date('H:i:s');
+        
+
+        $data = [
+            'category_id' => $request->category_id,
+            'creator_id' => $request->creator_id,
+            'applicant_id' => $request->applicant_id,
+            'code' => $request->code,
+            'perihal' => $request->perihal,
+            'start_date' => $start_date,
+            'expire_date' => $expire_date,
+            'total' => $request->total,
+            'amount' => $request->amount,
+        ];
+
+        // INSERT DATA TO REQUESTS TABLE
+        \App\Request::create($data);
+        // GET DATA REQUEST FROM LAST INPUT
+        $request_code = \App\Request::where('code', $request->code)->first();
+        // SEARCH DATA RESPONSIBLE REQUEST FROM CATEGORY ID
+        $responsibles = RequestResponsible::where('category_id', $request->category_id)->get();
+        // INSERT DATA RESPONSIBLE IN 1 ARRAY
+        $approvers = [];
+        foreach ($responsibles as $responsible) {
+            $temp = [
+                'request_id' => $request_code->id,
+                'user_id' => $responsible->user_id,
+                'position' => $responsible->as,
+                'subject' => $responsible->subject,
+                'priority' => $responsible->priority,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            array_push($approvers, $temp);
+        }
+
+        // PREPARE REQUEST ITEMS
+        $data_items = [];
+
+        $items = $request->item;
+        $names = $request->name;
+        $merks = $request->merk;
+        $specs = $request->spec;
+        $units = $request->unit;
+        $qtys = $request->qty;
+        $prices = $request->price;
+        $subs = $request->sub;
+        $descs = $request->desc;
+
+        for ($i=0; $i < count($items); $i++) {
+            
+            $item_id = Product::findOrFail($items[$i]);
+            if ($item_id) {
+                $name = $item_id->name;
+                $merk = $item_id->brand->name;
+                $spec = $item_id->spec;
+            }else{
+                $name = $names[$i];
+                $merk = $merks[$i];
+                $spec = $specs[$i];
+            }
+            
+            $temp = [
+                'request_id' => $request_code->id,
+                'items' => $items[$i],
+                'name' => $name,
+                'merk' => $merk,
+                'spec' => $spec,
+                'unit' => $units[$i],
+                'qty' => $qtys[$i],
+                'price' => $prices[$i],
+                'sub' => $subs[$i],
+                'desc' => $descs[$i],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            array_push($data_items, $temp);
+        }
+
+        // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
+        RequestApprove::insert($approvers);
+
+        // INSERT DATA REQUEST ITEM TO REQUEST ITEMS TABLE
+        RequestItems::insert($data_items);
+
+
+
+        return redirect()->back()->withSuccess("Pengajuan Has Been Created");
     }
 }
