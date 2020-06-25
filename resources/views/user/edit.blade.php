@@ -89,25 +89,12 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="ln_solid"></div>
-                            <div class="col-xs-12 form-group has-feedback">
-                                <label for="position" class="title">Level</label>
-                                <select name="level" class="form-control">
-                                    <option value="">Please Select Level</option>
-                                    @foreach($levels as $level)
-                                        <option value="{{ $level->id }}" {{ ($user->level_id == $level->id ? 'selected' : '') }} >{{ $level->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-xs-12 form-group has-feedback">
-                                <label for="position" class="title">Division</label>
-                                <select name="division" class="form-control">
-                                    <option value="">Please Select Division</option>
-                                    @foreach($divisions as $division)
-                                        <option value="{{ $division->id }}" {{ ($user->division_id == $division->id ? 'selected' : '' ) }}>{{ $division->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-xs-12 form-group has-feedback">
+
+                            @if(Auth::user()->level->capacity == 10)
+                            <input type="hidden" name="level" value="{{$user->level_id}}">
+                            <input type="hidden" name="division" value="{{$user->division_id}}">
+                            
+                            <div class="col-xs-12 form-group has-feedback" style="display:none;">
                                 <label for="position" class="title">Position</label>
                                 <select name="position[]" class="form-control select2_multiple form-control" multiple="multiple">
                                     @foreach($positions as $position)
@@ -115,6 +102,34 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @else
+                                <div class="col-xs-12 form-group has-feedback">
+                                    <label for="position" class="title">Level</label>
+                                    <select name="level" class="form-control">
+                                        <option value="">Please Select Level</option>
+                                        @foreach($levels as $level)
+                                            <option value="{{ $level->id }}" {{ ($user->level_id == $level->id ? 'selected' : '') }} >{{ $level->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 form-group has-feedback">
+                                    <label for="position" class="title">Division</label>
+                                    <select name="division" class="form-control">
+                                        <option value="">Please Select Division</option>
+                                        @foreach($divisions as $division)
+                                            <option value="{{ $division->id }}" {{ ($user->division_id == $division->id ? 'selected' : '' ) }}>{{ $division->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 form-group has-feedback">
+                                    <label for="position" class="title">Position</label>
+                                    <select name="position[]" class="form-control select2_multiple form-control" multiple="multiple">
+                                        @foreach($positions as $position)
+                                        <option value="{{ $position->id }}" @foreach($user->positions as $user_pos) {{ ($user_pos->id == $position->id ? 'selected' : '' ) }} @endforeach>{{ $position->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="position" class="title">Password</label>

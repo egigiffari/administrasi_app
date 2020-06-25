@@ -92,6 +92,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/request/by-category/{id}/create', 'RequestByCategoryController@create')->name('requestby.category.create');
     Route::post('/request/by-category/store', 'RequestByCategoryController@store')->name('requestby.category.store');
     Route::get('/request/by-category/{id}/show', 'RequestByCategoryController@show')->name('requestby.category.show');
+    Route::get('/request/by-category/{id}/edit', 'RequestByCategoryController@edit')->name('requestby.category.edit');
+    Route::patch('/request/by-category/{id}/update', 'RequestByCategoryController@update')->name('requestby.category.update');
+    Route::get('/request/by-category/{id}/revision', 'RequestByCategoryController@revision')->name('requestby.category.revision');
+    Route::patch('/request/by-category/{id}/update-rev', 'RequestByCategoryController@updateRev')->name('requestby.category.update-rev');
     // End Request By Category
     // Type Request
     Route::resource('/request/type', 'RequestTypeController')->names([

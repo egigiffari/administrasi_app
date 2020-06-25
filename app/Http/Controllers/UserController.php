@@ -112,7 +112,8 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('user.detail', compact('user'));
+        $requests = \App\Request::where('applicant_id', $id)->paginate(10);
+        return view('user.detail', compact('user', 'requests'));
     }
 
     /**
@@ -221,7 +222,8 @@ class UserController extends Controller
     public function profile()
     {
         $user = User::findOrFail(Auth::id());
-        return view('user.profile', compact('user'));
+        $requests = \App\Request::where('applicant_id', Auth::id())->paginate(10);
+        return view('user.profile', compact('user', 'requests'));
     }
 
     public function destroy($id)

@@ -65,39 +65,25 @@
                         <thead>
                             <th>Date</th>
                             <th>Code</th>
-                            <th>Category</th>
+                            <th style="width:20%">Category</th>
                             <th>Perihal</th>
                             <th>Jumlah</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
+                            @foreach($requests as $request)
                             <tr>
-                                <td>1 Day Ago</td>
-                                <td>001/TC/OP/VI/2020</td>
-                                <td>Operasional</td>
-                                <td>Project A</td>
-                                <td>Rp. 2,000,000</td>
-                                <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
+                                <td>{{ $request->updated_at->diffForHumans() }}</td>
+                                <td>{{ $request->code }}</td>
+                                <td>{{ $request->categories->name }}</td>
+                                <td>{{ $request->perihal }}</td>
+                                <td>{{ 'Rp ' . number_format($request->total) }}</td>
+                                <td><a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
                             </tr>
-                            <tr>
-                                <td>1 Day Ago</td>
-                                <td>001/TC/OP/VI/2020</td>
-                                <td>Operasional</td>
-                                <td>Project A</td>
-                                <td>Rp. 2,000,000</td>
-                                <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
-                            </tr>
-                            <tr>
-                                <td>1 Day Ago</td>
-                                <td>001/TC/OP/VI/2020</td>
-                                <td>Operasional</td>
-                                <td>Project A</td>
-                                <td>Rp. 2,000,000</td>
-                                <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
-                            </tr>
-                            
+                            @endforeach
                         </tbody>
                     </table>
+                    {{$requests->links()}}
                 </div>
 
             </div>

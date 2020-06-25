@@ -25,7 +25,9 @@
             <div class="menu_section">
                 <h3>App</h3>
                 <ul class="nav side-menu">
+                    @if(Auth::user()->level->capacity > 10)
                     <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+                    @endif
                     <li class=""><a><i class="fa fa-cubes"></i> Product <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="{{ route('product.index') }}">List Product</a></li>
@@ -61,6 +63,7 @@
                 <h3>Setting</h3>
                 <ul class="nav side-menu">
                     <li><a href="{{ route('user.profile') }}"><i class="fa fa-user"></i> Profile</a></li>
+                    @if(Auth::user()->level->capacity > 10)
                     <li class=""><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('user.index') }}">List Users</a></li>
@@ -77,6 +80,7 @@
                             <li><a href="{{ route('request.category.index') }}"><i class="fa fa-files"></i>Kategori Pengajuan</a></li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -84,7 +88,7 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="Settings">
+            <a data-toggle="tooltip" data-placement="top" title="Settings" href="{{route('user.edit', Auth::id())}}">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </a>
             <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

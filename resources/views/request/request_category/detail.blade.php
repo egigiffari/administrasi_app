@@ -15,6 +15,16 @@
 
     <div class="col-sm-12 col-md-12 col-xl-12">
         <a href="{{ route('requestby.category.index', $category->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+        @foreach($responsibles as $responsible)
+        @if($responsible->status == 'revision')
+        <a href="{{ route('requestby.category.revision', $category->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
+        @break
+        @elseif($responsible->status == 'waiting')
+        <a href="{{ route('requestby.category.edit', $category->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
+        @break
+        @else
+        @endif
+        @endforeach
     </div>
 
     <div class="row">
@@ -32,8 +42,6 @@
                         <div class="col-xs-12 invoice-header">
                             <h1>
                                 <img src="{{ asset($request->applicant->image) }}" alt="" class="img img-avatar" style="max-width:40px;"> {{$request->applicant->name}}.
-                                <small class="pull-right">{{'Date: ' . \Carbon\Carbon::parse($request->start_date)->format('g F Y')}}</small> <br>
-                                <small class="pull-right">{{'Expire: ' . \Carbon\Carbon::parse($request->expire_date)->format('g F Y')}}</small>
                             </h1>
                         </div>
                         <!-- /.col -->
@@ -50,6 +58,11 @@
                           <b>Total:</b> {{'Rp ' . number_format($request->total)}}
                           <br>
                           <b>Terbilang:</b> {{$request->amount}}
+                          <br>
+                          <b>Date:</b> {{ date('g F Y', strtotime($request->start_date))}}
+                          <br>
+                          <b>Expire:</b> {{ date('g F Y', strtotime($request->expire_date))}}
+                          <br>
                         </div>
                         <!-- /.col -->
                         <!-- /.col -->
@@ -58,7 +71,7 @@
                           <br>
                           <br>
                           @foreach($responsibles as $responsible)
-                          <b>{{ $responsible->user->name }}:</b> {{$responsible->status}}
+                          <b>{{ $responsible->user->name }}:</b> <span class="btn btn-primary btn-xs">{{$responsible->status}}</span>
                           <br>
                             @endforeach
                         </div>

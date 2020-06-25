@@ -14,9 +14,9 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <li><a href="{{route('user.profile')}}"> Profile</a></li>
                     <li>
-                      <a href="javascript:;">
+                      <a href="{{route('user.edit', Auth::id())}}">
                         <span>Settings</span>
                       </a>
                     </li>
