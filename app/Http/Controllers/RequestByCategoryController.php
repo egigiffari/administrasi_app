@@ -415,7 +415,11 @@ class RequestByCategoryController extends Controller
     public function revision($id)
     {
         $request = \App\Request::findOrFail($id);
-        $code = 'Rev-' . $request->code;
+        $code = $request->code;
+        if (preg_match('/Rev-/i', $code)) {
+            $code = str_replace('Rev-', '', $code);
+        }
+        $code = 'Rev-' . $code;
         $category = RequestCategory::findOrFail($request->categories->id);
         $items_req = RequestItems::where('request_id', $id)->get();
         $items = Product::all();
@@ -560,6 +564,6 @@ class RequestByCategoryController extends Controller
 
 
 
-        return redirect()->back()->withSuccess("Pengajuan Has Been Created");
+        return redirect()->route('requestby.category.index', $id)->withSuccess("Pengajuan Has Been Created");
     }
 }
