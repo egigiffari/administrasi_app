@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function(){
     Route::patch('/request/by-category/{id}/update', 'RequestByCategoryController@update')->name('requestby.category.update');
     Route::get('/request/by-category/{id}/revision', 'RequestByCategoryController@revision')->name('requestby.category.revision');
     Route::patch('/request/by-category/update-rev', 'RequestByCategoryController@updateRev')->name('requestby.category.update-rev');
+    Route::get('/request/by-category/{id}/export-pdf', 'RequestByCategoryController@pdfExport')->name('requestby.category.pdf');
     // End Request By Category
     // Type Request
     Route::resource('/request/type', 'RequestTypeController')->names([
@@ -132,6 +133,10 @@ Route::middleware('auth')->group(function(){
     ]);
     // End Responsible Request
     // END REQUEST
+
+    Route::get('/pdftest', function(){
+        return view('request.export.pdf');
+    });
 
 });
 

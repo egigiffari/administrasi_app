@@ -144,7 +144,7 @@
                         @csrf
                         @method('patch')
                         <input type="hidden" name="request_id" value="{{ $request->id }}">
-                        <a href="#" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
+                        <a href="{{route('requestby.category.pdf', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
                         <?php $datas = [] ?>
                         @for($i = 0; $i < count($responsibles); $i++)
                         <?php 

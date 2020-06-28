@@ -7,15 +7,18 @@ use App\RequestApprove;
 use App\RequestCategory;
 use App\RequestItems;
 use App\RequestResponsible;
-// use App\Request;
+use App;
 use App\User;
+use PDF;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RequestByCategoryController extends Controller
 {
+    
     function numberToRomanRepresentation($number) {
         $map = array('M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1);
         $returnValue = '';
@@ -160,6 +163,9 @@ class RequestByCategoryController extends Controller
         // INSERT DATA RESPONSIBLE IN 1 ARRAY
         $approvers = [];
         foreach ($responsibles as $responsible) {
+            if ($request->applicant_id == $responsible->user_id) {
+                continue;
+            }
             $temp = [
                 'request_id' => $request_code->id,
                 'user_id' => $responsible->user_id,
@@ -500,6 +506,9 @@ class RequestByCategoryController extends Controller
         // INSERT DATA RESPONSIBLE IN 1 ARRAY
         $approvers = [];
         foreach ($responsibles as $responsible) {
+            if ($request->applicant_id == $responsible->user_id) {
+                continue;
+            }
             $temp = [
                 'request_id' => $request_code->id,
                 'user_id' => $responsible->user_id,
@@ -564,6 +573,20 @@ class RequestByCategoryController extends Controller
 
 
 
-        return redirect()->route('requestby.category.index', $id)->withSuccess("Pengajuan Has Been Created");
+        return redirect()->route('requestby.category.index', $request->category_id)->withSuccess("Pengajuan Has Been Created");
     }
+
+    public function pdfExport($id)
+    {
+        $request = \App\Request::findOrFail($id);
+        $items = RequestItems::where('request_id', $id)->get();
+        $approvers = RequestApprove::where('request_id', $id)->get();
+
+        // dd(base_path('public/' . $request->applicant->signature));
+        // return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'portrait')->loadView('request.export.pdf', compact('request', 'items', 'approvers'))->stream($request->code . '-' . $request->categories->name . '.pdf');
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true,'isRemoteEnabled' => true]);
+        $pdf->loadView('request.export.pdf', compact('request', 'items', 'approvers'));
+        return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
+
+   }
 }

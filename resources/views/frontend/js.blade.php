@@ -10,6 +10,6 @@
     <script src="/frontend/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="/frontend/build/js/custom.js"></script>
+    <!-- <script src="/frontend/build/js/custom.js"></script> -->
     @yield('js')
     <script src="/frontend/build/js/custom.min.js"></script>
