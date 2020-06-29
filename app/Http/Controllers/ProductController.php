@@ -70,12 +70,18 @@ class ProductController extends Controller
 
         // Initalization Code Product
         $code = $merk->code . "_" . Str::upper(Str::substr($request->name, 0,3));
-        $product = Product::where("code", "like", $code)->orwhere("code", "like", "%" . $code . "%")->first();
-        $code = explode('_', $product->code);
-        $code_number = ($code[2] + 1);
-        $code = [$code[0], $code[1], $code_number];
-        $code = implode('_', $code);
-
+        $product = Product::where("code", "like", $code)->orWhere("code", "like", "%" . $code . "%")->first();
+        if ($product)
+        {
+           $code = explode('_', $product->code);
+           $code_number = ($code[2] + 1);
+           $code = [$code[0], $code[1], $code_number];
+           $code = implode('_', $code);
+        }
+        else
+        {
+            $code = $code . '_' . 1;
+        }
         // Check File Image
         $gambar = $request->image;
         $new_gambar = time().$gambar->getClientOriginalName();
@@ -162,10 +168,17 @@ class ProductController extends Controller
         // Initalization Code Product
         $code = $merk->code . "_" . Str::upper(Str::substr($request->name, 0,3));
         $product = Product::where("code", "like", $code)->orwhere("code", "like", "%" . $code . "%")->first();
-        $code = explode('_', $product->code);
-        $code_number = ($code[2] + 1);
-        $code = [$code[0], $code[1], $code_number];
-        $code = implode('_', $code);
+        if ($product)
+        {
+           $code = explode('_', $product->code);
+           $code_number = ($code[2] + 1);
+           $code = [$code[0], $code[1], $code_number];
+           $code = implode('_', $code);
+        }
+        else
+        {
+            $code = $code . '_' . 1;
+        }
         
         // Prepare Product Data
         $product_data = [

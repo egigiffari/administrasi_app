@@ -33,32 +33,41 @@
                 <!-- /Profile Icon -->
 
                 <!-- Notification -->
-                <li role="presentation" class="dropdown">
+                <li role="presentation" id="notification-group" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
+                    @inject('notifications', 'App\Notification')
+                    <?php $notification = $notifications::where('user_id', Auth::id())->where('is_read', 0)->limit(6)->get(); ?>
+                    @if(count($notification) > 0)                   
+                    <span class="badge bg-green">{{ count($notification) }}</span>
+                    @endif
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    @foreach ($notification as $notif)
                     <li>
-                      <a>
-                        <span class="image"><img src="/frontend/production/images/img.jpg" alt="Profile Image" /></span>
+                      @if($notif->request_id)
+                      <a href="{{ route('request.pengajuan.show', $notif->request_id) }}">
+                        <span class="image"><img src="{{asset($notif->request->applicant->image)}}" alt="Profile Image" /></span>
                         <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
+                          <span>{{$notif->request->applicant->name}}</span>
+                          <span class="time">{{ $notif->updated_at->diffForHumans() }}</span>
                         </span>
                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                          {{$notif->request->code . ' - ' . $notif->request->categories->name}}
                         </span>
                       </a>
+                      @else
+                      @endif
                     </li>
-                    <li>
+                    @endforeach()
+                    <!-- <li>
                       <div class="text-center">
                         <a>
                           <strong>See All Alerts</strong>
                           <i class="fa fa-angle-right"></i>
                         </a>
                       </div>
-                    </li>
+                    </li> -->
                   </ul>
                 </li>
                 <!-- /Notification -->

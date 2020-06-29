@@ -8,6 +8,7 @@ use App\RequestCategory;
 use App\RequestItems;
 use App\RequestResponsible;
 use App;
+use App\Notification;
 use App\User;
 use PDF;
 
@@ -177,6 +178,24 @@ class RequestByCategoryController extends Controller
             ];
             array_push($approvers, $temp);
         }
+        
+        // SEARCH DATA USER WHERE LEVEL 'COMMON ADMIN = 3', 'MANAGER = 2', 'ADMIN = 1'
+        $users =  $users = User::where('level_id', 1)->orWhere('level_id', 2)->orWhere('level_id', 3)->get();
+        $notification = [];
+        // INSERT USER TO NOTIFICATION ARRA
+        for ($i=0; $i < count($users); $i++) { 
+            $temp = [
+                'user_id' => $users[$i]['id'],
+                'request_id' => $request_code->id,
+                'request_report_id' => 0,
+                'is_read' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            array_push($notification, $temp);
+        }
+
+
 
         // PREPARE REQUEST ITEMS
         $data_items = [];
@@ -225,6 +244,9 @@ class RequestByCategoryController extends Controller
         // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
         RequestApprove::insert($approvers);
 
+        // INSERT DATA NOTIFICATION TO NOTIFICATION REQUEST
+        Notification::insert($notification);
+
         // INSERT DATA REQUEST ITEM TO REQUEST ITEMS TABLE
         RequestItems::insert($data_items);
 
@@ -241,11 +263,22 @@ class RequestByCategoryController extends Controller
      */
     public function show($id)
     {
+
+        $notification = Notification::where('request_id', $id)->where('is_read', 0)->get();
+        for ($i=0; $i < count($notification); $i++) { 
+            if($notification[$i]['user_id'] == Auth::id())
+            {
+                $update = Notification::whereId($notification[$i]['id']);
+                $update->is_read = 1;
+                $update->save();
+            }
+        }
+
         $request = \App\Request::findOrFail($id);
         $category = RequestCategory::findOrFail($request->category_id);
         $items = RequestItems::where('request_id', $request->id)->get();
         $responsibles = RequestApprove::where('request_id', $request->id)->get();
-        // dd($responsible);
+        
         return view('request.request_category.detail', compact('request', 'items', 'category', 'responsibles'));
     }
 
@@ -274,6 +307,16 @@ class RequestByCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $notification = Notification::where('request_id', $id)->get();
+        foreach ($notification as $notif)
+        {
+            $update = Notification::find($notif->id);
+            $update->is_read = 0;
+            $update->save();
+        }
+
+
         $request_update = \App\Request::whereId($id);
 
         $this->validate($request, [
@@ -407,7 +450,7 @@ class RequestByCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $request = Request::findOrFail($id);
+        $request = \App\Request::findOrFail($id);
         $request_name = $request->categories->name;
 
         RequestItems::where('request_id', $id)->delete();
@@ -521,6 +564,22 @@ class RequestByCategoryController extends Controller
             array_push($approvers, $temp);
         }
 
+        // SEARCH DATA USER WHERE LEVEL 'COMMON ADMIN = 3', 'MANAGER = 2', 'ADMIN = 1'
+        $users =  $users = User::where('level_id', 1)->orWhere('level_id', 2)->orWhere('level_id', 3)->get();
+        $notification = [];
+        // INSERT USER TO NOTIFICATION ARRA
+        for ($i=0; $i < count($users); $i++) { 
+            $temp = [
+                'user_id' => $users[$i]['id'],
+                'request_id' => $request_code->id,
+                'request_report_id' => 0,
+                'is_read' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            array_push($notification, $temp);
+        }
+
         // PREPARE REQUEST ITEMS
         $data_items = [];
 
@@ -567,6 +626,9 @@ class RequestByCategoryController extends Controller
 
         // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
         RequestApprove::insert($approvers);
+
+        // INSERT DATA NOTIFICATION TO NOTIFICATION REQUEST
+        Notification::insert($notification);
 
         // INSERT DATA REQUEST ITEM TO REQUEST ITEMS TABLE
         RequestItems::insert($data_items);

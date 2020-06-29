@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notification;
 use App\RequestCategory;
 // use App\Request;
 use App\RequestApprove;
@@ -9,6 +10,7 @@ use App\RequestItems;
 use Carbon\Carbon;
 
 use App\Providers\AppServiceProvider;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -40,7 +42,8 @@ class RequestController extends Controller
      */
     public function create(RequestCategory $id)
     {
-
+        $users = User::where('level_id', 1)->orWhere('level_id', 2)->orWhere('level_id', 3)->get();
+        dd($users);
     }
 
     /**
@@ -62,11 +65,23 @@ class RequestController extends Controller
      */
     public function show($id)
     {
+
+        $notification = Notification::where('request_id', $id)->where('is_read', 0)->get();
+        foreach ($notification as $notif)
+        {
+            if($notif->user_id == Auth::id())
+            {
+                // dd($notif->id);
+                $update = Notification::find($notif->id);
+                $update->is_read = 1;
+                $update->save();
+            }
+        }
+
         $request = \App\Request::findOrFail($id);
         $category = RequestCategory::findOrFail($request->category_id);
         $items = RequestItems::where('request_id', $request->id)->get();
         $responsibles = RequestApprove::where('request_id', $request->id)->orderBy('priority', 'asc')->get();
-        // dd($responsible);
         return view('request.request_category.detail', compact('request', 'items', 'category', 'responsibles'));
     }
 
@@ -101,7 +116,7 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        $request = Request::findOrFail($id);
+        $request = \App\Request::findOrFail($id);
         $request_name = $request->categories->name;
 
         RequestItems::where('request_id', $id)->delete();
