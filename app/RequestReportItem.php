@@ -4,15 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RequestItems extends Model
+class RequestReportItem extends Model
 {
-    protected $fillable = ['request_id', 'items', 'name', 'merk', 'spec', 'price', 'sub', 'desc', 'image'];
-
+    protected $fillable = ['report_id', 'items', 'name', 'merk', 'spec', 'price', 'sub', 'desc', 'image'];
 
     public function items()
     {
         return $this->belongsTo(Product::class, 'items', 'id');
     }
-
 }
-
