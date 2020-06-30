@@ -74,8 +74,6 @@ Route::middleware('auth')->group(function(){
     
     // REQUEST
     // Request
-    // Route::get('/request/pengajuan/{id}', "RequestController@index")->name("request.pengajuan.index");
-    // Route::get('/request/pengajuan/create/{id}', "RequestController@create")->name("request.pengajuan.create");
     Route::patch('/request/pengajuan/approve/', "RequestController@approve")->name("request.pengajuan.approve");
     Route::delete('/request/pengajuan/{id}/delete-items', "RequestController@deleteItem")->name("request.pengajuan.delete-item");
     Route::resource('/request/pengajuan', "RequestController")->names([
@@ -88,6 +86,7 @@ Route::middleware('auth')->group(function(){
         'destroy' => 'request.pengajuan.destroy',
     ]);
     // End Request
+
     // Request By Category
     Route::get('/request/by-category/{id}/index', 'RequestByCategoryController@index')->name('requestby.category.index');
     Route::get('/request/by-category/{id}/create', 'RequestByCategoryController@create')->name('requestby.category.create');
@@ -99,6 +98,7 @@ Route::middleware('auth')->group(function(){
     Route::patch('/request/by-category/update-rev', 'RequestByCategoryController@updateRev')->name('requestby.category.update-rev');
     Route::get('/request/by-category/{id}/export-pdf', 'RequestByCategoryController@pdfExport')->name('requestby.category.pdf');
     // End Request By Category
+
     // Type Request
     Route::resource('/request/type', 'RequestTypeController')->names([
         'index' => 'request.type.index',
@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function(){
         'destroy' => 'request.type.destroy',
     ]);
     // End Type Request
+
     // Category Request
     Route::resource('request/category', 'RequestCategoryController')->names([
         'index' => 'request.category.index',
@@ -121,6 +122,7 @@ Route::middleware('auth')->group(function(){
         'destroy' => 'request.category.destroy',
     ]);
     // End Category Request
+
     // Responsible Request
     Route::resource('request/responsible', 'RequestResponsibleController')->names([
         'index' => 'request.responsible.index',
@@ -132,6 +134,13 @@ Route::middleware('auth')->group(function(){
         'destroy' => 'request.responsible.destroy',
     ]);
     // End Responsible Request
+
+    // Responsible Report
+    Route::get('request/report/{id}/index', 'RequestReportController@index')->name('request.report.index');
+    Route::get('request/report/{id}/create', 'RequestReportController@create')->name('request.report.create');
+    Route::get('request/report/store', 'RequestReportController@store')->name('request.report.store');
+    // End Responsible Report
+
     // END REQUEST
 
     Route::get('/pdftest', function(){

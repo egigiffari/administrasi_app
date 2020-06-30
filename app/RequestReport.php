@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestReport extends Model
 {
-    protected $fillable = ['request_id', 'project_id', 'applicant_id','perihal', 'status','total', 'amount'];
+    protected $fillable = ['category_id','request_id', 'project_id', 'applicant_id','perihal', 'status','total', 'amount'];
 
     public function applicant()
     {
@@ -16,5 +16,10 @@ class RequestReport extends Model
     public function request()
     {
         return $this->belongsTo(Request::class, 'request_id', 'id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsTo(RequestCategory::class, 'category_id', 'id');
     }
 }

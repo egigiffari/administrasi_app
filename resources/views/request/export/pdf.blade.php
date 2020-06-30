@@ -200,7 +200,7 @@
                 <tr>
                     <th>Diajukan Oleh</th>
                     @foreach($approvers as $approver)
-                        <th style="width:calc(75% / <?= count($approvers) ?> );">{{ $approver->subject }}</th>
+                        <th>{{ $approver->subject }}</th>
                     @endforeach
                 </tr>
                 <tr>

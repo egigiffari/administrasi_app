@@ -12,12 +12,11 @@
         @endif
 
     <br>
-    <a href="{{ route('requestby.category.create', $category->id) }}" class="btn btn-primary">Add New Pengajuan</a>
     <br>
     <div class="row" style="padding:10px;">
         <div class="x_panel">
             <div class="x_title">
-                <h2>List Pengajuan</h2>
+                <h2>List Laporan</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -26,25 +25,25 @@
                        <th>Date</th>
                        <th>Pengaju</th>
                        <th>Code</th>
-                       <th>Pengajuan</th>
+                       <th>Laporan</th>
                        <th>Status</th>
                        <th>Nilai</th>
                        <th>Action</th>
                    </thead>
                    <tbody>
-                       @foreach($requests as $result => $request)
+                       @foreach($reports as $result => $report)
                        <tr>
-                           <td>{{ $request->updated_at->diffForHumans() }}</td>
-                           <td>{{ $request->applicant->name }}</td>
-                           <td>{{ $request->code }}</td>
-                           <td>{{ $request->categories->name }}</td>
-                           <td><button class="btn btn-info btn-xs">{{ $request->status }}</button></td>
-                           <td>{{ 'Rp ' . number_format($request->total) }}</td>
+                           <td>{{ $report->updated_at->diffForHumans() }}</td>
+                           <td>{{ $report->applicant->name }}</td>
+                           <td>{{ $report->request->code }}</td>
+                           <td>{{ $report->categories->name }}</td>
+                           <td><button class="btn btn-info btn-xs">{{ $report->status }}</button></td>
+                           <td>{{ 'Rp ' . number_format($report->total) }}</td>
                            <td>
-                               <form action="{{ route('request.pengajuan.destroy', $request->id) }}" method="post">
+                               <form action="{{ route('report.pengajuan.destroy', $report->id) }}" method="post">
                                    @csrf
                                    @method('delete')
-                                   <a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
+                                   <a href="{{ route('report.pengajuan.show', $report->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
                                    @if(!preg_match('/user/', Auth::user()->level->name))
                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
                                    @endif
@@ -52,7 +51,7 @@
                             </td>
                        </tr>
                        @endforeach
-                       {{ $requests->links() }}
+                       {{ $reports->links() }}
                    </tbody>
                 </table>
             </div>

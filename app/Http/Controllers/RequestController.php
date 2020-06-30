@@ -42,8 +42,8 @@ class RequestController extends Controller
      */
     public function create(RequestCategory $id)
     {
-        $users = User::where('level_id', 1)->orWhere('level_id', 2)->orWhere('level_id', 3)->get();
-        dd($users);
+        // $users = User::where('level_id', 1)->orWhere('level_id', 2)->orWhere('level_id', 3)->get();
+        // dd($users);
     }
 
     /**
@@ -137,16 +137,19 @@ class RequestController extends Controller
             {
                 for ($i=0; $i < count($approve) ; $i++) { 
                     RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'waiting']);
+                    \App\Request::whereId($request->request_id)->update(['status' => 'on proses']);
                 }
             } elseif ($status == 'all-acc')
             {
                 for ($i=0; $i < count($approve) ; $i++) { 
                     RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'acc']);
+                    \App\Request::whereId($request->request_id)->update(['status' => 'approve']);
                 }
             } elseif ($status == 'all-revision')
             {
                 for ($i=0; $i < count($approve) ; $i++) { 
                     RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'revision']);
+                    \App\Request::whereId($request->request_id)->update(['status' => 'revision']);
                 }
             }
 
@@ -156,6 +159,40 @@ class RequestController extends Controller
         $status = $request->status;
         $approve = RequestApprove::where('request_id', $request->request_id)->where('user_id', Auth::id())->first();
         RequestApprove::whereId($approve->id)->update(['status' => $status]);
+
+        // GET ALL STATUS APPROVER
+        $approver = RequestApprove::where('request_id', $request->request_id)->get();
+
+        // LOOP ALL STATUS
+        for ($i=0; $i < count($approver); $i++) {
+
+            // CHECK ALL STATUS AND UPDATE REQUEST STATUS LIKE APPROVE STATUS
+            if ($approver[$i]['status'] == 'cancel')
+            {
+                \App\Request::whereId($request->request_id)->update(['status' => 'cancel']);
+                break; 
+            }
+            elseif($approver[$i]['status'] == 'hold')
+            {
+                \App\Request::whereId($request->request_id)->update(['status' => 'hold']);
+                break;
+            }
+            elseif ($approver[$i]['status'] == 'revision')
+            {
+                \App\Request::whereId($request->request_id)->update(['status' => 'revision']);
+                break;
+            }
+            elseif ($approver[$i]['status'] == 'waiting')
+            {
+                \App\Request::whereId($request->request_id)->update(['status' => 'on proses']);
+                break;
+            }
+            elseif ($approver[count($approver) - 1]['status'] == 'acc')
+            {
+                \App\Request::whereId($request->request_id)->update(['status' => 'approve']);
+                break;
+            }
+        }
 
         return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
         

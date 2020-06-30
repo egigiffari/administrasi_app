@@ -1,6 +1,6 @@
 @extends('frontend.home')
-@section('title', 'Created Pengajuan')
-@section('title-content', 'Created ' . $category->name)
+@section('title', 'Created Laporan')
+@section('title-content', 'Created Laporan ' . $category->name)
 @section('content')
 
     @if(count($errors)>0)
@@ -14,38 +14,31 @@
     @endif
 
     <div class="col-sm-12 col-md-12 col-xl-12">
-        <a href="{{ route('requestby.category.index', $category->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+        <a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_content"> 
-                <form action="{{ route('requestby.category.update', $request->id) }}" method="post" data-parsley-validate class="form-horizontal form-label-left">    
+                <form action="{{ route('request.report.store') }}" method="post" data-parsley-validate class="form-horizontal form-label-left">    
                     @csrf
-                    @method('patch')
                     <input type="hidden" name="category_id" value="{{ $category->id }}">
-                    <input type="hidden" name="creator_id" value="{{ Auth::user()->id }}">
+                    <input type="hidden" name="request_id" value="{{ $request->id }}">
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3 col-sm-offset-0">
 
                             @if(Auth::user()->level->capacity == 10)
-                                <input type="hidden" name="applicant_id" value="{{ Auth::id() }}">
+                                <input type="hidden" name="applicant_id" value="{{ $request->applicant_id }}">
                             @else
                                 <div class="col-xs-12 form-group has-feedback">
                                     <label for="applicant_id" class="title">Pengaju</label>
                                     <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
                                     @foreach($users as $user)
-                                    <option <?= ($request->applicant_id == $user->id ? 'selected' : 'disabled' )?>  value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" <?= ($request->applicant_id != $user->id ? 'disabled' : '' ) ?>>{{ $user->name }}</option>
                                     @endforeach
-                                    </select>
+                                </select>
                                 </div>
                             @endif
-
-
-                            <div class="col-xs-12 form-group has-feedback">
-                                <label for="code" class="title">Code</label>
-                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text" readonly>
-                            </div>
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="date" class="title">Date</label>
@@ -54,7 +47,7 @@
                             
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="perihal" class="title">Perihal</label>
-                                <input class="form-control" name="perihal" value="{{ $request->perihal }}" id="perihal" type="text">
+                                <input class="form-control" name="perihal" id="perihal" type="text" value="{{ $request->perihal }}" readonly>
                             </div>
          
                         </div> 
@@ -123,64 +116,64 @@
                                 @endforeach
                             @elseif(preg_match('/biaya/', $category->types->name))
                                 @foreach($items_req as $item_request)
-                                <div class="row cart-shop">
-                                    <input class="form-control" value="{{ $item_request->items }}" name="item[]" id="item" type="hidden" readonly>
-                                    <div class="col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                            <label for="code" class="unit">Name</label>
-                                            <input class="form-control" value="{{ $item_request->name }}" name="name[]" id="name" type="text">
+                                    <div class="row cart-shop">
+                                        <input class="form-control" value="{{ $item_request->items }}" name="item[]" id="item" type="hidden" readonly>
+                                        <div class="col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                                <label for="code" class="unit">Name</label>
+                                                <input class="form-control" value="{{ $item_request->name }}" name="name[]" id="name" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                                <label for="code" class="unit">Merk</label>
+                                                <input class="form-control" value="{{ $item_request->merk }}" name="merk[]" id="merk" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                                <label for="code" class="unit">Spesifikasi</label>
+                                                <input class="form-control" value="{{ $item_request->spec }}" name="spec[]" id="spec" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                                <label for="code" class="unit">Satuan</label>
+                                                <input class="form-control" value="{{ $item_request->unit }}" name="unit[]" id="unit" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="item-qty col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                            <label for="qty" class="title">Qty</label>
+                                            <input class="form-control qty" value="{{ $item_request->qty }}" name="qty[]" id="qty" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="item-price col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                            <label for="price" class="title">Price</label>
+                                            <input class="form-control price-item" value="{{ $item_request->price }}" name="price[]" id="price" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                            <label for="sub" class="title">Sub Price</label>
+                                            <input class="form-control sub" value="{{ $item_request->sub }}" name="sub[]" id="sub" type="text" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="item-sub col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                            <label for="desc" class="title">Keterangan</label>
+                                            <input class="form-control desc" value="{{ $item_request->desc }}" name="desc[]" id="desc" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="item-btn col-sm-12 col-md-2 col-xl-2">
+                                            <div class="col-xs-12 form-group has-feedback">
+                                                <label for="sub" class="title"></label>
+                                                <br>
+                                                <button data-delete="{{ $item_request->id }}" class="btn btn-danger btn-block delete-btn" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                            <label for="code" class="unit">Merk</label>
-                                            <input class="form-control" value="{{ $item_request->merk }}" name="merk[]" id="merk" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                            <label for="code" class="unit">Spesifikasi</label>
-                                            <input class="form-control" value="{{ $item_request->spec }}" name="spec[]" id="spec" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                            <label for="code" class="unit">Satuan</label>
-                                            <input class="form-control" value="{{ $item_request->unit }}" name="unit[]" id="unit" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="item-qty col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                        <label for="qty" class="title">Qty</label>
-                                        <input class="form-control qty" value="{{ $item_request->qty }}" name="qty[]" id="qty" type="number">
-                                        </div>
-                                    </div>
-                                    <div class="item-price col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                        <label for="price" class="title">Price</label>
-                                        <input class="form-control price-item" value="{{ $item_request->price }}" name="price[]" id="price" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="item-sub col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                        <label for="sub" class="title">Sub Price</label>
-                                        <input class="form-control sub" value="{{ $item_request->sub }}" name="sub[]" id="sub" type="text" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="item-sub col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                        <label for="desc" class="title">Keterangan</label>
-                                        <input class="form-control desc" value="{{ $item_request->desc }}" name="desc[]" id="desc" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="item-btn col-sm-12 col-md-2 col-xl-2">
-                                        <div class="col-xs-12 form-group has-feedback">
-                                            <label for="sub" class="title"></label>
-                                            <br>
-                                            <button data-delete="{{ $item_request->id }}" class="btn btn-danger btn-block delete-btn" style="margin-top:5px" id="delete"><i class="fa fa-trash"></i> Delete</button>
-                                        </div>
-                                    </div>
-                                </div>
                                 @endforeach
                             @else
                             @endif
@@ -214,8 +207,8 @@
                             </div>
 
                             <div class="col-xs-12 form-group">
-                                <button class="btn btn-primary">Update Pengajuan</button>
-                            </div> 
+                                <button class="btn btn-primary">Create Pengajuan</button>
+                            </div>  
                         </div>
                     </div>
 
@@ -223,11 +216,6 @@
             </div>
         </div>
     </div>
-
-    <form id="items-delete" action="{{route('request.pengajuan.delete-item', 1)}}" method="POST" style="display: none;">
-        @csrf
-        @method('delete')
-    </form>
 
 
 @endsection
@@ -253,7 +241,6 @@
     <script>
 
         function select2Search(){
-
             $(".js-example-matcher-start").each(function (index, element) {
                 $(this).select2({
                 matcher: function(params, data) {
@@ -317,8 +304,6 @@
     <script>
 
         $(function () {
-
-            updateTotal();
              
             $(document).on('change', '.qty', function () {
                 if (isNaN($(this).val()) || $(this).val() <= 0) {
@@ -336,27 +321,9 @@
 
             $(document).on('click', '.delete-btn', function(e){
                 e.preventDefault();
-
-                if (confirm('Are You Sure Delete This item?')) {
-                    // Get id From data-delete
-                    var id = $(this).data("delete");
-                    // Initial form delete
-                    var form_delete = $('#items-delete');
-                    // Get Attributes Action
-                    var link = form_delete.attr('action');
-                    // Split link by "/"
-                    var sparator = link.split('/')
-                    // Change Id from link to Id data item
-                    sparator[5] = id;
-                    // Join All link into one
-                    link = sparator.join('/');
-                    form_delete.attr('action', link);
-                    form_delete.submit();
-                    var parent = $(this).parent('.form-group').parent('.item-btn').parent('.cart-shop');
-                    parent.remove();
-                    updateTotal();
-                }
-
+                var parent = $(this).parent('.form-group').parent('.item-btn').parent('.cart-shop');
+                parent.remove();
+                updateTotal();
             });
 
             $(document).on('click', '.add-btn', function (e) {

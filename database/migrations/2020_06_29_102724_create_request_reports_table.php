@@ -15,6 +15,7 @@ class CreateRequestReportsTable extends Migration
     {
         Schema::create('request_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('category_id');
             $table->integer('request_id');
             $table->integer('project_id');
             $table->integer('applicant_id');

@@ -75,9 +75,10 @@
                     </li>
                     <li class=""><a><i class="fa fa-file"></i> Pengajuan <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('request.responsible.index') }}"><i class="fa fa-files"></i> Penanggung Jawab</a></li>
-                            <li><a href="{{ route('request.type.index') }}"><i class="fa fa-files"></i> Jenis Pengajuan</a></li>
-                            <li><a href="{{ route('request.category.index') }}"><i class="fa fa-files"></i>Kategori Pengajuan</a></li>
+                            <li><a href="{{ route('request.responsible.index') }}">Penanggung Jawab</a></li>
+                            <li><a href="{{ route('request.type.index') }}">Jenis Pengajuan</a></li>
+                            <li><a href="{{ route('request.category.index') }}">Kategori Pengajuan</a></li>
+                            <li><a href="{{ route('request.category.index') }}">Syarat Dan Ketentuan</a></li>
                         </ul>
                     </li>
                     @endif
