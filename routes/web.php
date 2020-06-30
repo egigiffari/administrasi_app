@@ -138,7 +138,7 @@ Route::middleware('auth')->group(function(){
     // Responsible Report
     Route::get('request/report/{id}/index', 'RequestReportController@index')->name('request.report.index');
     Route::get('request/report/{id}/create', 'RequestReportController@create')->name('request.report.create');
-    Route::get('request/report/store', 'RequestReportController@store')->name('request.report.store');
+    Route::post('request/report/store', 'RequestReportController@store')->name('request.report.store');
     // End Responsible Report
 
     // END REQUEST
