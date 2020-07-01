@@ -28,6 +28,7 @@
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="level" class="title">Capacity</label>
                                 <input class="form-control" value="{{ $level->capacity }}" name="capacity" id="inputSuccess6" type="number" placeholder="Capacity">
+                                <span class="text-danger">User : 10, Common Admin : 20, Manager : 30, Administrator : 90</span>
                             </div>
         
                             <div class="col-xs-12 form-group">

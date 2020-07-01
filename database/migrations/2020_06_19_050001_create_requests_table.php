@@ -23,7 +23,8 @@ class CreateRequestsTable extends Migration
             $table->string('perihal');
             $table->dateTime('start_date')->default(now());
             $table->dateTime('expire_date')->default(now());
-            $table->enum('status', ['on proses', 'revision', 'hold', 'cancel', 'approve']);
+            $table->enum('status', ['on proses', 'revision', 'hold', 'cancel', 'approve', 'perbaikan'])->default('on proses');
+            $table->text('catatan')->default('');
             $table->integer('total')->default(0);
             $table->string('amount')->default('Nol');
             $table->timestamps();

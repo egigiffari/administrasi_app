@@ -45,7 +45,9 @@
                                         @csrf
                                         @method('delete')
                                         <a href="{{ route('request.category.edit', $category->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                                        @if(Auth::user()->level->capacity == 90)
                                         <button type="submit" onclick="return confirm('Are You Sure Delete This Items?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button>
+                                        @endif
                                     </form>
                                 </td>
                             </tr>

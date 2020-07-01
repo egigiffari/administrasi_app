@@ -377,6 +377,7 @@ class RequestByCategoryController extends Controller
             'expire_date' => $expire_date,
             'total' => $request->total,
             'amount' => $request->amount,
+            'catatan' => '',
         ];
 
         // INSERT DATA TO REQUESTS TABLE

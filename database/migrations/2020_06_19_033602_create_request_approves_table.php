@@ -17,7 +17,7 @@ class CreateRequestApprovesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('request_id');
             $table->integer('user_id');
-            $table->enum('status', ['waiting', 'revision', 'hold', 'cancel', 'acc'])->default('waiting');
+            $table->enum('status', ['waiting', 'revision', 'hold', 'cancel', 'acc', 'perbaikan'])->default('waiting');
             $table->string('position');
             $table->string('subject');
             $table->integer('priority');

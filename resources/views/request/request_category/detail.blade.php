@@ -19,10 +19,11 @@
         @if($responsible->status == 'revision')
         <a href="{{ route('requestby.category.revision', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
         @break
-        @elseif($responsible->status == 'waiting')
+        @elseif($responsible->status == 'waiting' || $responsible->status == 'perbaikan')
         <a href="{{ route('requestby.category.edit', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
         @break
         @else
+        <span>Please Contact Admin For Information Because Your Request is <strong class="text-danger">Hold</strong></span>
         @endif
         @endforeach
     </div>
@@ -53,6 +54,19 @@
                           <b>{{ $request->code }}</b>
                           <br>
                           <br>
+                          <b>Status Pengajuan:</b>
+                            @if($request->status == 'waiting')
+                              <span class="btn btn-primary btn-xs">{{$request->status}}</span>
+                              @elseif($request->status == 'revision')
+                              <span class="btn btn-warning btn-xs">{{$request->status}}</span>
+                              @elseif($request->status == 'perbaikan')
+                              <span class="btn btn-danger btn-xs">{{$request->status}}</span>
+                              @elseif($request->status == 'hold')
+                              <span class="btn btn-info btn-xs">{{$request->status}}</span>
+                              @elseif($request->status == 'acc')
+                              <span class="btn btn-success btn-xs">{{$request->status}}</span>
+                              @endif
+                          <br>
                           <b>Perihal:</b> {{$request->perihal}}
                           <br>
                           <b>Total:</b> {{'Rp ' . number_format($request->total)}}
@@ -67,14 +81,36 @@
                         <!-- /.col -->
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                          <b>Penanggungjawab</b>
+                          
+                          <b>Penanggung Jawab</b>
                           <br>
                           <br>
                           @foreach($responsibles as $responsible)
-                          <b>{{ $responsible->user->name }}:</b> <span class="btn btn-primary btn-xs">{{$responsible->status}}</span>
-                          <br>
-                            @endforeach
+                            <b>{{ $responsible->user->name }}:</b>
+                            @if($responsible->status == 'waiting')
+                            <span class="btn btn-primary btn-xs">{{$responsible->status}}</span>
+                            @elseif($responsible->status == 'revision')
+                            <span class="btn btn-warning btn-xs">{{$responsible->status}}</span>
+                            @elseif($responsible->status == 'perbaikan')
+                            <span class="btn btn-danger btn-xs">{{$responsible->status}}</span>
+                            @elseif($responsible->status == 'hold')
+                            <span class="btn btn-info btn-xs">{{$responsible->status}}</span>
+                            @elseif($responsible->status == 'acc')
+                            <span class="btn btn-success btn-xs">{{$responsible->status}}</span>
+                            @endif
+                            <br>
+                          @endforeach
                         </div>
+                        <!-- /.col -->
+                        @if($request->catatan != '')
+                          <div class="col-sm-4 invoice-col">
+                            
+                            <b>Catatan</b>
+                            <br>
+                            <br>
+                            <span class="text-danger">{{$request->catatan}}</span>
+                          </div>
+                        @endif
                         <!-- /.col -->
                       </div>
                       <!-- /.row -->
@@ -166,20 +202,16 @@
                             @if($datas[$i]['status'] == 'acc' || $datas[$i]['user_id'] == Auth::id())
                                 @if($datas[$loop->index]['status'] == 'waiting')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
-                                <button type="submit" name="status" value="hold" class="btn btn-info pull-right"><i class="fa fa-check-square-o"></i> Hold</button>
+                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
                                 @elseif($datas[$loop->index]['status'] == 'acc')
-                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
-                                <button type="submit" name="status" value="hold" class="btn btn-info pull-right"><i class="fa fa-check-square-o"></i> Hold</button>
-                                <button type="submit" name="status" value="revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
                                 @elseIf($datas[$loop->index]['status'] == 'revision')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
-                                <button type="submit" name="status" value="hold" class="btn btn-info pull-right"><i class="fa fa-check-square-o"></i> Hold</button>
+                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
                                 @elseIf($datas[$loop->index]['status'] == 'hold')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                                <button type="submit" name="status" value="cancel" class="btn btn-danger pull-right"><i class="fa fa-check-square-o"></i> Cancel</button>
-                                <button type="submit" name="status" value="revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                                <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
                                 @endif
                             @endif
                         @elseif(Auth::user()->level->name == 'administrator' || Auth::user()->email == 'superadmin@gmail.com')
@@ -190,6 +222,35 @@
                         @endforeach
                         </form>
                           <!-- <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button> -->
+                          <!-- Modal -->
+                          <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="{{route('request.pengajuan.approve')}}" method="post">
+                                  <div class="modal-body">
+                                    @csrf
+                                    @method('patch')
+                                    <div class="form-group">
+                                        <input type="hidden" name="request_id" value="{{ $request->id }}">
+                                        <label class="control-label">Keterangan <span class="required">*</span>
+                                        </label>
+                                        <div class="">
+                                        <textarea class="form-control" rows="3" name="catatan"></textarea>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button id="btn-confirm" type="submit" name="status" value="perbaikan" class="btn btn-warning">Perbaikan</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </section>
@@ -199,4 +260,20 @@
             </div>
 
 
+@endsection
+@section('js')
+  <script>
+    $(function () {
+      $('.btn-confirm').click(function (e) { 
+        e.preventDefault();
+        var btnConfirm = $(this);
+        var btnChange = $('#btn-confirm');
+
+        btnChange.attr('name', btnConfirm.attr('name'));
+        btnChange.val(btnConfirm.attr('value'));
+        btnChange.removeClass().addClass(btnConfirm.attr('class'));
+        btnChange.html(btnConfirm.html());
+      });
+    });
+  </script>
 @endsection

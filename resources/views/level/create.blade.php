@@ -27,12 +27,13 @@
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="level" class="title">Capacity</label>
                                 <input class="form-control" name="capacity" id="inputSuccess6" type="number" placeholder="Capasity">
+                                <span class="text-danger">User : 10, Common Admin : 20, Manager : 30, Administrator : 90</span>
                             </div>
         
                             <div class="col-xs-12 form-group">
                                 <button class="btn btn-primary">Save Level</button>
                             </div>            
-                        </div> 
+                        </div>
                     </div>
 
                 </form>

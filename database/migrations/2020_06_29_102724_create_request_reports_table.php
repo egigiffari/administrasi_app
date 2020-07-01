@@ -17,10 +17,10 @@ class CreateRequestReportsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('category_id');
             $table->integer('request_id');
-            $table->integer('project_id');
+            $table->integer('project_id')->default(0);
             $table->integer('applicant_id');
             $table->string('perihal');
-            $table->string('status');
+            $table->enum('status', ['on proses', 'revision', 'hold', 'cancel', 'approve', 'perbaikan'])->default('on proses');
             $table->integer('total');
             $table->string('amount');
             $table->timestamps();

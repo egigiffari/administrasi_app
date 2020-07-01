@@ -128,7 +128,9 @@ class RequestController extends Controller
 
     public function approve(Request $request)
     {
+
         $this->validate($request, ['status' => 'required']);
+
         if (preg_match('/all-/',$request->status))
         {
             $approve = RequestApprove::where('request_id', $request->request_id)->get();
@@ -137,28 +139,40 @@ class RequestController extends Controller
             {
                 for ($i=0; $i < count($approve) ; $i++) { 
                     RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'waiting']);
-                    \App\Request::whereId($request->request_id)->update(['status' => 'on proses']);
+                    \App\Request::whereId($request->request_id)->update(['status' => 'on proses', 'catatan' => '']);
                 }
             } elseif ($status == 'all-acc')
             {
                 for ($i=0; $i < count($approve) ; $i++) { 
                     RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'acc']);
-                    \App\Request::whereId($request->request_id)->update(['status' => 'approve']);
+                    \App\Request::whereId($request->request_id)->update(['status' => 'approve', 'catatan' => '']);
                 }
             } elseif ($status == 'all-revision')
             {
                 for ($i=0; $i < count($approve) ; $i++) { 
                     RequestApprove::whereId($approve[$i]['id'])->update(['status' => 'revision']);
-                    \App\Request::whereId($request->request_id)->update(['status' => 'revision']);
+                    \App\Request::whereId($request->request_id)->update(['status' => 'revision', 'catatan' => '']);
                 }
             }
 
             return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
             
         }
+
         $status = $request->status;
         $approve = RequestApprove::where('request_id', $request->request_id)->where('user_id', Auth::id())->first();
-        RequestApprove::whereId($approve->id)->update(['status' => $status]);
+
+        if ($status != 'perbaikan' && $status != 'hold')
+        {
+            RequestApprove::whereId($approve->id)->update(['status' => $status]);
+        }
+        else
+        {
+            $this->validate($request, ['catatan' => 'required']);
+            RequestApprove::whereId($approve->id)->update(['status' => $status]);
+            \App\Request::whereId($request->request_id)->update(['status' => 'perbaikan', 'catatan' => $request->catatan]);
+        }
+        
 
         // GET ALL STATUS APPROVER
         $approver = RequestApprove::where('request_id', $request->request_id)->get();

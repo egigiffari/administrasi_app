@@ -27,7 +27,7 @@
                         <th>Item</th>
                         <th>Category</th>
                         <th>Update Price</th>
-                        <th>Last Price</th>
+                        <!-- <th>Last Price</th> -->
                         <th>Image</th>
                         <th>Action</th>
                     </thead>
@@ -43,14 +43,16 @@
                                 @endforeach
                             </td>
                             <td>{{ $product->updated_at->diffForHumans() }}</td>
-                            <td>Rp. {{ number_format($product->last_price)}}</td>
+                            <!-- <td>Rp. {{ number_format($product->last_price)}}</td> -->
                             <td><img src="{{ asset($product->image) }}" alt="" class="img-thumbnail" style="max-width:150px"></td>
                             <td>
                                 <form action="{{ route('product.destroy', $product->id) }}" method="post">
                                     @csrf
                                     @method('delete')
                                     <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                                    @if(Auth::user()->level->capacity == 20 || Auth::user()->level->capacity == 90)
                                     <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item');"><i class="fa fa-trash"></i> Delete</button>
+                                    @endif
                                 </form>
                             </td>
                         </tr>

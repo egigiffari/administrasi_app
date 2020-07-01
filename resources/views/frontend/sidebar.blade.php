@@ -1,7 +1,7 @@
 <!-- Sidebar -->
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="/home" class="site_title"><i class="fa fa-paw"></i> <span>SIPATEN!</span></a>
+            <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>SIPATEN!</span></a>
         </div>
 
         <div class="clearfix"></div>

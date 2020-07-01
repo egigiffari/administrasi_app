@@ -39,7 +39,9 @@
                                    @csrf
                                    @method('delete')
                                    <a href="{{ route('brand.edit', $brand->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> edit</a>
+                                   @if(Auth::user()->level->capacity == 20 || Auth::user()->level->capacity == 90)
                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                   @endif
                                </form>
                             </td>
                        </tr>
