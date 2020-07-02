@@ -38,27 +38,65 @@
                     <i class="fa fa-envelope-o"></i>
                     @inject('notifications', 'App\Notification')
                     <?php $notification = $notifications::where('user_id', Auth::id())->where('is_read', 0)->limit(6)->get(); ?>
+
                     @if(count($notification) > 0)                   
                     <span class="badge bg-green">{{ count($notification) }}</span>
                     @endif
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     @foreach ($notification as $notif)
+                    @if($notif->request_id != 0)
                     <li>
-                      @if($notif->request_id)
                       <a href="{{ route('request.pengajuan.show', $notif->request_id) }}">
                         <span class="image"><img src="{{asset($notif->request->applicant->image)}}" alt="Profile Image" /></span>
                         <span>
-                          <span>{{$notif->request->applicant->name}}</span>
+                          <span class="btn btn-info btn-xs"><strong>{{ substr($notif->request->applicant->name, 0, 13)}}</strong></span>
                           <span class="time">{{ $notif->updated_at->diffForHumans() }}</span>
+                          <br>
+                          @if($notif->request->status == 'on proses')
+                          <span class="btn btn-primary btn-xs">{{$notif->request->status}}</span>
+                          @elseif($notif->request->status == 'revision')
+                          <span class="btn btn-warning btn-xs">{{$notif->request->status}}</span>
+                          @elseif($notif->request->status == 'perbaikan')
+                          <span class="btn btn-danger btn-xs">{{$notif->request->status}}</span>
+                          @elseif($notif->request->status == 'hold')
+                          <span class="btn btn-info btn-xs">{{$notif->request->status}}</span>
+                          @elseif($notif->request->status == 'approve')
+                          <span class="btn btn-success btn-xs">{{$notif->request->status}}</span>
+                          @endif
                         </span>
+                        <br>
                         <span class="message">
                           {{$notif->request->code . ' - ' . $notif->request->categories->name}}
                         </span>
                       </a>
-                      @else
-                      @endif
                     </li>
+                    @else
+                      <li>
+                        <a href="{{ route('request.report.show', $notif->request_report_id) }}">
+                          <span class="image"><img src="{{asset($notif->report->applicant->image)}}" alt="Profile Image" /></span>
+                          <span>
+                            <span class="btn btn-info btn-xs"><strong>{{ substr($notif->report->applicant->name, 0, 13) }}</strong></span>
+                            <span class="time">{{ $notif->updated_at->diffForHumans() }}</span>
+                            <br>
+                            @if($notif->report->status == 'on proses')
+                            <span class="btn btn-primary btn-xs">{{$notif->report->status}}</span>
+                            @elseif($notif->report->status == 'revision')
+                            <span class="btn btn-warning btn-xs">{{$notif->report->status}}</span>
+                            @elseif($notif->report->status == 'perbaikan')
+                            <span class="btn btn-danger btn-xs">{{$notif->report->status}}</span>
+                            @elseif($notif->report->status == 'hold')
+                            <span class="btn btn-info btn-xs">{{$notif->report->status}}</span>
+                            @elseif($notif->report->status == 'approve')
+                            <span class="btn btn-success btn-xs">{{$notif->report->status}}</span>
+                            @endif
+                            </span>
+                          <span class="message">
+                            {{'Laporan ' . $notif->report->categories->name}}
+                          </span>
+                        </a>
+                      </li>
+                      @endif
                     @endforeach()
                     <!-- <li>
                       <div class="text-center">

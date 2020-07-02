@@ -155,6 +155,14 @@ class RequestController extends Controller
                 }
             }
 
+            // REUPLOAD STATUS NOTIFICATION
+            $notifications = Notification::where('request_id', $request->request_id)->get();
+            foreach($notifications as $notification){
+                $notif = Notification::find($notification->id);
+                $notif->is_read = 0;
+                $notif->save();
+            }
+
             return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
             
         }
@@ -206,6 +214,14 @@ class RequestController extends Controller
                 \App\Request::whereId($request->request_id)->update(['status' => 'approve']);
                 break;
             }
+        }
+
+        // REUPLOAD STATUS NOTIFICATION
+        $notifications = Notification::where('request_id', $request->request_id)->get();
+        foreach($notifications as $notification){
+            $notif = Notification::find($notification->id);
+            $notif->is_read = 0;
+            $notif->save();
         }
 
         return redirect()->back()->withSuccess("Pengajuan Hass Been $status");

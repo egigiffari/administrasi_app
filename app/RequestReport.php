@@ -10,7 +10,7 @@ class RequestReport extends Model
 
     public function applicant()
     {
-        return $this->belongsTo(Users::class, 'applicant_id', 'id');
+        return $this->belongsTo(User::class, 'applicant_id', 'id');
     }
 
     public function request()
@@ -21,5 +21,15 @@ class RequestReport extends Model
     public function categories()
     {
         return $this->belongsTo(RequestCategory::class, 'category_id', 'id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(RequestReportItem::class, 'report_id', 'id');
+    }
+
+    public function responsibles()
+    {
+        return $this->hasMany(RequestReportApprove::class, 'report_id', 'id');
     }
 }

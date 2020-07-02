@@ -1,6 +1,6 @@
 @extends('frontend.home')
-@section('title', 'Created Laporan')
-@section('title-content', 'Created Laporan ' . $category->name)
+@section('title', 'Edit Laporan')
+@section('title-content', 'Edit Laporan ' . $category->name)
 @section('content')
 
     @if(count($errors)>0)
@@ -14,27 +14,28 @@
     @endif
 
     <div class="col-sm-12 col-md-12 col-xl-12">
-        <a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+        <a href="{{ route('request.pengajuan.show', $report->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_content"> 
-                <form action="{{ route('request.report.store') }}" method="post" data-parsley-validate class="form-horizontal form-label-left">    
+                <form action="{{ route('request.report.update', $report->id) }}" method="post" data-parsley-validate class="form-horizontal form-label-left">    
                     @csrf
+                    @method('patch')
                     <input type="hidden" name="category_id" value="{{ $category->id }}">
-                    <input type="hidden" name="request_id" value="{{ $request->id }}">
+                    <input type="hidden" name="request_id" value="{{ $report->id }}">
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3 col-sm-offset-0">
 
                             @if(Auth::user()->level->capacity == 10)
-                                <input type="hidden" name="applicant_id" value="{{ $request->applicant_id }}">
+                                <input type="hidden" name="applicant_id" value="{{ $report->applicant_id }}">
                             @else
                                 <div class="col-xs-12 form-group has-feedback">
                                     <label for="applicant_id" class="title">Pengaju</label>
                                     <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
                                     @foreach($users as $user)
-                                    <option value="{{ $user->id }}" <?= ($request->applicant_id != $user->id ? 'disabled' : '' ) ?>>{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" <?= ($report->applicant_id != $user->id ? 'disabled' : '' ) ?>>{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                                 </div>
@@ -43,7 +44,7 @@
                             
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="perihal" class="title">Perihal</label>
-                                <input class="form-control" name="perihal" id="perihal" type="text" value="{{ $request->perihal }}" readonly>
+                                <input class="form-control" name="perihal" id="perihal" type="text" value="{{ $report->perihal }}" readonly>
                             </div>
          
                         </div> 
@@ -203,7 +204,7 @@
                             </div>
 
                             <div class="col-xs-12 form-group">
-                                <button class="btn btn-primary">Create Pengajuan</button>
+                                <button class="btn btn-primary">Update Pengajuan</button>
                             </div>  
                         </div>
                     </div>

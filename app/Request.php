@@ -23,4 +23,9 @@ class Request extends Model
         return $this->belongsTo(User::class, 'applicant_id', 'id');
     }
 
+    public function report()
+    {
+        return $this->hasOne(RequestReport::class, 'request_id', 'id');
+    }
+
 }

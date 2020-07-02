@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>{{ $request->categories->name }} | Maha Appliacation</title>
+    <title>{{ $report->categories->name }} | Maha Appliacation</title>
 
 
     <style>
@@ -36,7 +36,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="center" style="text-transform:uppercase;font-weight:bold;padding-top:10px 0;font-size:16px;">{{ $request->categories->name }}</td>
+                    <td colspan="3" align="center" style="text-transform:uppercase;font-weight:bold;padding-top:10px 0;font-size:16px;">Laporan Pengajuan</td>
                 </tr>
             </table>
 
@@ -44,29 +44,33 @@
 
         <div class="body">
 
-
             <div class="subject" style="padding-left: 10px;padding-top: 10px;">
-                <table>
+                <table border='0'>
                     <tr>
-                        <td width='60px'>Tanggal</td>
-                        <td width="15px">:</td>
-                        <td>{{ date('g F Y', strtotime($request->start_date)) }}</td>
+                        <td>Tanggal</td>
+                        <td>:</td>
+                        <td style="width:300px;"><?= date('d F Y', strtotime($report->created_at)) ?></td>
+                        <td>Tanggal Pengajuan</td>
+                        <td>:</td>
+                        <td><?= date('d F Y', strtotime($report->request->start_date)) ?></td>
                     </tr>
                     <tr>
-                        <td width='60px'>Perihal</td>
-                        <td width="15px">:</td>
-                        <td>{{ $request->perihal }}</td>
+                        <td>Perihal/Pekerjaan</td>
+                        <td>:</td>
+                        <td><?= $report->perihal ?></td>
+                        <td>Perihal Pengajuan</td>
+                        <td>:</td>
+                        <td><?= $report->request->perihal ?></td>
                     </tr>
                     <tr>
-                        <td width='60px'>No Surat</td>
-                        <td width="15px">:</td>
-                        <td>{{ $request->code }}</td>
+                        <td>Dana Pengajuan yang diterima</td>
+                        <td>:</td>
+                        <td>Rp. <?= number_format($report->total) ?></td>
+                        <td>Yang Mengajukan</td>
+                        <td>:</td>
+                        <td><?= $report->applicant->name ?></td>
                     </tr>
-                    <tr>
-                        <td width='60px'>Due Date</td>
-                        <td width="15px">:</td>
-                        <td>{{ date('g F Y', strtotime($request->expire_date)) }}</td>
-                    </tr>
+
                 </table>
             </div>
 
@@ -106,11 +110,11 @@
 
                         <tr>
                             <td colspan='2' style="border:1px solid black;border-right:0;border-bottom:0;background:#fff;padding:2px 5px; 10px;text-transform:capitalize;" align='left'>Total Biaya</td>
-                            <td colspan='7' style="border:1px solid black;border-left:0;border-bottom:0;background:#fff;padding:2px 5px; 10px;text-transform:uppercase;font-style: italic;font-weight:normal;" align='right'>Rp. {{number_format($request->total)}}</td>
+                            <td colspan='7' style="border:1px solid black;border-left:0;border-bottom:0;background:#fff;padding:2px 5px; 10px;text-transform:uppercase;font-style: italic;font-weight:normal;" align='right'>Rp. {{number_format($report->total)}}</td>
                         </tr>
                         <tr>
                             <td colspan='2' style="border:1px solid black;border-right:0;background:#fff;padding:2px 5px; 10px;text-transform:capitalize;" align='left'>Terbilang</td>
-                            <td colspan='7' style="border:1px solid black;border-left:0;background:#fff;padding:2px 5px; 10px;text-transform:uppercase;font-style: italic;font-weight:bold;" align='right'>{{ $request->amount }}</td>
+                            <td colspan='7' style="border:1px solid black;border-left:0;background:#fff;padding:2px 5px; 10px;text-transform:uppercase;font-style: italic;font-weight:bold;" align='right'>{{ $report->amount }}</td>
                         </tr>
 
                 </table>
@@ -118,79 +122,50 @@
 
         </div>
 
-        <div class="desc" style="padding: 0 10px;">
+        <div class="desc">
 
-            <table border="0" style="font-style: italic;font-size:12px">
+            <table border="0" style="font-style: italic;border-collapse: collapse;">
                 <tr>
-                    <td colspan="3">Syarat dan Ketentuan Pengajuan Operasional Proyek antara lain :</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">1</td>
-                    <td colspan="2">Batas Pengajuan di eksekusi/proses paling lambat 7 (tujuh) hari</td>
+                    <td width='200px'>Dana Yang Diberikan atas pengajuan</td>
+                    <td width='20px'>Rp.</td>
+                    <td align='right' width='100px'><?= number_format($report->request->total) ?></td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <td style="width:20px">2</td>
-                    <td colspan="2">Pengajuan harus diperiksa oleh kepala divisi Teknik dan Mrg. Keuangan serta disetujui oleh Direktur selambat-lambatnya 2 hari</td>
+                    <td width='200px'>Dana boaya yang sebenarnya</td>
+                    <td width='20px' style="border-bottom: 1px solid black">Rp.</td>
+                    <td align='right' style="border-bottom: 1px solid black"><?= number_format($report->total) ?></td>
+                    <td></td>
                 </tr>
-
                 <tr>
-                    <td style="width:20px">3</td>
-                    <td colspan="2">Pengajuan Opersional Meliputi :</td>
+                    <td width='200px'>Sisa / Kurang</td>
+                    <td width='20px'>Rp.</td>
+                    <td align='right'><?= number_format($report->request->total -  $report->total)?></td>
+                    <td></td>
                 </tr>
+            </table>
 
+        </div>
+
+        <div class="desc">
+
+            <table border="0" style="font-style: italic;border-collapse: collapse;">
                 <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">A.</td>
-                    <td>Makan dan Minum</td>
+                    <td width='20px'>1</td>
+                    <td>Jika dana berlebih, dikembalikan kepada kasir / masuk ke Kas Kecil</td>
                 </tr>
-
                 <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">B.</td>
-                    <td>Penginapan / Biaya Sewa</td>
+                    <td width='20px'>2</td>
+                    <td>Jika dana kurang di Reimbursment dengan mengajukan pergantian biaya</td>
                 </tr>
-
                 <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">C.</td>
-                    <td>Kendaraan dan biaya operasional kendaraan</td>
+                    <td></td>
+                    <td>Demikian Laporan Pengajuan ini di perbuat untuk dapat dimaklumi dan diketahui sesuai dengan fungsinya</td>
                 </tr>
-
                 <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">D.</td>
-                    <td>Biaya entertain lapangan</td>
+                    <td>NB:</td>
+                    <td> Seluruh Transaksi harus disertai dengan Bukti Transaksi (Kwitansi), Kalau tidak disertai dengan bukti transaksi harus diklarifikasi dengan Voucher</td>
                 </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">E.</td>
-                    <td>Biaya OKP (Ormas, SPSI, Preman)</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">F.</td>
-                    <td>Biaya lainnya yang dipandang harus keluar selama di lapangan</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">4</td>
-                    <td colspan="2">Setelah Pengajuan disetujui dan dana sudah diterima, wajib membuat Laporan Pertanggung Jawaban Rincian Biaya Operasional Project untuk dilakukan kepada divisi Keuangan beserta bukti transaksi selambat-lambatnya 1 hari setelah transaksi selesai.</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">5</td>
-                    <td colspan="2">Pengalokasian dana Operasional Proyek ke pembelian lainnya harus di laporkan sesegera mungkin kepada Mgr</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">6</td>
-                    <td colspan="2">Due Date Pengajuan selama 7 (Tujuh) Hari, Jika melebihi batas waktu harus mengajukan pengajuan baru/revisi</td>
-                </tr>
-
-
             </table>
 
         </div>
@@ -204,7 +179,7 @@
                     @endforeach
                 </tr>
                 <tr>
-                    <th height='100px'><img src="{{base_path('public/' . $request->applicant->signature)}}" alt="" style="width:100px"></th>
+                    <th height='100px'><img src="{{base_path('public/' . $report->applicant->signature)}}" alt="" style="width:100px"></th>
                     @foreach($approvers as $approver)
                         @if($approver->status == 'acc')
                         <th height='100px'><img src="{{base_path('public/' . $approver->user->signature)}}" alt="" style="width:100px"></th>
@@ -214,7 +189,7 @@
                     @endforeach
                 </tr>
                 <tr>
-                    <th>{{$request->applicant->name }}</th>
+                    <th>{{$report->applicant->name}}</th>
                     @foreach($approvers as $approver)
                         <th style="text-transform: capitalize;"> {{$approver->position}} </th>
                     @endforeach

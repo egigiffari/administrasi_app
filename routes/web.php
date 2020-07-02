@@ -138,7 +138,13 @@ Route::middleware('auth')->group(function(){
     // Responsible Report
     Route::get('request/report/{id}/index', 'RequestReportController@index')->name('request.report.index');
     Route::get('request/report/{id}/create', 'RequestReportController@create')->name('request.report.create');
+    Route::get('request/report/{id}/show', 'RequestReportController@show')->name('request.report.show');
+    Route::get('request/report/{id}/edit', 'RequestReportController@edit')->name('request.report.edit');
     Route::post('request/report/store', 'RequestReportController@store')->name('request.report.store');
+    Route::delete('request/report/destroy', 'RequestReportController@destroy')->name('request.report.destroy');
+    Route::patch('/request/report/approve', "RequestReportController@approve")->name("request.report.approve");
+    Route::patch('/request/report/{id}/update', "RequestReportController@update")->name("request.report.update");
+    Route::get('/request/report/{id}/pdf', "RequestReportController@pdf")->name("request.report.pdf");
     // End Responsible Report
 
     // END REQUEST

@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Guest',
                 'email' => 'guest@gmail.com',
-                'level_id' => 1,
+                'level_id' => 4,
                 'division_id' => 1,
                 'image' => 'uploads/users/default.png',
                 'signature' => 'uploads/users/signature/default.png',

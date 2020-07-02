@@ -181,8 +181,9 @@ class RequestByCategoryController extends Controller
         
         // SEARCH DATA USER WHERE LEVEL 'COMMON ADMIN = 3', 'MANAGER = 2', 'ADMIN = 1'
         $users =  $users = User::where('level_id', 1)->orWhere('level_id', 2)->orWhere('level_id', 3)->get();
+        // dd($users);
         $notification = [];
-        // INSERT USER TO NOTIFICATION ARRA
+        // INSERT USER TO NOTIFICATION ARRAY
         for ($i=0; $i < count($users); $i++) { 
             $temp = [
                 'user_id' => $users[$i]['id'],
@@ -389,6 +390,14 @@ class RequestByCategoryController extends Controller
         for ($i=0; $i < count($responsibles); $i++) { 
             $data = ['status' => 'waiting'];
             RequestApprove::whereId($responsibles[$i]['id'])->update($data);
+        }
+
+        // REUPLOAD STATUS NOTIFICATION
+        $notifications = Notification::where('request_id', $id)->get();
+        foreach($notifications as $notification){
+            $notif = Notification::find($notification->id);
+            $notif->is_read = 0;
+            $notif->save();
         }
 
         // GET ALL ITEMS AND DELETE ALL

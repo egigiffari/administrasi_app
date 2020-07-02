@@ -21,6 +21,7 @@ class CreateRequestReportsTable extends Migration
             $table->integer('applicant_id');
             $table->string('perihal');
             $table->enum('status', ['on proses', 'revision', 'hold', 'cancel', 'approve', 'perbaikan'])->default('on proses');
+            $table->text('catatan')->default('');
             $table->integer('total');
             $table->string('amount');
             $table->timestamps();

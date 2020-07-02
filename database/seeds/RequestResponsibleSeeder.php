@@ -13,11 +13,20 @@ class RequestResponsibleSeeder extends Seeder
     public function run()
     {
         DB::table('request_responsibles')->insert([
-            'category_id' => 1,
-            'user_id' => 1,
-            'subject' => 'Mengetahui',
-            'as' => 'Direktur',
-            'priority' => 99
+            [
+                'category_id' => 1,
+                'user_id' => 2,
+                'subject' => 'Menyetujui',
+                'as' => 'Direktur',
+                'priority' => 99
+            ],
+            [
+                'category_id' => 2,
+                'user_id' => 2,
+                'subject' => 'Menyetujui',
+                'as' => 'Direktur',
+                'priority' => 99
+            ],
         ]);
     }
 }

@@ -1,6 +1,6 @@
 @extends('frontend.home')
-@section('title', 'Detail Pengajuan')
-@section('title-content', 'Detail ' . $category->name)
+@section('title', 'Detail Laporan Pengajuan')
+@section('title-content', 'Detail Laporan ' . $category->name)
 @section('content')
 
     @if(count($errors)>0)
@@ -14,19 +14,14 @@
     @endif
 
     <div class="col-sm-12 col-md-12 col-xl-12">
-        <a href="{{ route('requestby.category.index', $category->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+        <a href="{{ route('request.report.index', $category->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
         @foreach($responsibles as $responsible)
-        @if($responsible->status == 'revision')
-        <a href="{{ route('requestby.category.revision', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
-        @break
-        @elseif($responsible->status == 'waiting' || $responsible->status == 'perbaikan')
-        <a href="{{ route('requestby.category.edit', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
-        @break
-        @elseif($responsible->status == 'hold')
-        <span>Please Contact Admin For Information Because Your Request is <strong class="text-danger">Hold</strong></span>
-        @break
-        @else
-        @endif
+            @if($responsible->status == 'waiting' || $responsible->status == 'perbaikan' || $responsible->status == 'revision')
+            <a href="{{ route('request.report.edit', $report->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
+            @elseif($responsible->status == 'hold')
+            <span>Please Contact Admin For Information Because Your Request is <strong class="text-danger">Hold</strong></span>
+            @else
+            @endif
         @endforeach
     </div>
 
@@ -34,7 +29,7 @@
               <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Perihal <small>{{$request->perihal}}</small></h2>
+                    <h2>Perihal <small>{{$report->perihal}}</small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -44,7 +39,7 @@
                       <div class="row" style="margin-bottom:20px;">
                         <div class="col-xs-12 invoice-header">
                             <h1>
-                                <img src="{{ asset($request->applicant->image) }}" alt="" class="img img-avatar" style="max-width:40px;"> {{$request->applicant->name}}.
+                                <img src="{{ asset($report->applicant->image) }}" alt="" class="img img-avatar" style="max-width:40px;"> {{$report->applicant->name}}.
                             </h1>
                         </div>
                         <!-- /.col -->
@@ -53,34 +48,33 @@
                       <div class="row invoice-info">
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                          <b>{{ $request->code }}</b>
+                          <b>{{ $report->request->code }}</b>
                           <br>
                           <br>
                           <b>Status Pengajuan:</b>
-                            @if($request->status == 'waiting')
-                              <span class="btn btn-primary btn-xs">{{$request->status}}</span>
-                              @elseif($request->status == 'revision')
-                              <span class="btn btn-warning btn-xs">{{$request->status}}</span>
-                              @elseif($request->status == 'perbaikan')
-                              <span class="btn btn-danger btn-xs">{{$request->status}}</span>
-                              @elseif($request->status == 'hold')
-                              <span class="btn btn-info btn-xs">{{$request->status}}</span>
-                              @elseif($request->status == 'acc')
-                              <span class="btn btn-success btn-xs">{{$request->status}}</span>
+                              @if($report->status == 'waiting')
+                              <span class="btn btn-primary btn-xs">{{$report->status}}</span>
+                              @elseif($report->status == 'revision')
+                              <span class="btn btn-warning btn-xs">{{$report->status}}</span>
+                              @elseif($report->status == 'perbaikan')
+                              <span class="btn btn-danger btn-xs">{{$report->status}}</span>
+                              @elseif($report->status == 'hold')
+                              <span class="btn btn-info btn-xs">{{$report->status}}</span>
+                              @elseif($report->status == 'acc')
+                              <span class="btn btn-success btn-xs">{{$report->status}}</span>
                               @endif
                           <br>
-                          <b>Perihal:</b> {{$request->perihal}}
+                          <b>Perihal:</b> {{$report->perihal}}
                           <br>
-                          <b>Total:</b> {{'Rp ' . number_format($request->total)}}
+                          <b>Dana Pengajuan:</b> {{ 'Rp ' . number_format($report->request->total)}}
                           <br>
-                          <b>Terbilang:</b> {{$request->amount}}
+                          <b>Total:</b> {{'Rp ' . number_format($report->total)}}
                           <br>
-                          <b>Date:</b> {{ date('g F Y', strtotime($request->start_date))}}
+                          <b>Terbilang:</b> {{$report->amount}}
                           <br>
-                          <b>Expire:</b> {{ date('g F Y', strtotime($request->expire_date))}}
+                          <b>Tanggal Pengajuan:</b> {{ date('g F Y', strtotime($report->request->start_date))}}
                           <br>
                         </div>
-                        <!-- /.col -->
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
                           
@@ -104,13 +98,13 @@
                           @endforeach
                         </div>
                         <!-- /.col -->
-                        @if($request->catatan != '')
+                        @if($report->catatan != '')
                           <div class="col-sm-4 invoice-col">
                             
                             <b>Catatan</b>
                             <br>
                             <br>
-                            <span class="text-danger">{{$request->catatan}}</span>
+                            <span class="text-danger">{{$report->catatan}}</span>
                           </div>
                         @endif
                         <!-- /.col -->
@@ -160,11 +154,11 @@
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Total:</th>
-                                  <td>{{ 'Rp ' . number_format($request->total) }}</td>
+                                  <td>{{ 'Rp ' . number_format($report->total) }}</td>
                                 </tr>
                                 <tr>
                                   <th>Terbilang</th>
-                                  <td>{{ $request->amount }}</td>
+                                  <td>{{ $report->amount }}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -178,16 +172,12 @@
                       <div class="row no-print">
                         
                         <div class="col-xs-12">
-                        <form action="{{ route('request.pengajuan.approve') }}" method="post">
+                        <form action="{{ route('request.report.approve') }}" method="post">
                         @csrf
                         @method('patch')
-                        <input type="hidden" name="request_id" value="{{ $request->id }}">
-                        <a href="{{route('requestby.category.pdf', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
-                        @if(!$request->report)
-                        <a href="{{route('request.report.create', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Buat Laporan</a>
-                        @else
-                        <a href="{{route('request.report.show', $request->report->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Laporan</a>
-                        @endif
+                        <input type="hidden" name="report_id" value="{{ $report->id }}">
+                        <a href="{{route('request.report.pdf', $report->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
+                        <a href="{{route('requestby.category.show', $report->request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Pengajuan </a>
                         <?php $datas = [] ?>
                         @for($i = 0; $i < count($responsibles); $i++)
                         <?php 
@@ -237,12 +227,12 @@
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
-                                <form action="{{route('request.pengajuan.approve')}}" method="post">
+                                <form action="{{route('request.report.approve')}}" method="post">
                                   <div class="modal-body">
                                     @csrf
                                     @method('patch')
                                     <div class="form-group">
-                                        <input type="hidden" name="request_id" value="{{ $request->id }}">
+                                        <input type="hidden" name="report_id" value="{{ $report->id }}">
                                         <label class="control-label">Keterangan <span class="required">*</span>
                                         </label>
                                         <div class="">
