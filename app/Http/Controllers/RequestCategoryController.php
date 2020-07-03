@@ -81,8 +81,10 @@ class RequestCategoryController extends Controller
             'code' => 'required',
             'type' => 'required',
             'division_id' => 'required',
+            'syarat' => ''
         ]);
 
+        // dd($request->all());
         RequestCategory::whereId($id)->update($data);
         return redirect()->route('request.category.index')->withSuccess("Category $request->name, Has Been Updated");
     }

@@ -19,6 +19,7 @@ class CreateRequestCategoriesTable extends Migration
             $table->string('code');
             $table->integer('type');
             $table->integer('division_id');
+            $table->text('syarat')->default('');
         });
     }
 

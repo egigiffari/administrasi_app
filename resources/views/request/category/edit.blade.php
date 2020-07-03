@@ -24,7 +24,7 @@
                     @csrf
                     @method('patch')
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3">
+                        <div class="col-sm-12 col-md-12 col-xl-12">
                             <div class="profile_title">
                                 <div class="col-md-6"><h2>Ketegori Pengajuan</h2></div>
                                 <div class="clearfix"></div>
@@ -56,6 +56,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="position" class="title" class="title">Syarat</label>
+                                <textarea name="syarat" id="syarat" cols="30" rows="10">{!! $category->syarat !!}</textarea>
+                            </div>
         
                             <div class="col-xs-12 form-group">
                                 <button class="btn btn-primary">Save Category</button>
@@ -69,4 +73,20 @@
     </div>
 
 
+@endsection
+
+
+@section('js')
+    <!-- ckeditor4 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/20.0.0/classic/ckeditor.js"></script>
+    <script  type="text/javascript">
+        ClassicEditor
+            .create( document.querySelector( '#syarat' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+    </script>
 @endsection

@@ -118,80 +118,9 @@
 
         </div>
 
-        <div class="desc" style="padding: 0 10px;">
+        <div class="desc" style="padding: 0 10px;font-size:12px">
 
-            <table border="0" style="font-style: italic;font-size:12px">
-                <tr>
-                    <td colspan="3">Syarat dan Ketentuan Pengajuan Operasional Proyek antara lain :</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">1</td>
-                    <td colspan="2">Batas Pengajuan di eksekusi/proses paling lambat 7 (tujuh) hari</td>
-                </tr>
-                <tr>
-                    <td style="width:20px">2</td>
-                    <td colspan="2">Pengajuan harus diperiksa oleh kepala divisi Teknik dan Mrg. Keuangan serta disetujui oleh Direktur selambat-lambatnya 2 hari</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">3</td>
-                    <td colspan="2">Pengajuan Opersional Meliputi :</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">A.</td>
-                    <td>Makan dan Minum</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">B.</td>
-                    <td>Penginapan / Biaya Sewa</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">C.</td>
-                    <td>Kendaraan dan biaya operasional kendaraan</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">D.</td>
-                    <td>Biaya entertain lapangan</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">E.</td>
-                    <td>Biaya OKP (Ormas, SPSI, Preman)</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px"></td>
-                    <td style="width:20px">F.</td>
-                    <td>Biaya lainnya yang dipandang harus keluar selama di lapangan</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">4</td>
-                    <td colspan="2">Setelah Pengajuan disetujui dan dana sudah diterima, wajib membuat Laporan Pertanggung Jawaban Rincian Biaya Operasional Project untuk dilakukan kepada divisi Keuangan beserta bukti transaksi selambat-lambatnya 1 hari setelah transaksi selesai.</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">5</td>
-                    <td colspan="2">Pengalokasian dana Operasional Proyek ke pembelian lainnya harus di laporkan sesegera mungkin kepada Mgr</td>
-                </tr>
-
-                <tr>
-                    <td style="width:20px">6</td>
-                    <td colspan="2">Due Date Pengajuan selama 7 (Tujuh) Hari, Jika melebihi batas waktu harus mengajukan pengajuan baru/revisi</td>
-                </tr>
-
-
-            </table>
+            {!! $request->categories->syarat !!}
 
         </div>
 

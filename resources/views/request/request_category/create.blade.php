@@ -66,8 +66,8 @@
 
                     <!-- PEMBELIAN BARANG/MATERIAL/TOOLS -->
                     <div class="row">
-                        <div class="col-12">
-                            @if(preg_match('/pembelian/', $category->types->name))
+                        <div class="col-12">        
+                            @if(preg_match('/pembelian/i', $category->types->name))
                                 <div class="row cart-shop">
                                     <div class="col-sm-12 col-md-2 col-xl-2">
                                         <div class="col-xs-12 form-group has-feedback">
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @elseif(preg_match('/biaya/', $category->types->name))
+                            @elseif(preg_match('/biaya/i', $category->types->name))
                                 <div class="row cart-shop">
                                     <input class="form-control" value="0" name="item[]" id="item" type="hidden" readonly>
                                     <div class="col-sm-12 col-md-2 col-xl-2">

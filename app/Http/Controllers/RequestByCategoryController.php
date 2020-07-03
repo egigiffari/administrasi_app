@@ -94,19 +94,19 @@ class RequestByCategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-           'category_id' => 'required',
-           'creator_id' => 'required',
-           'code' => 'required',
-           'applicant_id' => 'required',
-           'perihal' => 'required',
-           'date' => 'required',
-           'total' => 'required',
-           'amount' => 'required',
-        ]);
-
-        $category_request = RequestCategory::findOrFail($request->category_id);
-
-        if (preg_match('/pembelian/', $category_request->types->name)) {
+            'category_id' => 'required',
+            'creator_id' => 'required',
+            'code' => 'required',
+            'applicant_id' => 'required',
+            'perihal' => 'required',
+            'date' => 'required',
+            'total' => 'required',
+            'amount' => 'required',
+            ]);
+            
+            $category_request = RequestCategory::findOrFail($request->category_id);
+            
+            if (preg_match('/pembelian/', $category_request->types->name)) {
             
             $this->validate($request, [
                 'item' => 'required',
@@ -115,10 +115,10 @@ class RequestByCategoryController extends Controller
                 'price' => 'required',
                 'sub' => 'required',
                 'desc' => 'required',
-            ]);
+                ]);
 
         }elseif(preg_match('/biaya/', $category_request->types->name)){
-
+            
             $this->validate($request, [
                 'item' => 'required',
                 'name' => 'required',
@@ -129,11 +129,12 @@ class RequestByCategoryController extends Controller
                 'price' => 'required',
                 'sub' => 'required',
                 'desc' => 'required',
-            ]);
-
-        }
+                ]);
+                
+            }
+            
         
-        
+            
         $date = explode(' - ', $request->date);
         $start_date = explode('/', $date[0]);
         $start_date = implode('-',[$start_date[2], $start_date[0], $start_date[1]]);
@@ -155,6 +156,7 @@ class RequestByCategoryController extends Controller
             'amount' => $request->amount,
         ];
 
+        
         // INSERT DATA TO REQUESTS TABLE
         \App\Request::create($data);
         // GET DATA REQUEST FROM LAST INPUT
@@ -195,9 +197,8 @@ class RequestByCategoryController extends Controller
             ];
             array_push($notification, $temp);
         }
-
-
-
+        
+        
         // PREPARE REQUEST ITEMS
         $data_items = [];
 
@@ -211,9 +212,11 @@ class RequestByCategoryController extends Controller
         $subs = $request->sub;
         $descs = $request->desc;
 
+        // dd($request->all());
+        // dd($names);
         for ($i=0; $i < count($items); $i++) {
             
-            $item_id = Product::findOrFail($items[$i]);
+            $item_id = Product::whereId($items[$i])->first();
             if ($item_id) {
                 $name = $item_id->name;
                 $merk = $item_id->brand->name;
@@ -242,6 +245,7 @@ class RequestByCategoryController extends Controller
             array_push($data_items, $temp);
         }
 
+
         // INSERT DATA RESPONSIBLE TO APPROVAL REQUEST
         RequestApprove::insert($approvers);
 
@@ -253,7 +257,7 @@ class RequestByCategoryController extends Controller
 
 
 
-        return redirect()->back()->withSuccess("Pengajuan Has Been Created");
+        return redirect()->route('requestby.category.index', $request->category_id  )->withSuccess("Pengajuan Has Been Created");
     }
 
     /**
@@ -654,8 +658,6 @@ class RequestByCategoryController extends Controller
         $items = RequestItems::where('request_id', $id)->get();
         $approvers = RequestApprove::where('request_id', $id)->get();
 
-        // dd(base_path('public/' . $request->applicant->signature));
-        // return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'portrait')->loadView('request.export.pdf', compact('request', 'items', 'approvers'))->stream($request->code . '-' . $request->categories->name . '.pdf');
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true,'isRemoteEnabled' => true]);
         $pdf->loadView('request.export.pdf', compact('request', 'items', 'approvers'));
         return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');

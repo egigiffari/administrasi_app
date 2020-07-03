@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestCategory extends Model
 {
-    protected $fillable = ['name', 'code', 'type', 'division_id'];
+    protected $fillable = ['name', 'code', 'type', 'division_id', 'syarat',];
     public $timestamps = false;
 
     public function types()

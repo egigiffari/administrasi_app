@@ -23,7 +23,7 @@
                 <form action="{{ route('request.category.store') }}" method="post" data-parsley-validate class="form-horizontal form-label-left">    
                     @csrf
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3">
+                        <div class="col-sm-12 col-md-12 col-xl-12">
                             <div class="profile_title">
                                 <div class="col-md-6"><h2>Ketegori Pengajuan</h2></div>
                                 <div class="clearfix"></div>
@@ -55,6 +55,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label for="position" class="title" class="title">Syarat</label>
+                                <textarea name="syarat" id="syarat" cols="30" rows="10"></textarea>
+                            </div>
         
                             <div class="col-xs-12 form-group">
                                 <button class="btn btn-primary">Save Category</button>
@@ -68,4 +72,25 @@
     </div>
 
 
+@endsection
+
+@section('css')
+    <!-- <link rel="stylesheet" href="/frontend/vendors/ckeditor/contents.css">
+    <link rel="stylesheet" href="/frontend/vendors/ckeditor/moono-lisa/editor.css" rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/vendors/ckeditor/moono-lisa/editor_gecko.css" rel="stylesheet"> -->
+@endsection
+
+@section('js')
+    <!-- ckeditor4 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/20.0.0/classic/ckeditor.js"></script>
+    <script  type="text/javascript">
+        ClassicEditor
+            .create( document.querySelector( '#syarat' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+    </script>
 @endsection
