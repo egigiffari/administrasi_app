@@ -657,7 +657,6 @@ class RequestByCategoryController extends Controller
         $request = \App\Request::findOrFail($id);
         $items = RequestItems::where('request_id', $id)->get();
         $approvers = RequestApprove::where('request_id', $id)->get();
-
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true,'isRemoteEnabled' => true]);
         $pdf->loadView('request.export.pdf', compact('request', 'items', 'approvers'));
         return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
