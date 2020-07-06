@@ -121,6 +121,7 @@ class RequestController extends Controller
 
         RequestItems::where('request_id', $id)->delete();
         RequestApprove::where('request_id', $id)->delete();
+        Notification::where('request_id', $id)->delete();
         $request->delete();
 
         return redirect()->back()->withSuccess("$request_name, Has Been Deleted");

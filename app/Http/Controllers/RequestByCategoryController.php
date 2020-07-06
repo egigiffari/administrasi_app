@@ -59,7 +59,7 @@ class RequestByCategoryController extends Controller
     {
         $check_responsible = RequestResponsible::where('category_id', '=', $id->id)->get();
 
-        // dd( count($check_responsible) == 0);
+
         if(count($check_responsible) == 0){
             return redirect()->back()->withWarning('Pengajuan Belum Memiliki Penanggung Jawab');
         }
@@ -82,7 +82,15 @@ class RequestByCategoryController extends Controller
         }else {
             $code = '001' . $category->code . $this->numberToRomanRepresentation(date('m')) . '/' . date('Y');
         }
-        return view('request.request_category.create', compact('code', 'users','category', 'items'));
+
+        if ($id->types->name == 'pembelian')
+        {
+            return view('request.create.pembelian', compact('code', 'users','category', 'items'));
+        }
+        elseif($id->types->name == 'biaya')
+        {
+            return view('request.create.biaya', compact('code', 'users','category', 'items'));
+        }
     }
 
     /**
@@ -300,7 +308,15 @@ class RequestByCategoryController extends Controller
         $items_req = RequestItems::where('request_id', $id)->get();
         $items = Product::all();
         $users = User::all();
-        return view('request.request_category.edit', compact('request', 'items', 'items_req', 'category' , 'users'));
+
+        if ($category->types->name == 'pembelian')
+        {
+            return view('request.edit.pembelian', compact('request', 'items', 'items_req', 'category' , 'users'));
+        }
+        elseif($category->types->name == 'biaya')
+        {
+            return view('request.edit.biaya', compact('request', 'items', 'items_req', 'category' , 'users'));
+        }
     }
 
     /**
@@ -469,6 +485,7 @@ class RequestByCategoryController extends Controller
 
         RequestItems::where('request_id', $id)->delete();
         RequestApprove::where('request_id', $id)->delete();
+        Notification::where('request_id', $id)->delete();
         $request->delete();
         
 
@@ -487,7 +504,15 @@ class RequestByCategoryController extends Controller
         $items_req = RequestItems::where('request_id', $id)->get();
         $items = Product::all();
         $users = User::all();
-        return view('request.request_category.revisi', compact('request', 'items', 'items_req', 'category' , 'users', 'code'));
+
+        if ($category->types->name == 'pembelian')
+        {
+            return view('request.revision.pembelian', compact('request', 'items', 'items_req', 'category' , 'users', 'code'));
+        }
+        elseif($category->types->name == 'biaya')
+        {
+            return view('request.revision.biaya', compact('request', 'items', 'items_req', 'category' , 'users', 'code'));
+        }
     }
 
     public function updateRev(Request $request)
@@ -655,11 +680,22 @@ class RequestByCategoryController extends Controller
     public function pdfExport($id)
     {
         $request = \App\Request::findOrFail($id);
+        $category = $request->categories;
         $items = RequestItems::where('request_id', $id)->get();
         $approvers = RequestApprove::where('request_id', $id)->get();
+        
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true,'isRemoteEnabled' => true]);
-        $pdf->loadView('request.export.pdf', compact('request', 'items', 'approvers'));
-        return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
+
+        if($category->types->name == 'pembelian')
+        {
+            $pdf->loadView('request.export.pdf.pembelian', compact('request', 'items', 'approvers'));
+            return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
+        }
+        elseif($category->types->name == 'biaya')
+        {
+            $pdf->loadView('request.export.pdf.biaya', compact('request', 'items', 'approvers'));
+            return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
+        }
 
    }
 }

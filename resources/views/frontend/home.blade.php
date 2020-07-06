@@ -44,7 +44,7 @@
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            PT. Maha Akbar Sejahtera - by <a href="https://dribbble.com/egi_giffari" target="_blank">Egi Giffari</a>
           </div>
           <div class="clearfix"></div>
         </footer>
