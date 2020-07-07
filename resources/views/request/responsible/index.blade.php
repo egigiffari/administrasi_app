@@ -21,36 +21,38 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table class="table table-striped">
-                    <thead>
-                        <th>No</th>
-                        <th>Pengajuan</th>
-                        <th>Penanggung Jawab</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        @foreach($categories as $result => $category)
-                        
-                        <tr>
-                            <td>{{ $result + $categories->firstitem() }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td>
+                <div class="table-overflow">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>No</th>
+                            <th>Pengajuan</th>
+                            <th>Penanggung Jawab</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            @foreach($categories as $result => $category)
+                            
+                            <tr>
+                                <td>{{ $result + $categories->firstitem() }}</td>
+                                <td>{{ $category->name }}</td>
+                                <td>
 
-                                @if(count($category->responsibles) != 0)
-                                    @foreach($category->responsibles as $responsible)
-                                        <h2><span class="btn btn-primary btn-xs">{{ $responsible->users->name }}</span></h2>
-                                    @endforeach
-                                @else
-                                    Not Have Responsible Please Insert
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('request.responsible.show', $category->id) }}" class="btn btn-primary"><i class="fa fa-folder"></i>  View</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                    @if(count($category->responsibles) != 0)
+                                        @foreach($category->responsibles as $responsible)
+                                            <h2><span class="btn btn-primary btn-xs">{{ $responsible->users->name }}</span></h2>
+                                        @endforeach
+                                    @else
+                                        Not Have Responsible Please Insert
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('request.responsible.show', $category->id) }}" class="btn btn-primary"><i class="fa fa-folder"></i>  View</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 {{ $categories->links() }}
             </div>
         </div>

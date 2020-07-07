@@ -50,9 +50,30 @@ class RequestCategorySeeder extends Seeder
             ],
             [
                 'name' => 'Pengajuan Pembelian Perlengkapan Kantor',
-                'code' => '/TC/PPP/',
+                'code' => '/FC/PPP/',
                 'type' => 1,
                 'division_id' => 1,
+                'syarat' => ''
+            ],
+            [
+                'name' => 'Pengajuan Operasional Keuangan',
+                'code' => '/FC/OP/',
+                'type' => 1,
+                'division_id' => 4,
+                'syarat' => ''
+            ],
+            [
+                'name' => 'Pengajuan Operasional Teknik',
+                'code' => '/TC/OP/',
+                'type' => 1,
+                'division_id' => 3,
+                'syarat' => ''
+            ],
+            [
+                'name' => 'Pengajuan Operasional Pemasaram',
+                'code' => '/MK/OP/',
+                'type' => 1,
+                'division_id' => 2,
                 'syarat' => ''
             ],
         ]);

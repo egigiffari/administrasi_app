@@ -13,7 +13,8 @@
     <br>
     <a href="{{ route('product.create') }}" class="btn btn-primary">Add New Product</a>
     <br>
-    <div class="row" style="padding:10px;">
+    <div class="row">
+    <div class="contain-content">
         <div class="x_panel">
             <div class="x_title">
                 <h2>List Product</h2>
@@ -62,6 +63,7 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
 
 @endsection

@@ -3,9 +3,9 @@
 @section('title-content', 'Detail User')
 @section('content')
 
-    <div class="col-sm-12 col-md-12 col-xl-12">
+    <!-- <div class="col-sm-12 col-md-12 col-xl-12">
         <a href="{{ route('user.index') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
-    </div>
+    </div> -->
 
     <div class="x_panel">
         <div class="x_title">
@@ -61,28 +61,30 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="ln_solid"></div>
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Date</th>
-                            <th>Code</th>
-                            <th style="width:20%">Category</th>
-                            <th>Perihal</th>
-                            <th>Jumlah</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody>
-                        @foreach($requests as $request)
-                            <tr>
-                                <td>{{ $request->updated_at->diffForHumans() }}</td>
-                                <td>{{ $request->code }}</td>
-                                <td>{{ $request->categories->name }}</td>
-                                <td>{{ $request->perihal }}</td>
-                                <td>{{ 'Rp ' . number_format($request->total) }}</td>
-                                <td><a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-overflow">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Date</th>
+                                <th>Code</th>
+                                <th style="width:20%">Category</th>
+                                <th>Perihal</th>
+                                <th>Jumlah</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                            @foreach($requests as $request)
+                                <tr>
+                                    <td>{{ $request->updated_at->diffForHumans() }}</td>
+                                    <td>{{ $request->code }}</td>
+                                    <td>{{ $request->categories->name }}</td>
+                                    <td>{{ $request->perihal }}</td>
+                                    <td>{{ 'Rp ' . number_format($request->total) }}</td>
+                                    <td><a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     {{$requests->links()}}
                 </div>
 

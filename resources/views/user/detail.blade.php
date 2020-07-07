@@ -61,28 +61,30 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="ln_solid"></div>
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Date</th>
-                            <th>Code</th>
-                            <th style="width:20%">Category</th>
-                            <th>Perihal</th>
-                            <th>Jumlah</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody>
-                            @foreach($requests as $request)
-                            <tr>
-                                <td>{{ $request->updated_at->diffForHumans() }}</td>
-                                <td>{{ $request->code }}</td>
-                                <td>{{ $request->categories->name }}</td>
-                                <td>{{ $request->perihal }}</td>
-                                <td>{{ 'Rp ' . number_format($request->total) }}</td>
-                                <td><a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-overflow">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Date</th>
+                                <th>Code</th>
+                                <th style="width:20%">Category</th>
+                                <th>Perihal</th>
+                                <th>Jumlah</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                @foreach($requests as $request)
+                                <tr>
+                                    <td>{{ $request->updated_at->diffForHumans() }}</td>
+                                    <td>{{ $request->code }}</td>
+                                    <td>{{ $request->categories->name }}</td>
+                                    <td>{{ $request->perihal }}</td>
+                                    <td>{{ 'Rp ' . number_format($request->total) }}</td>
+                                    <td><a href="{{ route('request.pengajuan.show', $request->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     {{$requests->links()}}
                 </div>
 

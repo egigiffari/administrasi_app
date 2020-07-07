@@ -1,0 +1,28 @@
+
+
+@media only screen and (max-width: 600px) {
+    .contain-content{
+        margin-bottom: 20px;
+    }
+    .x_panel{
+        margin-bottom: 30px;
+    }
+    
+    .contain-content{
+        padding: 0 10px;
+    }
+    .contain-content .x_panel{
+        overflow-x: auto;
+    }
+    
+    .contain-content table{
+        min-width: 1000px;
+    }
+    
+    .table-overflow{
+        overflow-x: auto;
+    }
+    .table-overflow table{
+        min-width: 1000px;
+    }
+}

@@ -391,7 +391,7 @@
                             </div>
                         </div>
                     </div>
-                `
+                ` 
 
                 $('.cart-sparator').before(html);
                 select2Search();

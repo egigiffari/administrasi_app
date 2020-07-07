@@ -10,4 +10,5 @@
 <!-- Custom Theme Style -->
 @yield('css')
 <link href="/frontend/build/css/custom.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
 <!-- /Custom Theme Style -->
