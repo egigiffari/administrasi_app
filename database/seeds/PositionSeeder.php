@@ -22,6 +22,10 @@ class PositionSeeder extends Seeder
                 'division_id' => 1
             ],
             [
+                'name' => 'Financial Audit',
+                'division_id' => 1
+            ],
+            [
                 'name' => 'Manager Pemasaran',
                 'division_id' => 2
             ],

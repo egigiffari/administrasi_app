@@ -2,42 +2,302 @@
 @section('title', 'Dashboard')
 @section('title-content', 'Dashboard')
 @section('content')
+
+@if(Auth::user()->level->capacity == 90 || Auth::user()->level->capacity == 30 || Auth::user()->level->capacity == 20)
     <div class="row">
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-group"></i>
             </div>
-            <div class="count">20</div>
+            <div class="count">{{ count($users) }}</div>
 
-            <h3>Suppliers</h3>
+            <h3>Users</h3>
         </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
-            <div class="icon"><i class="fa fa-cube"></i>
+            <div class="icon"><i class="fa fa-suitcase"></i>
             </div>
-            <div class="count">100</div>
+            <div class="count">{{ count($divisions) }}</div>
 
-            <h3>Brands</h3>
+            <h3>Division</h3>
         </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
-            <div class="icon"><i class="fa fa-cubes"></i>
+            <div class="icon"><i class="fa fa-file-text-o"></i>
             </div>
-            <div class="count">179</div>
+            <div class="count">{{ count($pengajuans) }}</div>
 
-            <h3>Products</h3>
+            <h3>Pengajuan</h3>
         </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-exchange"></i>
             </div>
-            <div class="count">179</div>
+            <div class="count">{{ count($pengajuan_acc) }}</div>
 
-            <h3>Transaction</h3>
+            <h3>Pengajuan Acc</h3>
         </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-xl-12">
+            <div class="x_panel">
+                <div class="x_title">
+                <h2>Pengajuan <small>List</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Pengaju</th>
+                        <th>Pengajuan</th>
+                        <th>Status</th>
+                        <th>Jumlah</th>
+                        <th>Start date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+        
+                    <tbody>
+                        @foreach($pengajuans as $pengajuan)
+                        <tr>
+                            <td>{{ $pengajuan->applicant->name }}</td>
+                            <td>{{ $pengajuan->categories->name }}</td>
+                            <td><button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button></td>
+                            <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
+                            <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                            <td>
+                                <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
+                                    @if(!preg_match('/user/', Auth::user()->level->name))
+                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                    @endif
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+        
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col-sm-12 col-xs-12 col-md-6 col-xl-6">
+            <div class="x_panel">
+                <div class="x_title">
+                <h2>Donut Graph <small>Sessions</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <canvas id="canvasDoughnut"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12 col-md-6 col-xl-6">
+            <div class="x_panel">
+                <div class="x_title">
+                <h2>Pengajuan <small>List</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Pengaju</th>
+                        <th>Pengajuan</th>
+                        <th>Status</th>
+                        <th>Jumlah</th>
+                        <th>Start date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($pengajuans as $pengajuan)
+                        <tr>
+                            <td>{{ $pengajuan->applicant->name }}</td>
+                            <td>{{ $pengajuan->categories->name }}</td>
+                            <td><button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button></td>
+                            <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
+                            <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                            <td>
+                                <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
+                                    @if(!preg_match('/user/', Auth::user()->level->name))
+                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                    @endif
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
+                </div>
+            </div>
+        </div>
+    </div> -->
+@endif
+
+@if(Auth::user()->level->capacity == 10)
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-xl-12">
+            <div class="x_panel">
+                <div class="x_title">
+                <h2>Pengajuan <small>List</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Pengaju</th>
+                        <th>Pengajuan</th>
+                        <th>Status</th>
+                        <th>Jumlah</th>
+                        <th>Start date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+        
+                    <tbody>
+                        @foreach($pengajuan_user as $pengajuan)
+                        <tr>
+                            <td>{{ $pengajuan->applicant->name }}</td>
+                            <td>{{ $pengajuan->categories->name }}</td>
+                            <td><button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button></td>
+                            <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
+                            <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                            <td>
+                                <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
+                                    @if(!preg_match('/user/', Auth::user()->level->name))
+                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                    @endif
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+        
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+    
+@endsection
+
+@section('css')
+<!-- Datatables -->
+    <link href="/frontend/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+@endsection
+
+@section('js')
+<!-- Chart.js -->
+    <script src="/frontend/vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- Datatables -->
+    <script src="/frontend/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/frontend/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="/frontend/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="/frontend/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="/frontend/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/frontend/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+@endsection
+@section('custom_js')
+    <!-- <script>
+        var ctx = document.getElementById("canvasDoughnut");
+			  var data = {
+				labels: [
+                    <?php 
+                    foreach ($categories as $category)
+                        echo('"' . $category->name . '"' . ',');
+                    ?>
+				],
+				datasets: [{
+				  data: [120, 50, 140, 180, 100],
+				  backgroundColor: [
+					"#455C73",
+					"#9B59B6",
+					"#BDC3C7",
+					"#26B99A",
+					"#3498DB"
+				  ],
+				  hoverBackgroundColor: [
+					"#34495E",
+					"#B370CF",
+					"#CFD4D8",
+					"#36CAAB",
+					"#49A9EA"
+				  ]
+
+				}]
+			  };
+
+			  var canvasDoughnut = new Chart(ctx, {
+				type: 'doughnut',
+				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+				data: data
+			  });
+    </script> -->
 @endsection

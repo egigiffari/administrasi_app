@@ -88,7 +88,7 @@
                   <br>
                   <br>
                   @foreach($responsibles as $responsible)
-                    <b>{{ $responsible->user->name }}:</b>
+                    <b>{{ $responsible->position }}:</b>
                     @if($responsible->status == 'waiting')
                     <span class="btn btn-primary btn-xs">{{$responsible->status}}</span>
                     @elseif($responsible->status == 'revision')
@@ -231,6 +231,7 @@
                             <button type="submit" name="status" value="all-acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
                             <button type="submit" name="status" value="all-revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
                             <button type="submit" name="status" value="all-reset" class="btn btn-primary pull-right"><i class="fa fa-history"></i> Reset</button>
+                            @break
                           @endif
                           @endforeach
                         </div>

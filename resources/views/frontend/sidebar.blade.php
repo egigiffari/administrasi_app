@@ -1,7 +1,7 @@
 <!-- Sidebar -->
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>SIPATEN!</span></a>
+            <a href="{{ route('dashboard') }}" class="site_title"><i class="fa fa-paw"></i> <span>SIPATEN!</span></a>
         </div>
 
         <div class="clearfix"></div>
@@ -25,12 +25,10 @@
             <div class="menu_section">
                 <h3>App</h3>
                 <ul class="nav side-menu">
-                    @if(Auth::user()->level->capacity > 10)
                     <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
-                    @endif
                     <li class=""><a><i class="fa fa-cubes"></i> Product <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="{{ route('product.index') }}">List Product</a></li>
+                        <li><a href="{{ route('product.index') }}">List Product </a></li>
                         <li><a href="{{ route('brand.index') }}">Brand</a></li>
                         <li><a href="{{ route('category.index') }}">Category</a></li>
                         <!-- <li><a href="#">Supplier</a></li> -->
@@ -40,26 +38,61 @@
             </div>
             <div class="menu_section">
                 <h3>Pengajuan</h3>
+                @inject('division', 'App\Division');
+                @inject('categories', 'App\RequestCategory');
+                <?php $division = $division::all(); $categories = $categories::all() ?>
                 <ul class="nav side-menu">
-                    @inject('categories', 'App\RequestCategory');
-                    @foreach($categories::all() as $category)
-                    <li class=""><a><i class="fa fa-file"></i> {{$category->name}} <span class="fa fa-chevron-down"></span></a>
+                    @foreach($division as $div)
+                    @if($div->id == 1)
+                    @continue
+                    @endif
+                    @if(Auth::user()->level->capacity == 90 || Auth::user()->level->capacity == 30 || Auth::user()->level->capacity == 20 || Auth::user()->division_id == $div->id)
+                    <li class=""><a><i class="fa fa-suitcase"></i> {{$div->name}} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
-                            <li><a href="#">Laporan</a></li>
-                            <!-- <li><a href="{{ route('request.report.index', $category->id) }}">Laporan</a></li> -->
+                        @foreach($categories as $category)
+                            @if($category->division_id == $div->id)
+                            <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
+                                    <li><a href="#">Laporan</a></li>
+                                </ul>
+                            </li>
+                            @elseif($category->division_id == $div->id)
+                            <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
+                                    <li><a href="#">Laporan</a></li>
+                                </ul>
+                            </li>
+                            @elseif($category->division_id == $div->id)
+                            <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
+                                    <li><a href="#">Laporan</a></li>
+                                </ul>
+                            </li>
+                            @elseif($category->division_id == $div->id)
+                            <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
+                                    <li><a href="#">Laporan</a></li>
+                                </ul>
+                            </li>
+                            @endif
+                            <!-- <li class=""><a>{{$category->name}} </a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
+                                    <li><a href="{{ route('request.report.index', $category->id) }}">Laporan</a></li>
+                                </ul>
+                            </li> -->
+                        @endforeach
                         </ul>
                     </li>
+                    @endif
                     @endforeach
                 </ul>
             </div>
-            <!-- <div class="menu_section">
-                <h3>Laporan</h3>
-                <ul class="nav side-menu">
-                    <li><a href="#"><i class="fa fa-archive"></i>Laporan</a></li>
-                    <li><a href="#"><i class="fa fa-cubes"></i>Laporan Product</a></li>
-                </ul>
-            </div> -->
+
             <div class="menu_section">
                 <h3>Setting</h3>
                 <ul class="nav side-menu">
@@ -79,7 +112,7 @@
                             <li><a href="{{ route('request.responsible.index') }}">Penanggung Jawab</a></li>
                             <li><a href="{{ route('request.type.index') }}">Jenis Pengajuan</a></li>
                             <li><a href="{{ route('request.category.index') }}">Kategori Pengajuan</a></li>
-                            <li><a href="{{ route('request.category.index') }}">Syarat Dan Ketentuan</a></li>
+                            <!-- <li><a href="{{ route('request.category.index') }}">Syarat Dan Ketentuan</a></li> -->
                         </ul>
                     </li>
                     @endif

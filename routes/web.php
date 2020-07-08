@@ -22,11 +22,9 @@ Auth::routes([
 
 Route::middleware('auth')->group(function(){
 
-    Route::get('/', function(){return view('home.index');});
+    Route::get('/', function(){return redirect()->route('dashboard');});
 
-    Route::get('/dashboard', function(){
-        return view('home.index');
-    })->name('dashboard');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     
     // PRODUCT
     route::get('/product/list', 'ProductController@index')->name('product.index');
