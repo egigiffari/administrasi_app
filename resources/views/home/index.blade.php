@@ -44,53 +44,67 @@
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-xl-12">
-            <div class="x_panel">
-                <div class="x_title">
-                <h2>Pengajuan <small>List</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                <table id="datatable" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Pengaju</th>
-                        <th>Pengajuan</th>
-                        <th>Status</th>
-                        <th>Jumlah</th>
-                        <th>Start date</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-        
-                    <tbody>
-                        @foreach($pengajuans as $pengajuan)
+            <div class="contain-content">
+                <div class="x_panel">
+                    <div class="x_title">
+                    <h2>Pengajuan <small>List</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <table id="datatable" class="table table-striped table-bordered">
+                        <thead>
                         <tr>
-                            <td>{{ $pengajuan->applicant->name }}</td>
-                            <td>{{ $pengajuan->categories->name }}</td>
-                            <td><button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button></td>
-                            <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
-                            <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
-                            <td>
-                                <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
-                                    @if(!preg_match('/user/', Auth::user()->level->name))
-                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
-                                    @endif
-                                </form>
-                            </td>
+                            <th>Pengaju</th>
+                            <th>Pengajuan</th>
+                            <th>Status</th>
+                            <th>Jumlah</th>
+                            <th>Start date</th>
+                            <th>Action</th>
                         </tr>
-                        @endforeach
-                    </tbody>
-        
-                </table>
+                        </thead>
+            
+                        <tbody>
+                            @foreach($pengajuans as $pengajuan)
+                            <tr>
+                                <td>{{ $pengajuan->applicant->name }}</td>
+                                <td>{{ $pengajuan->categories->name }}</td>
+                                <td>
+                                    @if($pengajuan->status == 'on proses')
+                                    <button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'revision')
+                                    <button class="btn btn-warning btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'perbaikan')
+                                    <button class="btn btn-warning btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'hold')
+                                    <button class="btn btn-danger btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'acc')
+                                    <button class="btn btn-success btn-xs">{{ $pengajuan->status }}</button>
+                                    @endif
+                                </td>
+                                <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
+                                <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                                <td>
+                                    <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
+                                        @if(!preg_match('/user/', Auth::user()->level->name))
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                        @endif
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+            
+                    </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -179,53 +193,67 @@
 @if(Auth::user()->level->capacity == 10)
     <div class="row">
         <div class="col-sm-12 col-md-12 col-xl-12">
-            <div class="x_panel">
-                <div class="x_title">
-                <h2>Pengajuan <small>List</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                <table id="datatable" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Pengaju</th>
-                        <th>Pengajuan</th>
-                        <th>Status</th>
-                        <th>Jumlah</th>
-                        <th>Start date</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-        
-                    <tbody>
-                        @foreach($pengajuan_user as $pengajuan)
+            <div class="contain-content">
+                <div class="x_panel">
+                    <div class="x_title">
+                    <h2>Pengajuan <small>List</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <table id="datatable" class="table table-striped table-bordered">
+                        <thead>
                         <tr>
-                            <td>{{ $pengajuan->applicant->name }}</td>
-                            <td>{{ $pengajuan->categories->name }}</td>
-                            <td><button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button></td>
-                            <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
-                            <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
-                            <td>
-                                <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
-                                    @if(!preg_match('/user/', Auth::user()->level->name))
-                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
-                                    @endif
-                                </form>
-                            </td>
+                            <th>Pengaju</th>
+                            <th>Pengajuan</th>
+                            <th>Status</th>
+                            <th>Jumlah</th>
+                            <th>Start date</th>
+                            <th>Action</th>
                         </tr>
-                        @endforeach
-                    </tbody>
-        
-                </table>
+                        </thead>
+            
+                        <tbody>
+                            @foreach($pengajuan_user as $pengajuan)
+                            <tr>
+                                <td>{{ $pengajuan->applicant->name }}</td>
+                                <td>{{ $pengajuan->categories->name }}</td>
+                                <td>
+                                    @if($pengajuan->status == 'on proses')
+                                    <button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'revision')
+                                    <button class="btn btn-warning btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'perbaikan')
+                                    <button class="btn btn-warning btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'hold')
+                                    <button class="btn btn-danger btn-xs">{{ $pengajuan->status }}</button>
+                                    @elseif($pengajuan->status == 'acc')
+                                    <button class="btn btn-success btn-xs">{{ $pengajuan->status }}</button>
+                                    @endif
+                                </td>
+                                <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
+                                <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                                <td>
+                                    <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
+                                        @if(!preg_match('/user/', Auth::user()->level->name))
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
+                                        @endif
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+            
+                    </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -328,7 +328,7 @@ class RequestByCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        
         $notification = Notification::where('request_id', $id)->get();
         foreach ($notification as $notif)
         {
@@ -380,6 +380,7 @@ class RequestByCategoryController extends Controller
  
          }
 
+        
         $date = explode(' - ', $request->date);
         $start_date = explode('/', $date[0]);
         $start_date = implode('-',[$start_date[2], $start_date[0], $start_date[1]]);
@@ -401,6 +402,7 @@ class RequestByCategoryController extends Controller
             'catatan' => '',
         ];
 
+        
         // INSERT DATA TO REQUESTS TABLE
         \App\Request::whereId($id)->update($data);
         // SEARCH DATA APPROVE REQUEST FROM REQUEST APPROVE
@@ -422,8 +424,10 @@ class RequestByCategoryController extends Controller
 
         // GET ALL ITEMS AND DELETE ALL
         RequestItems::where('request_id', $id)->delete();
+        
         // INSERT NEW ITEMS
         $data_items = [];
+        
 
         $items = $request->item;
         $names = $request->name;
@@ -435,9 +439,13 @@ class RequestByCategoryController extends Controller
         $subs = $request->sub;
         $descs = $request->desc;
 
+        
+        $name = '';
+        $merk = '';
+        $spec = '';
         for ($i=0; $i < count($items); $i++) {
             
-            $item_id = Product::findOrFail($items[$i]);
+            $item_id = Product::whereId($items[$i])->first();
             if ($item_id) {
                 $name = $item_id->name;
                 $merk = $item_id->brand->name;
@@ -462,13 +470,15 @@ class RequestByCategoryController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-
             array_push($data_items, $temp);
         }
 
+        // dd($data_items);
+
         // INSERT DATA REQUEST ITEM TO REQUEST ITEMS TABLE
         RequestItems::insert($data_items);
-
+        
+        // return redirect()->route('request.pengajuan.show', $id)->withSuccess("Pengajuan Has Been Updated");
         return redirect()->route('request.pengajuan.show', $id)->withSuccess("Pengajuan Has Been Updated");
     }
 
@@ -632,9 +642,12 @@ class RequestByCategoryController extends Controller
         $subs = $request->sub;
         $descs = $request->desc;
 
+        $name = '';
+        $merk = '';
+        $spec = '';
         for ($i=0; $i < count($items); $i++) {
             
-            $item_id = Product::findOrFail($items[$i]);
+            $item_id = Product::whereId($items[$i])->first();
             if ($item_id) {
                 $name = $item_id->name;
                 $merk = $item_id->brand->name;

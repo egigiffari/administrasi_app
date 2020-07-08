@@ -9,7 +9,8 @@
     }
     
     .contain-content{
-        padding: 0 10px;
+        max-width: 100%;
+        overflow: hidden;
     }
     .contain-content .x_panel{
         overflow-x: auto;
