@@ -60,18 +60,21 @@
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                         <tr>
+                            <th>No</th>
                             <th>Pengaju</th>
                             <th>Pengajuan</th>
                             <th>Status</th>
                             <th>Jumlah</th>
-                            <th>Start date</th>
+                            <th>Update</th>
                             <th>Action</th>
                         </tr>
                         </thead>
             
                         <tbody>
-                            @foreach($pengajuans as $pengajuan)
+                            <?php $i=0; ?>
+                            @foreach($requests as $result => $pengajuan)
                             <tr>
+                                <td>{{ ++$i }}</td>
                                 <td>{{ $pengajuan->applicant->name }}</td>
                                 <td>{{ $pengajuan->categories->name }}</td>
                                 <td>
@@ -83,18 +86,18 @@
                                     <button class="btn btn-warning btn-xs">{{ $pengajuan->status }}</button>
                                     @elseif($pengajuan->status == 'hold')
                                     <button class="btn btn-danger btn-xs">{{ $pengajuan->status }}</button>
-                                    @elseif($pengajuan->status == 'acc')
+                                    @elseif($pengajuan->status == 'approve')
                                     <button class="btn btn-success btn-xs">{{ $pengajuan->status }}</button>
                                     @endif
                                 </td>
                                 <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
-                                <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                                <td>{{ $pengajuan->updated_at->diffForHumans() }}</td>
                                 <td>
                                     <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
-                                        @if(!preg_match('/user/', Auth::user()->level->name))
+                                        @if(Auth::user()->level->capacity == 90)
                                         <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
                                         @endif
                                     </form>
@@ -209,18 +212,21 @@
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                         <tr>
+                            <th>No</th>
                             <th>Pengaju</th>
                             <th>Pengajuan</th>
                             <th>Status</th>
                             <th>Jumlah</th>
-                            <th>Start date</th>
+                            <th>Update</th>
                             <th>Action</th>
                         </tr>
                         </thead>
             
                         <tbody>
-                            @foreach($pengajuan_user as $pengajuan)
+                            <?php $i=0; ?>
+                            @foreach($pengajuan_user as $result => $pengajuan)
                             <tr>
+                                <td>{{ ++$i }}</td>
                                 <td>{{ $pengajuan->applicant->name }}</td>
                                 <td>{{ $pengajuan->categories->name }}</td>
                                 <td>
@@ -232,18 +238,18 @@
                                     <button class="btn btn-warning btn-xs">{{ $pengajuan->status }}</button>
                                     @elseif($pengajuan->status == 'hold')
                                     <button class="btn btn-danger btn-xs">{{ $pengajuan->status }}</button>
-                                    @elseif($pengajuan->status == 'acc')
+                                    @elseif($pengajuan->status == 'approve')
                                     <button class="btn btn-success btn-xs">{{ $pengajuan->status }}</button>
                                     @endif
                                 </td>
                                 <td>{{ 'Rp ' . number_format($pengajuan->total) }}</td>
-                                <td>{{ $pengajuan->created_at->diffForHumans() }}</td>
+                                <td>{{ $pengajuan->updated_at->diffForHumans() }}</td>
                                 <td>
                                     <form action="{{ route('request.pengajuan.destroy', $pengajuan->id) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <a href="{{ route('request.pengajuan.show', $pengajuan->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> view</a>
-                                        @if(!preg_match('/user/', Auth::user()->level->name))
+                                        @if(Auth::user()->level->capacity == 90)
                                         <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>
                                         @endif
                                     </form>

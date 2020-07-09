@@ -57,7 +57,7 @@
                   <br>
                   <br>
                   <b>Status Pengajuan:</b>
-                    @if($request->status == 'waiting')
+                      @if($request->status == 'waiting')
                       <span class="btn btn-primary btn-xs">{{$request->status}}</span>
                       @elseif($request->status == 'revision')
                       <span class="btn btn-warning btn-xs">{{$request->status}}</span>

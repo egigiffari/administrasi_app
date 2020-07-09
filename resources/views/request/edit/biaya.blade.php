@@ -44,7 +44,7 @@
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="code" class="title">Code</label>
-                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text" readonly>
+                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text">
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">

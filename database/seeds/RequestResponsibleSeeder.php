@@ -339,7 +339,7 @@ class RequestResponsibleSeeder extends Seeder
                     'as' => 'Direktur',
                     'priority' => 3
                 ],
-            // Anggaran Kantor
+            // Anggaran Keuangan
                 // Kris
                 [
                     'category_id' => 14,
@@ -361,6 +361,31 @@ class RequestResponsibleSeeder extends Seeder
                     'category_id' => 14,
                     'user_id' => 5,
                     'subject' => 'Disetujui',
+                    'as' => 'Direktur',
+                    'priority' => 3
+                ],
+            // Pembayaran Pajak
+                // Kris
+                [
+                    'category_id' => 15,
+                    'user_id' => 6,
+                    'subject' => 'Disetujui',
+                    'as' => 'Manager Keuangan',
+                    'priority' => 1
+                ],
+                // Rizal
+                [
+                    'category_id' => 15,
+                    'user_id' => 4,
+                    'subject' => 'Disetujui',
+                    'as' => 'Finance Audit',
+                    'priority' => 2
+                ],
+                // Hazri
+                [
+                    'category_id' => 15,
+                    'user_id' => 5,
+                    'subject' => 'Diketahui',
                     'as' => 'Direktur',
                     'priority' => 3
                 ],

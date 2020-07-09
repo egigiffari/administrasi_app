@@ -119,27 +119,33 @@
         </div>
 
         <div class="footer" style="padding-top: 10px;">
-            <table border='1' style="width:100%">      
+            <table style="width:100%;border-collapse: collapse;">      
                 <tr>
-                    <th>Diajukan Oleh</th>
+                    <th style="border:1px solid black;border-bottom:0;">Diajukan Oleh</th>
                     @foreach($approvers as $approver)
-                        <th>{{ $approver->subject }}</th>
+                        <th style="border:1px solid black;border-bottom:0;">{{ $approver->subject }}</th>
                     @endforeach
                 </tr>
                 <tr>
-                    <th height='100px'><img src="{{base_path('public/' . $request->applicant->signature)}}" alt="" style="width:100px"></th>
+                    <th height='100px' style="border:1px solid black;border-top:0;border-bottom:0;"><img src="{{base_path('public/' . $request->applicant->signature)}}" alt="" style="width:100px"></th>
                     @foreach($approvers as $approver)
                         @if($approver->status == 'acc')
-                        <th height='100px'><img src="{{base_path('public/' . $approver->user->signature)}}" alt="" style="width:100px"></th>
+                        <th height='100px' style="border:1px solid black;border-top:0;border-bottom:0;"><img src="{{base_path('public/' . $approver->user->signature)}}" alt="" style="width:100px"></th>
                         @else
-                        <th height='100px'></th>
+                        <th height='100px' style="border:1px solid black;border-top:0;border-bottom:0;"></th>
                         @endif
                     @endforeach
                 </tr>
                 <tr>
-                    <th>{{$request->applicant->name }}</th>
+                    <th style="border:1px solid black;border-top:0;border-bottom:0;"> {{$request->applicant->name }} </th>
                     @foreach($approvers as $approver)
-                        <th style="text-transform: capitalize;"> {{$approver->position}} </th>
+                        <th style="text-transform: capitalize;border:1px solid black;border-top:0;border-bottom:0;"> {{$approver->user->name}} </th>
+                    @endforeach
+                </tr>
+                <tr>
+                    <th style="border:1px solid black;border-top:0;">( Pengaju )</th>
+                    @foreach($approvers as $approver)
+                        <th style="text-transform: capitalize;border:1px solid black;border-top:0;">( {{$approver->position}} )</th>
                     @endforeach
                 </tr>
             </table>

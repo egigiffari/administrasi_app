@@ -15,10 +15,11 @@ class DashboardController extends Controller
         $users = User::all();
         $divisions = Division::all();
         $pengajuans = \App\Request::all();
-        $pengajuan_user = \App\Request::where('applicant_id', Auth::id())->get();
+        $requests = \App\Request::orderBy('updated_at', 'desc')->get();
+        $pengajuan_user = \App\Request::where('applicant_id', Auth::id())->orderBy('updated_at', 'desc')->get();
         $pengajuan_acc = \App\Request::where('status', 'approve')->get();
         $categories = RequestCategory::all();
 
-        return view('home.index', compact('users', 'divisions', 'pengajuans','pengajuan_user', 'pengajuan_acc', 'categories'));
+        return view('home.index', compact('users', 'divisions','requests', 'pengajuans','pengajuan_user', 'pengajuan_acc', 'categories'));
     }
 }

@@ -286,6 +286,25 @@ class RequestCategorySeeder extends Seeder
                                 <li><i>Due Date Pengajuan selama 7 (Tujuh) Hari, Jika melebihi batas waktu harus mengajukan pengajuan baru/revisi</i></li>
                             </ol>'
             ],
+            [
+                'name' => 'Pengajuan Pembayaran Pajak',
+                'code' => '/PPP/FC/',
+                'type' => 2,
+                'division_id' => 4,
+                'syarat' => '<p><i>Syarat dan Ketentuan Pengajuan Pembelian Material Proyek antara lain &nbsp;:</i></p>
+                            <ol>
+                                <li><i>Pengajuan harus ditanda tangani oleh &nbsp;Kepala divisi Keuangan dan Financial Audit, Kemudian oleh Direktur</i></li>
+                                <li><i>Pengajuan Pajak meliputi :</i>
+                                    <ul>
+                                        <li><i>Pembayaran Pajak PPh</i></li>
+                                        <li><i>Pembayaran Pajak PPn</i></li>
+                                        <li><i>Pembayaran Pajak Lainnya</i></li>
+                                    </ul>
+                                </li>
+                                <li><i>Pengajuan Pembayaran Pajak disusun untuk Pembayaran Pajak Masa (Bulanan) maupun Pembayaran Pajak Tahunan</i></li>
+                                <li><i>Besaran nilai pengajuan harus mempertimbangkan Histori Pengajuan Biaya pada bulan - bulan sebelumnya.</i></li>
+                            </ol>'
+            ],
 
         ]);
     }

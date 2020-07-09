@@ -140,7 +140,7 @@
                         <div class="col-sm-12 col-md-4 col-xl-4 col-md-offset-8 col-xl-offset-8">
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="total" class="title">Total</label>
-                                <input class="form-control" name="total" id="total" value="0" type="text" readonly>
+                                <input class="form-control" name="total" id="total" value="0" type="text">
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">
