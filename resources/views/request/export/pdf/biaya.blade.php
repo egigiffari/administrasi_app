@@ -32,7 +32,7 @@
             <table border='0' style="border-bottom: 1px solid black;" width=100%>
                 <tr>
                     <td rowspan='2'>
-                        <img class="img" src="{{public_path('image/logo2.jpg')}}" alt="logo" style="width:100px;">
+                        <img class="img" src="{{public_path('image/logo2.jpg')}}" alt="logo" style="width:110px;">
                         <!-- <img class="img" src="http://progress.mahasejahtera.com/image/logo2.jpg" alt="logo" style="max-width:100px;"> -->
                     </td>
                     <td></td>
