@@ -13,6 +13,14 @@
             font-family: "Times New Roman", Times, serif;
             font-size:12px;
         }
+        .desc p{
+            margin :0;
+            padding: 0;
+        }
+        .desc ol{
+            margin-top:5px;
+            /* padding:0; */
+        }
     </style>
 </head>
 <body>
@@ -49,23 +57,23 @@
             <div class="subject" style="padding-left: 10px;padding-top: 10px;">
                 <table>
                     <tr>
-                        <td width='60px'>Tanggal</td>
-                        <td width="15px">:</td>
+                        <td width='45px'>Tanggal</td>
+                        <td width="5px">:</td>
                         <td>{{ date('g F Y', strtotime($request->start_date)) }}</td>
                     </tr>
                     <tr>
-                        <td width='60px'>Perihal</td>
-                        <td width="15px">:</td>
+                        <td width='45px'>Perihal</td>
+                        <td width="5px">:</td>
                         <td>{{ $request->perihal }}</td>
                     </tr>
                     <tr>
-                        <td width='60px'>No Surat</td>
-                        <td width="15px">:</td>
+                        <td width='45px'>No Surat</td>
+                        <td width="5px">:</td>
                         <td>{{ $request->code }}</td>
                     </tr>
                     <tr>
-                        <td width='60px'>Due Date</td>
-                        <td width="15px">:</td>
+                        <td width='45px'>Due Date</td>
+                        <td width="5px">:</td>
                         <td>{{ date('g F Y', strtotime($request->expire_date)) }}</td>
                     </tr>
                 </table>
@@ -89,7 +97,7 @@
                         @foreach($items as $result => $item)
                         <tr>
                             <td align="center" style="border:1px solid black;padding:2px 5px;">{{ ++$i }}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->name . '/' . $item->merk . '/' . $item->spec}}</td>
+                            <td align="left" style="border:1px solid black;padding:2px 5px;">{{ $item->name . '/' . $item->merk . '/' . $item->spec}}</td>
                             <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->qty }}</td>
                             <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->unit }}</td>
                             <td align="right" style="border:1px solid black;padding:2px 5px;">{{number_format($item->price)}}</td>

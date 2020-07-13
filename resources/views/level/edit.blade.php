@@ -14,7 +14,7 @@
                     @csrf
                     @method('patch')
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-xl-6 col-md-offset-3">
+                        <div class="col-sm-12 col-md-6 col-xl-6 offset-md-3">
                             <div class="profile_title">
                                 <div class="col-md-6"><h2>Level</h2></div>
                                 <div class="clearfix"></div>

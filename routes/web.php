@@ -50,6 +50,12 @@ Route::middleware('auth')->group(function(){
         return view('product.categories');
     });
 
+    // Penawaran
+    Route::resource('/penawaran', 'OfferController');
+    
+    // Penawaran
+    Route::get('/boq', function(){return view('boq.index');});
+
     // USER
     Route::get('user/trash', "UserController@trash_user")->name('user.trash');
     Route::get('user/restore/{id}', "UserController@restore_user")->name('user.restore');

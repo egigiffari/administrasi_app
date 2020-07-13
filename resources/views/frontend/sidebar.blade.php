@@ -37,9 +37,20 @@
                 </ul>
             </div>
             <div class="menu_section">
+                <h3>Pemasaran</h3>
+                <ul class="nav side-menu">
+                    <li><a href="#"><i class="fa fa-paste"></i> Penawaran <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{ route('penawaran.index') }}">List Penawaran</a></li>
+                            <li><a href="#">List BoQ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu_section">
                 <h3>Pengajuan</h3>
-                @inject('division', 'App\Division');
-                @inject('categories', 'App\RequestCategory');
+                @inject('division', 'App\Division')
+                @inject('categories', 'App\RequestCategory')
                 <?php $division = $division::all(); $categories = $categories::all() ?>
                 <ul class="nav side-menu">
                     @foreach($division as $div)

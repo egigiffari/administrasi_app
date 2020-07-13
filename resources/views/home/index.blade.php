@@ -63,6 +63,7 @@
                             <th>No</th>
                             <th>Pengaju</th>
                             <th>Pengajuan</th>
+                            <th>Perihal</th>
                             <th>Status</th>
                             <th>Jumlah</th>
                             <th>Update</th>
@@ -77,6 +78,7 @@
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $pengajuan->applicant->name }}</td>
                                 <td>{{ $pengajuan->categories->name }}</td>
+                                <td>{{ $pengajuan->perihal }}</td>
                                 <td>
                                     @if($pengajuan->status == 'on proses')
                                     <button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button>
@@ -215,6 +217,7 @@
                             <th>No</th>
                             <th>Pengaju</th>
                             <th>Pengajuan</th>
+                            <th>Perihal</th>
                             <th>Status</th>
                             <th>Jumlah</th>
                             <th>Update</th>
@@ -229,6 +232,7 @@
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $pengajuan->applicant->name }}</td>
                                 <td>{{ $pengajuan->categories->name }}</td>
+                                <td>{{ $pengajuan->perihal }}</td>
                                 <td>
                                     @if($pengajuan->status == 'on proses')
                                     <button class="btn btn-info btn-xs">{{ $pengajuan->status }}</button>
