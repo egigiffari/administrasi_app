@@ -22,6 +22,7 @@ class CreateOffersTable extends Migration
             $table->datetime('due_date');
             $table->double('total')->default(0);
             $table->string('amount')->default('Nol Rupiah');
+            $table->string('syarat');
             $table->timestamps();
 
             $table->foreign('user_id')->referenced('id')->on('users')->onDelete('cascade');

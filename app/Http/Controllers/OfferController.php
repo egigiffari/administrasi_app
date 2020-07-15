@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class OfferController extends Controller
@@ -21,9 +22,20 @@ class OfferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($method)
     {
-        return view('penawaran.create');
+        if($method == 'boq')
+        {
+            $users = User::all();
+            return view('penawaran.create', compact('users'));
+
+        }
+        elseif($method == 'no_boq')
+        {
+            $users = User::all();
+            return view('penawaran.create', compact('users'));
+
+        }
     }
 
     /**

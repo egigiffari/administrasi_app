@@ -4,21 +4,16 @@
 @section('content')
 
 <div class="row">
-    <div class="col-12" style="margin-left: 10px;">
-        <a href="{{ route('penawaran.create') }}" class="btn btn-primary">Add Penawaran</a>
-        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-expanded="false">Default <span class="caret"></span>
-        </button>
-        <ul role="menu" class="dropdown-menu">
-            <li><a href="#">Action</a>
+    <div class="col-12" style="margin-left: 10px;margin-bottom:10px">
+        <div class="btn-group">
+            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button"> Add Penawaran <span class="caret"></span> </button>
+            <ul class="dropdown-menu">
+            <li><a href="{{route('penawaran.create', 'boq')}}">Add With Boq</a>
             </li>
-            <li><a href="#">Another action</a>
+            <li><a href="#">Add Without BoQ</a>
             </li>
-            <li><a href="#">Something else here</a>
-            </li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a>
-            </li>
-        </ul>
+            </ul>
+        </div>
 </div>
 </div>
 
@@ -80,6 +75,7 @@
 @endsection
 
 @section('css')
+
 <!-- Datatables -->
 <link href="/frontend/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <link href="/frontend/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -88,6 +84,7 @@
 <link href="/frontend/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 @endsection
 @section('js')
+
 <!-- Datatables -->
 <script src="/frontend/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="/frontend/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>

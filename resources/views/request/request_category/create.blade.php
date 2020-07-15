@@ -31,7 +31,7 @@
                                 <input type="hidden" name="applicant_id" value="{{ Auth::id() }}">
                             @else
                                 <div class="col-xs-12 form-group has-feedback">
-                                    <label for="applicant_id" class="title">Pengaju</label>
+                                    <label for="applicant_id" class="title">Business Relation</label>
                                     <select name="applicant_id" id="applicant_id" class="form-control js-example-matcher-start">
                                     @foreach($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -237,7 +237,7 @@
     <script src="/frontend/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
     <!-- Terbilang -->
     <script src="/frontend/vendors/tebilang/terbilang.min.js"></script>
-<!-- bootstrap-daterangepicker -->
+    <!-- bootstrap-daterangepicker -->
     <script src="/frontend/vendors/moment/min/moment.min.js"></script>
     <script src="/frontend/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script>

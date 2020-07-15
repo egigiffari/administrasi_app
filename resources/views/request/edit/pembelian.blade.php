@@ -44,7 +44,7 @@
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="code" class="title">Code</label>
-                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text" readonly>
+                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text" <?php ( Auth::user()->level->capacity == 90 ? 'readonly' : '' ) ?>>
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">
@@ -140,7 +140,7 @@
                         <div class="col-sm-12 col-md-4 col-xl-4 col-md-offset-8 col-xl-offset-8">
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="total" class="title">Total</label>
-                                <input class="form-control" name="total" id="total" value="0" type="text">
+                                <input class="form-control" name="total" id="total" value="0" type="text" readonly>
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">

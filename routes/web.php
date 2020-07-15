@@ -51,7 +51,8 @@ Route::middleware('auth')->group(function(){
     });
 
     // Penawaran
-    Route::resource('/penawaran', 'OfferController');
+    Route::get('/penawaran/create/{method}', 'OfferController@create')->name('penawaran.create');
+    Route::resource('/penawaran', 'OfferController', ['except' => ['create']]);
     
     // Penawaran
     Route::get('/boq', function(){return view('boq.index');});

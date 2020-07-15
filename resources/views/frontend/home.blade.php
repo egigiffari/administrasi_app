@@ -28,7 +28,7 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" role="main">
+        <div class="right_col" role="main"  style="margin-bottom:30px;">
           <div class="">
             <div class="page-title">
               <div class="title_left">
@@ -42,7 +42,7 @@
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
+        <footer >
           <div class="pull-right">
             PT. Maha Akbar Sejahtera - by <a href="https://dribbble.com/egi_giffari" target="_blank">Egi Giffari</a>
           </div>
