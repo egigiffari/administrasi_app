@@ -22,6 +22,7 @@ class CreateOffersTable extends Migration
             $table->datetime('due_date');
             $table->double('total')->default(0);
             $table->string('amount')->default('Nol Rupiah');
+            $table->string('ppn')->default(0);
             $table->string('syarat');
             $table->timestamps();
 

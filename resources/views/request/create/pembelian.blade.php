@@ -212,8 +212,8 @@
     <script>
 
         $(function() {
-            var start = moment().subtract(29, 'days');
-            var end = moment();
+            var start = moment();
+            var end = moment().add(7, 'days');
 
             function cb(start, end) {
 

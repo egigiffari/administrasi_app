@@ -46,7 +46,36 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+
+            'user_id' => 'required',
+            'customer' => 'required',
+            'perihal' => 'required',
+            'date' => 'required',
+            'syarat' => 'required',
+            'total' => 'required',
+            'amount' => 'required',
+            
+            'item' => 'required',
+            'price' => 'required',
+
+        ]);
+        
+        $items = $request->item;
+        $prices = $request->price;
+        for ($i=0; $i < count($items); $i++) { 
+            if ($items[$i] == '' || $items[$i] == null)
+            {
+                $errors = ['Pekerjaan is required'];
+                return redirect()->back()->withErrors($errors);
+            }
+            elseif($prices[$i] == '0' || $prices[$i] == null){
+                $errors = ['Price is required'];
+                return redirect()->back()->withErrors($errors);
+            }
+        }
+
+        dd($request->all());
     }
 
     /**

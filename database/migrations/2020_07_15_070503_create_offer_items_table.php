@@ -15,7 +15,17 @@ class CreateOfferItemsTable extends Migration
     {
         Schema::create('offer_items', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('parent_id');
+            $table->unsignedBigInteger('offer_id');
+            $table->string('item');
+            $table->double('volume')->default(1);
+            $table->string('satuan')->default('ls');
+            $table->double('price');
+            $table->double('sub');
             $table->timestamps();
+
+
+            $table->foreign('offer_id')->referenced('id')->on('offers')->onDelete('cascade');
         });
     }
 
