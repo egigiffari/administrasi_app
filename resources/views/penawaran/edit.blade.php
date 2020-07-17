@@ -1,6 +1,6 @@
 @extends('frontend.home')
-@section('title', 'List Penawaran')
-@section('title-content', 'List Penawaran')
+@section('title', 'Edit Penawaran')
+@section('title-content', 'Edit Penawaran')
 @section('content')
 
 @if(count($errors)>0)
@@ -17,7 +17,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-            <h2>Penawaran <small>Users</small></h2>
+            <h2>List Penawaran <small>Users</small></h2>
             <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -25,8 +25,9 @@
                 Berikut data penawaran yang harus diisi:
             </p>
 
-            <form action="{{ route('penawaran.store') }}" method="post">
+            <form action="{{ route('penawaran.update', $offer->id) }}" method="post">
             @csrf
+            @method('patch')
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 col-md-6 col-xl-6 col-md-offset-3 col-xl-offset-3">
                         @if(Auth::user()->level->capacity == 90 || Auth::user()->level->capacity == 30 || Auth::user()->level->capacity == 20)
@@ -37,22 +38,22 @@
                                 @if($user->email == 'admin@mahasejahtera.com')
                                 @continue
                                 @endif
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                <option value="{{ $user->id }}" <?= ($user->id != $offer->user->id ? 'disabled' : '') ?>>{{ $user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         @else
-                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                        <input type="hidden" name="user_id" value="{{ $offer->user->id }}">
                         @endif
 
                         <div class="col-xs-12 form-group has-feedback">
                             <label for="customer" class="title">User / Customer</label>
-                            <input class="form-control" name="customer" value="" id="customer" type="text">
+                            <input class="form-control" name="customer" value="{{ $offer->customer }}" id="customer" type="text">
                         </div>
 
                         <div class="col-xs-12 form-group has-feedback">
                             <label for="perihal" class="title">Perihal</label>
-                            <input class="form-control" name="perihal" value="" id="perihal" type="text">
+                            <input class="form-control" name="perihal" value="{{ $offer->perihal }}" id="perihal" type="text">
                         </div>
                         
                         <div class="col-xs-12 form-group has-feedback">
@@ -61,14 +62,14 @@
                         </div>
                         
                         <div class="col-xs-12 form-group has-feedback">
-                            <label for="ppn_check" class="title">PPN 10%</label>
+                            <label for="ppn_check" class="title" >PPN 10%</label>
                             <br>
-                            <input type="checkbox" id="ppn_check" checked>
+                            <input type="checkbox" id="ppn_check" <?= ($offer->ppn <= 0 ? '' : 'checked' ) ?>>
                         </div>
 
                         <div class="col-xs-12 form-group has-feedback">
                             <label for="position" class="title" class="title">Syarat</label>
-                            <textarea name="syarat" id="syarat" cols="30" rows="10">Kondisi Penawaran: </textarea>
+                            <textarea name="syarat" id="syarat" cols="30" rows="10">{!! $offer->syarat !!}</textarea>
                         </div>
 
                         
@@ -76,17 +77,18 @@
                     </div>
 
                     <div class="col-sm-12 col-md-12 col-xl-12">
+                        @foreach($offer->items as $item)
                         <div class="row cart-shop">
                             <div class="col-sm-12 col-md-5 col-xl-5">
                                 <div class="col-xs-12 form-group has-feedback">
                                     <label for="code" class="item">Pekerjaan</label>
-                                    <input class="form-control" placeholder="job" name="item[]" id="item" type="text">
+                                    <input class="form-control" placeholder="job" name="item[]" value="{{ $item->item }}" id="item" type="text">
                                 </div>
                             </div>
                             <div class="item-price col-sm-12 col-md-3 col-xl-3">
                                 <div class="col-xs-12 form-group has-feedback">
                                 <label for="price" class="title">Price</label>
-                                <input class="form-control price-item" value="1" name="price[]" id="price" type="text">
+                                <input class="form-control price-item" name="price[]" value="{{ $item->price }}" id="price" type="text">
                                 </div>
                             </div>
                             <div class="item-btn col-sm-12 col-md-2 col-xl-2">
@@ -97,6 +99,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                         <br class="cart-sparator">
                         <div class="add-contain row" style="margin-top:30px;">
                             <div class="add-item addcol-sm-2 col-md-2 col-xl-2">
@@ -237,6 +240,12 @@
         updateTotal();
     });
 
+    if ($('#ppn_check').attr('checked') == 'checked') {
+        $('.ppn_check').show();
+    }else{
+        $('.ppn_check').hide();
+    }
+
     $(document).on('click', '.add-btn', function (e) {
             e.preventDefault();
             // console.log('ok');
@@ -316,5 +325,6 @@
         }
     }
     updateTotal();
+
 </script>
 @endsection

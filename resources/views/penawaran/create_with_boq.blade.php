@@ -219,6 +219,7 @@
             endDate: end,
             ranges: {
 
+            // 'Today': [moment(), moment()],
 
             'Tomorrow': [moment(), moment().add(1, 'days'),],
 
@@ -289,6 +290,7 @@
         var subtotal = 0;
         var ppn = 0;
         var total = 0;
+        // console.log(total);
         $('.cart-shop').each(function () {
             var price = $(this).children('.item-price').children('.form-group').children('.price-item').val();
             subtotal = subtotal + parseFloat(price);
@@ -304,8 +306,6 @@
         }
         else
         {
-            ppn = 0;
-            $('#ppn').val(ppn);
             total = subtotal;
         }
 

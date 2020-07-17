@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RequestCategorySeeder::class);
         $this->call(RequestTypeSeeder::class);
         $this->call(RequestResponsibleSeeder::class);
+        $this->call(OfferResponsibleSeeder::class);
     }
 }

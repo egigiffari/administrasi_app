@@ -18,15 +18,16 @@ class CreateOffersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('customer');
             $table->string('perihal');
-            $table->datetime('date');
+            $table->datetime('start_date');
             $table->datetime('due_date');
             $table->double('total')->default(0);
             $table->string('amount')->default('Nol Rupiah');
-            $table->string('ppn')->default(0);
+            $table->double('ppn')->default(0);
             $table->string('syarat');
+            $table->text('catatan')->default('');
             $table->timestamps();
 
-            $table->foreign('user_id')->referenced('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

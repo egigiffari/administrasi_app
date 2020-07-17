@@ -51,9 +51,12 @@ Route::middleware('auth')->group(function(){
     });
 
     // Penawaran
-    Route::get('/penawaran/create/{method}', 'OfferController@create')->name('penawaran.create');
-    Route::resource('/penawaran', 'OfferController', ['except' => ['create']]);
-    
+    // Route::get('/penawaran/create/{method}', 'OfferController@create')->name('penawaran.create');
+    // Route::resource('/penawaran', 'OfferController', ['except' => ['create']]);
+    Route::get('/penawaran/responsible', 'OfferController@responsible')->name('penawaran.responsible');
+    Route::post('/penawaran/responsible/add', 'OfferController@add_responsible')->name('penawaran.add_responsible');
+    Route::delete('/penawaran/responsible/{id}/destroy', 'OfferController@destroy_responsible')->name('penawaran.destroy_responsible');
+    Route::resource('/penawaran', 'OfferController');
     // Penawaran
     Route::get('/boq', function(){return view('boq.index');});
 

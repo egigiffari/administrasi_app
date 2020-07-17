@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOfferItemsTable extends Migration
+class CreateBoqsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateOfferItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('offer_items', function (Blueprint $table) {
+        Schema::create('boqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('offer_id');
-            $table->string('item');
-            $table->double('price');
+            $table->unsignedBigInteger('offer_id')->default(0);
+            $table->string('perihal');
+            $table->double('sub')->default(0);
+            $table->double('ppn')->default(0);
+            $table->double('total')->default(0);
+            $table->string('amount');
+            $table->timestamps();
+
 
             $table->foreign('offer_id')->references('id')->on('offers')->onDelete('cascade');
         });
@@ -30,6 +35,6 @@ class CreateOfferItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('offer_items');
+        Schema::dropIfExists('boqs');
     }
 }

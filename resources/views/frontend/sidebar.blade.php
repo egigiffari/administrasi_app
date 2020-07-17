@@ -126,6 +126,11 @@
                             <!-- <li><a href="{{ route('request.category.index') }}">Syarat Dan Ketentuan</a></li> -->
                         </ul>
                     </li>
+                    <li class=""><a><i class="fa fa-file"></i> Penawaran <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{ route('penawaran.responsible') }}">Penanggung Jawab</a></li>
+                        </ul>
+                    </li>
                     @endif
                 </ul>
             </div>

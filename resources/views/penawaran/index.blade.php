@@ -5,15 +5,16 @@
 
 <div class="row">
     <div class="col-12" style="margin-left: 10px;margin-bottom:10px">
-        <div class="btn-group">
+        <a href="{{ route('penawaran.create') }}" class="btn btn-primary">Add Penawaran</a>
+        <!-- <div class="btn-group">
             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button"> Add Penawaran <span class="caret"></span> </button>
             <ul class="dropdown-menu">
             <li><a href="{{route('penawaran.create', 'boq')}}">Add With Boq</a>
             </li>
-            <li><a href="#">Add Without BoQ</a>
+            <li><a href="{{route('penawaran.create', 'no_boq')}}">Add Without BoQ</a>
             </li>
             </ul>
-        </div>
+        </div> -->
 </div>
 </div>
 
@@ -40,6 +41,7 @@
             <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th>Name</th>
                     <th>User / Customer</th>
                     <th>Pekerjaan</th>
@@ -51,19 +53,27 @@
 
 
                 <tbody>
+                <?php $i = 0; ?>
+                @foreach($offers as $offer)
                 <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>$320,800</td>
-                    <td>2011/04/25</td>
+                    <td>{{ ++$i }}</td>
+                    <td>{{$offer->user->name}}</td>
+                    <td>{{$offer->customer}}</td>
+                    <td>{{$offer->perihal}}</td>
+                    <td>Rp {{number_format($offer->total)}}</td>
+                    <td>{{$offer->created_at->diffForHumans()}}</td>
                     <td>
-                        <form action="#" method="post">
-                        <a href="#" class='btn btn-warning btn-xs'>Detail</a>
-                        <button class="btn btn-danger btn-xs">Delete</button>
+                        <form action="{{ route('penawaran.destroy', $offer->id) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <a href="{{ route('penawaran.show', $offer->id) }}" class='btn btn-warning btn-xs'>Detail</a>
+                        @if(Auth::user()->level->capacity == 90 || Auth::user()->level->capacity == 20)
+                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')">Delete</button>
+                        @endif
                         </form>
                     </td>
                 </tr>
+                @endforeach
                 
                 </tbody>
             </table>
