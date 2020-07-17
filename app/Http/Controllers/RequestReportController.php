@@ -146,7 +146,7 @@ class RequestReportController extends Controller
 
         for ($i=0; $i < count($items); $i++) {
             
-            $item_id = Product::findOrFail($items[$i]);
+            $item_id = Product::whereId($items[$i])->first();
             if ($item_id) {
                 $name = $item_id->name;
                 $merk = $item_id->brand->name;
@@ -341,7 +341,7 @@ class RequestReportController extends Controller
 
         for ($i=0; $i < count($items); $i++) {
             
-            $item_id = Product::findOrFail($items[$i]);
+            $item_id = Product::whereId($items[$i])->first();
             if ($item_id) {
                 $name = $item_id->name;
                 $merk = $item_id->brand->name;

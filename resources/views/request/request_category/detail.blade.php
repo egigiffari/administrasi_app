@@ -188,10 +188,12 @@
                         <div class="col-md-6 col-xs-12">
                           <input type="hidden" name="request_id" value="{{ $request->id }}">
                           <a href="{{route('requestby.category.pdf', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
-                          @if(!$request->report)
-                          <!-- <a href="{{route('request.report.create', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Buat Laporan</a> -->
-                          @else
-                          <!-- <a href="{{route('request.report.show', $request->report->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Laporan</a> -->
+                          @if($request->status == 'approve')
+                            @if(!$request->report)
+                            <a href="{{route('request.report.create', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Buat Laporan</a>
+                            @else
+                            <!-- <a href="{{route('request.report.show', $request->report->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Laporan</a> -->
+                            @endif
                           @endif
                         </div>
                         <div class="col-md-6 col-xs-12">

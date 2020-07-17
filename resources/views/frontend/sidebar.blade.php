@@ -65,28 +65,28 @@
                             <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
-                                    <li><a href="#">Laporan</a></li>
+                                    <li><a href="{{ route('request.report.index', $category->id) }}">Laporan</a></li>
                                 </ul>
                             </li>
                             @elseif($category->division_id == $div->id)
                             <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
-                                    <li><a href="#">Laporan</a></li>
+                                    <li><a href="{{ route('request.report.index', $category->id) }}">Laporan</a></li>
                                 </ul>
                             </li>
                             @elseif($category->division_id == $div->id)
                             <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
-                                    <li><a href="#">Laporan</a></li>
+                                    <li><a href="{{ route('request.report.index', $category->id) }}">Laporan</a></li>
                                 </ul>
                             </li>
                             @elseif($category->division_id == $div->id)
                             <li class=""><a>{{$category->name}} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ route('requestby.category.index', $category->id) }}">Pengajuan</a></li>`
-                                    <li><a href="#">Laporan</a></li>
+                                    <li><a href="{{ route('request.report.index', $category->id) }}">Laporan</a></li>
                                 </ul>
                             </li>
                             @endif
