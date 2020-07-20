@@ -43,7 +43,7 @@
                                <form action="{{ route('request.report.destroy', $report->id) }}" method="post">
                                    @csrf
                                    @method('delete')
-                                   <a href="{{ route('request.report.edit', $report->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Edit</a>
+                                   <a href="{{ route('request.report.show', $report->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
                                    <!-- <a href="{{ route('request.report.show', $report->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a> -->
                                    @if(!preg_match('/user/i', Auth::user()->level->name))
                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Delete This Item')"><i class="fa fa-trash"></i> Delete</button>

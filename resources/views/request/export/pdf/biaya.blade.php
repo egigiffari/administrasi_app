@@ -57,14 +57,14 @@
             <div class="subject" style="padding-left: 10px;padding-top: 10px;">
                 <table>
                     <tr>
-                        <td width='45px'>Due Date</td>
-                        <td width="5px">:</td>
-                        <td>{{ date('g F Y', strtotime($request->expire_date)) }}</td>
-                    </tr>
-                    <tr>
                         <td width='45px'>Tanggal</td>
                         <td width="5px">:</td>
                         <td>{{ date('g F Y', strtotime($request->start_date)) }}</td>
+                    </tr>
+                    <tr>
+                        <td width='45px'>Due Date</td>
+                        <td width="5px">:</td>
+                        <td>{{ date('g F Y', strtotime($request->expire_date)) }}</td>
                     </tr>
                     <tr>
                         <td width='45px'>Perihal</td>

@@ -62,7 +62,7 @@ class PositionSeeder extends Seeder
                 'division_id' => 3
             ],
             [
-                'name' => 'Business Relationship',
+                'name' => 'Business Relation',
                 'division_id' => 2
             ],
             [
