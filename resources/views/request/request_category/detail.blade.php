@@ -16,17 +16,17 @@
     <div class="col-sm-12 col-md-12 col-xl-12">
         <a href="{{ route('requestby.category.index', $category->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
         @foreach($responsibles as $responsible)
-        @if($responsible->status == 'revision')
-        <a href="{{ route('requestby.category.revision', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
-        @break
-        @elseif($responsible->status == 'waiting' || $responsible->status == 'perbaikan')
-        <a href="{{ route('requestby.category.edit', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
-        @break
-        @elseif($responsible->status == 'hold')
-        <span>Please Contact Admin For Information Because Your Request is <strong class="text-danger">Hold</strong></span>
-        @break
-        @else
-        @endif
+          @if($responsible->status == 'waiting' || $responsible->status == 'perbaikan')
+          <a href="{{ route('requestby.category.edit', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
+          @break
+          @elseif($responsible->status == 'revision')
+          <a href="{{ route('requestby.category.revision', $request->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Revisi </a>
+          @break
+          @elseif($responsible->status == 'hold')
+          <span>Please Contact Admin For Information Because Your Request is <strong class="text-danger">Hold</strong></span>
+          @break
+          @else
+          @endif
         @endforeach
     </div>
 
@@ -190,9 +190,11 @@
                           <a href="{{route('requestby.category.pdf', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
                           @if($request->status == 'approve')
                             @if(!$request->report)
+                              @if($request->applicant_id == Auth::id() || Auth::user()->level->capacity == 90 || Auth::user()->level->capacity == 20)
                             <a href="{{route('request.report.create', $request->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Buat Laporan</a>
+                              @endif
                             @else
-                            <!-- <a href="{{route('request.report.show', $request->report->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Laporan</a> -->
+                            <a href="{{route('request.report.show', $request->report->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Laporan</a>
                             @endif
                           @endif
                         </div>

@@ -18,8 +18,10 @@
         @foreach($responsibles as $responsible)
             @if($responsible->status == 'waiting' || $responsible->status == 'perbaikan' || $responsible->status == 'revision')
             <a href="{{ route('request.report.edit', $report->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
+            @break
             @elseif($responsible->status == 'hold')
             <span>Please Contact Admin For Information Because Your Request is <strong class="text-danger">Hold</strong></span>
+            @break
             @else
             @endif
         @endforeach
@@ -82,7 +84,7 @@
                           <br>
                           <br>
                           @foreach($responsibles as $responsible)
-                            <b>{{ $responsible->user->name }}:</b>
+                            <b>{{ $responsible->position }}:</b>
                             @if($responsible->status == 'waiting')
                             <span class="btn btn-primary btn-xs">{{$responsible->status}}</span>
                             @elseif($responsible->status == 'revision')
@@ -199,21 +201,26 @@
                                 @if($datas[$loop->index]['status'] == 'waiting')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
                                 <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                @break
                                 @elseif($datas[$loop->index]['status'] == 'acc')
                                 <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
                                 <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
+                                @break
                                 @elseIf($datas[$loop->index]['status'] == 'revision')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
                                 <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                @break
                                 @elseIf($datas[$loop->index]['status'] == 'hold')
                                 <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
                                 <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
+                                @break
                                 @endif
                             @endif
                         @elseif(Auth::user()->level->name == 'administrator' || Auth::user()->email == 'superadmin@gmail.com')
                           <button type="submit" name="status" value="all-acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
                           <button type="submit" name="status" value="all-revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
                           <button type="submit" name="status" value="all-reset" class="btn btn-primary pull-right"><i class="fa fa-history"></i> Reset</button>
+                          @break
                         @endif
                         @endforeach
                         </form>

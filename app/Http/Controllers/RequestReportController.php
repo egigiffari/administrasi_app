@@ -384,7 +384,11 @@ class RequestReportController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $report = RequestReport::whereId($id)->first();
+        RequestReportItem::where('report_id', $report->id)->delete();
+        $report->delete();
+
+        return redirect()->route('request.report.index', $id)->withSuccess("Laporan Has Been Deleted");
     }
 
     public function approve(Request $request)
@@ -430,6 +434,9 @@ class RequestReportController extends Controller
 
         $status = $request->status;
         $approve = RequestReportApprove::where('report_id', $request->report_id)->where('user_id', Auth::id())->first();
+        // dd($approve);
+
+        
 
         if ($status != 'perbaikan' && $status != 'hold')
         {
@@ -438,6 +445,7 @@ class RequestReportController extends Controller
         else
         {
             $this->validate($request, ['catatan' => 'required']);
+            // dd($approve->id);
             RequestReportApprove::whereId($approve->id)->update(['status' => $status]);
             RequestReport::whereId($request->report_id)->update(['status' => 'perbaikan', 'catatan' => $request->catatan]);
         }
@@ -445,6 +453,7 @@ class RequestReportController extends Controller
 
         // GET ALL STATUS APPROVER
         $approver = RequestReportApprove::where('report_id', $request->report_id)->get();
+        // dd($approver);
 
         // LOOP ALL STATUS
         for ($i=0; $i < count($approver); $i++) {

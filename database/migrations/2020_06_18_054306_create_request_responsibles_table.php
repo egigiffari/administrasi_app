@@ -15,11 +15,14 @@ class CreateRequestResponsiblesTable extends Migration
     {
         Schema::create('request_responsibles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('category_id');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('subject');
             $table->string('as');
             $table->integer('priority');
+
+            $table->foreign('category_id')->references('id')->on('request_categories')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

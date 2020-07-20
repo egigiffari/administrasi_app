@@ -9,6 +9,7 @@ use App\OfferResponsible;
 use App\Position;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class OfferController extends Controller
@@ -130,6 +131,7 @@ class OfferController extends Controller
     public function show($id)
     {
         $offer = Offer::whereId($id)->first();
+        
         $responsibles = OfferApprove::where('offer_id', $offer->id)->get();
         $items = OfferItems::where('offer_id', $offer->id)->get();
         return view('penawaran.detail', compact('offer', 'responsibles', 'items'));
@@ -264,5 +266,110 @@ class OfferController extends Controller
         $responsible->delete();
 
         return redirect()->back()->withSuccess('Responsible Has Been Deleted');
+    }
+
+    public function pdf($id)
+    {
+        # code...
+    }
+
+    public function approve(Request $request)
+    {
+        $this->validate($request, ['status' => 'required']);
+
+        if (preg_match('/all-/',$request->status))
+        {
+            $approve = OfferApprove::where('offer_id', $request->offer_id)->get();
+            $status = $request->status;
+            if ($status == 'all-reset')
+            {
+                for ($i=0; $i < count($approve) ; $i++) { 
+                    OfferApprove::whereId($approve[$i]['id'])->update(['status' => 'waiting']);
+                    Offer::whereId($request->offer_id)->update(['status' => 'on proses', 'catatan' => '']);
+                }
+            } elseif ($status == 'all-acc')
+            {
+                for ($i=0; $i < count($approve) ; $i++) { 
+                    OfferApprove::whereId($approve[$i]['id'])->update(['status' => 'acc']);
+                    Offer::whereId($request->offer_id)->update(['status' => 'approve', 'catatan' => '']);
+                }
+            } elseif ($status == 'all-revision')
+            {
+                for ($i=0; $i < count($approve) ; $i++) { 
+                    OfferApprove::whereId($approve[$i]['id'])->update(['status' => 'revision']);
+                    Offer::whereId($request->offer_id)->update(['status' => 'revision', 'catatan' => '']);
+                }
+            }
+
+            // REUPLOAD STATUS NOTIFICATION
+            // $notifications = Notification::where('request_id', $request->request_id)->get();
+            // foreach($notifications as $notification){
+            //     $notif = Notification::find($notification->id);
+            //     $notif->is_read = 0;
+            //     $notif->save();
+            // }
+
+            return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
+            
+        }
+
+        $status = $request->status;
+        $approve = OfferApprove::where('offer_id', $request->offer_id)->where('user_id', Auth::id())->first();
+
+        if ($status != 'perbaikan' && $status != 'hold')
+        {
+            OfferApprove::whereId($approve->id)->update(['status' => $status]);
+        }
+        else
+        {
+            $this->validate($request, ['catatan' => 'required']);
+            OfferApprove::whereId($approve->id)->update(['status' => $status]);
+            Offer::whereId($request->request_id)->update(['status' => 'perbaikan', 'catatan' => $request->catatan]);
+        }
+        
+
+        // GET ALL STATUS APPROVER
+        $approver = OfferApprove::where('offer_id', $request->offer_id)->get();
+
+        // LOOP ALL STATUS
+        for ($i=0; $i < count($approver); $i++) {
+
+            // CHECK ALL STATUS AND UPDATE OFFER STATUS LIKE APPROVE STATUS
+            if ($approver[$i]['status'] == 'cancel')
+            {
+                Offer::whereId($request->offer_id)->update(['status' => 'cancel']);
+                break; 
+            }
+            elseif($approver[$i]['status'] == 'hold')
+            {
+                Offer::whereId($request->offer_id)->update(['status' => 'hold']);
+                break;
+            }
+            elseif ($approver[$i]['status'] == 'revision')
+            {
+                Offer::whereId($request->offer_id)->update(['status' => 'revision']);
+                break;
+            }
+            elseif ($approver[$i]['status'] == 'waiting')
+            {
+                Offer::whereId($request->offer_id)->update(['status' => 'on proses']);
+                break;
+            }
+            elseif ($approver[count($approver) - 1]['status'] == 'acc')
+            {
+                Offer::whereId($request->offer_id)->update(['status' => 'approve']);
+                break;
+            }
+        }
+
+        // REUPLOAD STATUS NOTIFICATION
+        // $notifications = Notification::where('request_id', $request->request_id)->get();
+        // foreach($notifications as $notification){
+        //     $notif = Notification::find($notification->id);
+        //     $notif->is_read = 0;
+        //     $notif->save();
+        // }
+
+        return redirect()->back()->withSuccess("Pengajuan Hass Been $status");
     }
 }

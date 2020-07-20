@@ -15,13 +15,16 @@ class CreateRequestReportApprovesTable extends Migration
     {
         Schema::create('request_report_approves', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('report_id');
-            $table->integer('user_id');
-            $table->enum('status', ['waiting', 'revision', 'hold', 'cancel', 'acc'])->default('waiting');
+            $table->unsignedBigInteger('report_id');
+            $table->unsignedBigInteger('user_id');
+            $table->enum('status', ['waiting', 'revision', 'hold', 'cancel', 'acc', 'perbaikan'])->default('waiting');
             $table->string('position');
             $table->string('subject');
             $table->integer('priority');
             $table->timestamps();
+
+            $table->foreign('report_id')->references('id')->on('request_reports')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -71,7 +71,7 @@
                         </span>
                       </a>
                     </li>
-                    @else
+                    <!-- @elseif($notif->request_report_id != 0)
                       <li>
                         <a href="{{ route('request.report.show', $notif->request_report_id) }}">
                           <span class="image"><img src="{{asset($notif->report->applicant->image)}}" alt="Profile Image" /></span>
@@ -95,7 +95,7 @@
                             {{'Laporan ' . $notif->report->categories->name}}
                           </span>
                         </a>
-                      </li>
+                      </li> -->
                       @endif
                     @endforeach()
                     <!-- <li>

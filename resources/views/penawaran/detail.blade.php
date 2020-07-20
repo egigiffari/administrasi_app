@@ -57,7 +57,7 @@
                   <br>
                   <br>
                   <b>Status Pengajuan:</b>
-                      @if($offer->status == 'waiting')
+                      @if($offer->status == 'on proses')
                       <span class="btn btn-primary btn-xs">{{$offer->status}}</span>
                       @elseif($offer->status == 'revision')
                       <span class="btn btn-warning btn-xs">{{$offer->status}}</span>
@@ -65,7 +65,7 @@
                       <span class="btn btn-danger btn-xs">{{$offer->status}}</span>
                       @elseif($offer->status == 'hold')
                       <span class="btn btn-info btn-xs">{{$offer->status}}</span>
-                      @elseif($offer->status == 'acc')
+                      @elseif($offer->status == 'approve')
                       <span class="btn btn-success btn-xs">{{$offer->status}}</span>
                       @endif
                   <br>
@@ -173,7 +173,86 @@
               <div class="row no-print">
                 
                 <div class="col-xs-12">
-
+                    <form action="{{ route('penawaran.approve') }}" method="post">
+                        @csrf
+                        @method('patch')
+                        <input type="hidden" name="offer_id" value="{{ $offer->id }}">
+                        <a href="{{route('penawaran.pdf', $offer->id )}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</a>
+                        <!-- <a href="{{route('requestby.category.show', $offer->id)}}" target="_blank" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-eye"></i> Lihat Pengajuan </a> -->
+                        <?php $datas = [] ?>
+                        @for($i = 0; $i < count($responsibles); $i++)
+                        <?php 
+                            $temp = [
+                                'request_id' => $responsibles[$i]['request_id'],
+                                'user_id' => $responsibles[$i]['user_id'],
+                                'status' => $responsibles[$i]['status'],
+                                'position' => $responsibles[$i]['position'],
+                                'subject' => $responsibles[$i]['subject'],
+                                'priority' => $responsibles[$i]['priority'],
+                            ];
+                            array_push($datas, $temp);
+                        ?>
+                        @endfor
+                        @foreach($datas as  $data)
+                        @if($data['user_id'] == Auth::id())
+                            <?php $i = $loop->index - 1; ($i <= 0 ? $i = 0 : $i)?>
+                            @if($datas[$i]['status'] == 'acc' || $datas[$i]['user_id'] == Auth::id())
+                                @if($datas[$loop->index]['status'] == 'waiting')
+                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                @break
+                                @elseif($datas[$loop->index]['status'] == 'acc')
+                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
+                                @break
+                                @elseIf($datas[$loop->index]['status'] == 'revision')
+                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                @break
+                                @elseIf($datas[$loop->index]['status'] == 'hold')
+                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
+                                @break
+                                @endif
+                            @endif
+                        @elseif(Auth::user()->level->name == 'administrator' || Auth::user()->email == 'superadmin@gmail.com')
+                          <button type="submit" name="status" value="all-acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                          <button type="submit" name="status" value="all-revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                          <button type="submit" name="status" value="all-reset" class="btn btn-primary pull-right"><i class="fa fa-history"></i> Reset</button>
+                          @break
+                        @endif
+                        @endforeach
+                    </form>
+                    <!-- <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button> -->
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form action="{{ route('penawaran.approve') }}" method="post">
+                            <div class="modal-body">
+                              @csrf
+                              @method('patch')
+                              <div class="form-group">
+                                  <input type="hidden" name="offer_id" value="{{ $offer->id }}">
+                                  <label class="control-label">Keterangan <span class="required">*</span>
+                                  </label>
+                                  <div class="">
+                                  <textarea class="form-control" rows="3" name="catatan"></textarea>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button id="btn-confirm" type="submit" name="status" value="perbaikan" class="btn btn-warning">Perbaikan</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                 </div>
               </div>
             </section>

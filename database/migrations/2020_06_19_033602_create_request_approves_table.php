@@ -15,13 +15,16 @@ class CreateRequestApprovesTable extends Migration
     {
         Schema::create('request_approves', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('request_id');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('request_id');
+            $table->unsignedBigInteger('user_id');
             $table->enum('status', ['waiting', 'revision', 'hold', 'cancel', 'acc', 'perbaikan'])->default('waiting');
             $table->string('position');
             $table->string('subject');
             $table->integer('priority');
             $table->timestamps();
+
+            $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

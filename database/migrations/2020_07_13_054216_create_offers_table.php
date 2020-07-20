@@ -24,6 +24,7 @@ class CreateOffersTable extends Migration
             $table->string('amount')->default('Nol Rupiah');
             $table->double('ppn')->default(0);
             $table->string('syarat');
+            $table->enum('status', ['on proses', 'revision', 'hold', 'cancel', 'approve', 'perbaikan'])->default('on proses');
             $table->text('catatan')->default('');
             $table->timestamps();
 

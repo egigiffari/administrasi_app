@@ -14,7 +14,7 @@
     @endif
 
     <div class="col-sm-12 col-md-12 col-xl-12">
-        <a href="{{ route('request.pengajuan.show', $report->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+        <a href="{{ route('request.report.show', $report->id) }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">

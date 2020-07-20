@@ -21,6 +21,6 @@ class Notification extends Model
 
     public function report()
     {
-        return $this->hasOne(RequestReport::class, 'id', 'request_report_id');
+        return $this->belongsTo(RequestReport::class, 'request_report_id', 'id');
     }
 }

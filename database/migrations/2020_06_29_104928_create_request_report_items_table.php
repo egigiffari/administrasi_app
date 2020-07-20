@@ -15,8 +15,8 @@ class CreateRequestReportItemsTable extends Migration
     {
         Schema::create('request_report_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('report_id')->constrained('requests');
-            $table->integer('items');
+            $table->unsignedBigInteger('report_id')->constrained('requests');
+            $table->unsignedBigInteger('items')->default(0);
             $table->string('name');
             $table->string('merk');
             $table->string('spec');
@@ -27,6 +27,9 @@ class CreateRequestReportItemsTable extends Migration
             $table->text('desc');
             $table->string('image')->default('uploads/requests/items/default.jpg');
             $table->timestamps();
+
+            $table->foreign('report_id')->references('id')->on('request_reports')->onDelete('cascade');
+            // $table->foreign('items')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

@@ -56,6 +56,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/penawaran/responsible', 'OfferController@responsible')->name('penawaran.responsible');
     Route::post('/penawaran/responsible/add', 'OfferController@add_responsible')->name('penawaran.add_responsible');
     Route::delete('/penawaran/responsible/{id}/destroy', 'OfferController@destroy_responsible')->name('penawaran.destroy_responsible');
+    Route::patch('/penawaran/approve', 'OfferController@approve')->name('penawaran.approve');
+    Route::get('/penawaran/{id}/pdf', 'OfferController@pdf')->name('penawaran.pdf');
+    Route::get('/penawaran/{id}/revision', 'OfferController@revision')->name('penawaran.revision');
     Route::resource('/penawaran', 'OfferController');
     // Penawaran
     Route::get('/boq', function(){return view('boq.index');});
@@ -149,7 +152,7 @@ Route::middleware('auth')->group(function(){
     Route::get('request/report/{id}/show', 'RequestReportController@show')->name('request.report.show');
     Route::get('request/report/{id}/edit', 'RequestReportController@edit')->name('request.report.edit');
     Route::post('request/report/store', 'RequestReportController@store')->name('request.report.store');
-    Route::delete('request/report/destroy', 'RequestReportController@destroy')->name('request.report.destroy');
+    Route::delete('request/report/{id}/destroy', 'RequestReportController@destroy')->name('request.report.destroy');
     Route::patch('/request/report/approve', "RequestReportController@approve")->name("request.report.approve");
     Route::patch('/request/report/{id}/update', "RequestReportController@update")->name("request.report.update");
     Route::get('/request/report/{id}/pdf', "RequestReportController@pdf")->name("request.report.pdf");
