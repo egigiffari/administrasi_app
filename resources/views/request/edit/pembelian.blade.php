@@ -76,7 +76,7 @@
                                             <select name="item[]" id="item" class="items form-control js-example-matcher-start">
                                                 <option value="">Please Select Code Item</option>
                                                 @foreach($items as $item)
-                                                <option <?= ($item_request->items == $item->id ? 'selected' : '' ) ?> value="{{ $item->id }}">{{ $item->code . '/' . $item->name . '/' . "Rp " . number_format($item->last_price) }}</option>
+                                                <option <?= ($item_request->items == $item->id ? 'selected' : '' ) ?> value="{{ $item->id }}">{{ $item->code . '/' . $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

@@ -131,6 +131,7 @@
                             <li><a href="{{ route('penawaran.responsible') }}">Penanggung Jawab</a></li>
                         </ul>
                     </li>
+                    <li class=""><a href="{{ route('report.setting.index') }}"><i class="fa fa-file"></i> Laporan</a></li>
                     @endif
                 </ul>
             </div>

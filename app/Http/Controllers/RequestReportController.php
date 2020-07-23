@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notification;
 use App\Product;
+use App\ReportSetting;
 use App\RequestCategory;
 use App\RequestItems;
 use App\RequestReport;
@@ -386,6 +387,7 @@ class RequestReportController extends Controller
     {
         $report = RequestReport::whereId($id)->first();
         RequestReportItem::where('report_id', $report->id)->delete();
+        Notification::where('request_report_id', $id)->delete();
         $report->delete();
 
         return redirect()->route('request.report.index', $id)->withSuccess("Laporan Has Been Deleted");
@@ -503,9 +505,10 @@ class RequestReportController extends Controller
         $report = RequestReport::findOrFail($id);
         $items = $report->items;
         $approvers = RequestReportApprove::where('report_id', $id)->get();
+        $setting = ReportSetting::first();
 
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true,'isRemoteEnabled' => true]);
-        $pdf->loadView('request.report.pdf', compact('report', 'items', 'approvers'));
+        $pdf->loadView('request.report.pdf', compact('report', 'items', 'approvers', 'setting'));
         return $pdf->stream('Laporan-' . $report->request->code . '-' . $report->request->categories->name . '.pdf');
     }
 }

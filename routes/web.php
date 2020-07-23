@@ -158,6 +158,18 @@ Route::middleware('auth')->group(function(){
     Route::get('/request/report/{id}/pdf', "RequestReportController@pdf")->name("request.report.pdf");
     // End Responsible Report
 
+    // Report Setting
+    Route::resource('/report/setting', 'ReportSettingController', ['except' => ['show']])
+        ->parameters(['setting' => 'id'])
+        ->names([
+            'index' => 'report.setting.index',
+            'create' => 'report.setting.create',
+            'store' => 'report.setting.store',
+            'edit' => 'report.setting.edit',
+            'update' => 'report.setting.update',
+            'destroy' => 'report.setting.destroy',
+        ]);
+
     // END REQUEST
 
     Route::get('/pdftest', function(){

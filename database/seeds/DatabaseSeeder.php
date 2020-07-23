@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RequestTypeSeeder::class);
         $this->call(RequestResponsibleSeeder::class);
         $this->call(OfferResponsibleSeeder::class);
+        $this->call(ReportSettingSeeder::class);
     }
 }

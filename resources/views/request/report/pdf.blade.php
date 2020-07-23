@@ -13,6 +13,15 @@
             font-family: "Times New Roman", Times, serif;
             font-size:12px;
         }
+
+        .desc p {
+            margin-bottom: 0;
+        }
+
+        .desc ol{
+            margin: 0;
+            padding-left: 35px;
+        }
     </style>
 </head>
 <body>
@@ -24,7 +33,7 @@
             <table border='0' style="border-bottom: 1px solid black;" width=100%>
                 <tr>
                     <td rowspan='2'>
-                        <img class="img" src="{{base_path('public\image\logo2.jpg')}}" alt="logo" style="width:110px;">
+                        <img class="img" src="{{public_path('image/logo2.jpg')}}" alt="logo" style="width:110px;">
                     </td>
                     <td></td>
                     <td align='right' style="text-transform: uppercase;font-weight:bold; font-size:16px">PT. MAHA AKBAR SEJAHTERA</td>
@@ -47,31 +56,32 @@
             <div class="subject" style="padding-left: 10px;padding-top: 10px;">
                 <table border='0'>
                     <tr>
-                        <td>Tanggal</td>
-                        <td>:</td>
-                        <td style="width:300px;"><?= date('d F Y', strtotime($report->created_at)) ?></td>
-                        <td>Tanggal Pengajuan</td>
-                        <td>:</td>
-                        <td><?= date('d F Y', strtotime($report->request->start_date)) ?></td>
+                        <td align="left" valign="top" style="width:120px;">Tanggal</td>
+                        <td align="left" valign="top" style="width:8px;">:</td>
+                        <td align="left" valign="top" style="width:230px;"><?= date('d F Y', strtotime($report->created_at)) ?></td>
+                        <td align="left" valign="top" style="width:100px;">Tanggal Pengajuan</td>
+                        <td align="left" valign="top" style="width:8px;">:</td>
+                        <td align="left" valign="top" style="width:150px;"><?= date('d F Y', strtotime($report->request->start_date)) ?></td>
                     </tr>
                     <tr>
-                        <td>Perihal/Pekerjaan</td>
-                        <td>:</td>
-                        <td><?= $report->perihal ?></td>
-                        <td>Perihal Pengajuan</td>
-                        <td>:</td>
-                        <td><?= $report->request->perihal ?></td>
+                        <td align="left" valign="top">Perihal Pengajuan</td>
+                        <td align="left" valign="top">:</td>
+                        <td align="left" valign="top"><?= $report->perihal ?></td>
+                        <td align="left" valign="top">Jenis Pengajuan</td>
+                        <td align="left" valign="top">:</td>
+                        <td align="left" valign="top"><?= $report->request->categories->name ?></td>
                     </tr>
                     <tr>
-                        <td>Dana Pengajuan yang diterima</td>
-                        <td>:</td>
-                        <td>Rp. <?= number_format($report->total) ?></td>
-                        <td>Yang Mengajukan</td>
-                        <td>:</td>
-                        <td><?= $report->applicant->name ?></td>
+                        <td align="left" valign="top">Dana Pengajuan yang diterima</td>
+                        <td align="left" valign="top">:</td>
+                        <td align="left" valign="top">Rp. <?= number_format($report->total) ?></td>
+                        <td align="left" valign="top">Yang Mengajukan</td>
+                        <td align="left" valign="top">:</td>
+                        <td align="left" valign="top"><?= $report->applicant->name ?></td>
                     </tr>
 
                 </table>
+
             </div>
 
             <div class="content" style="padding: 10px;">
@@ -79,32 +89,32 @@
 
                         <tr>
                             <td rowspan='2' align="center" width="20px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">No</td>
-                            <td rowspan='2' align="center" width="93.3px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Nama Barang</td>
-                            <td colspan='2' align="center" width="186.6px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Deskripsi</td>
+                            <td rowspan='2' align="center" width="120px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Nama Barang</td>
+                            <td colspan='2' align="center" width="150px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Deskripsi</td>
                             <td rowspan='2' align="center" width="30px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Qty</td>
-                            <td rowspan='2' align="center" width="80px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Satuan</td>
+                            <td rowspan='2' align="center" width="40px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Satuan</td>
                             <td rowspan='2' align="center" width="80px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Harga Satuan</td>
                             <td rowspan='2' align="center" width="80px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Jumlah Harga</td>
                             <td rowspan='2' align="center" widht="" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Keterangan</td>
                         </tr>
 
                         <tr>
-                            <td align="center" width="93.3px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Merk</td>
-                            <td align="center" width="93.3px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Spesifikasi</td>
+                            <td align="center" width="" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Merk</td>
+                            <td align="center" width="95px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Spesifikasi</td>
                         </tr>
 
                         <?php $i = 0 ?>
                         @foreach($items as $result => $item)
                         <tr>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ ++$i }}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->merk }}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->name }}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->spec }}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->qty }}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->unit }}</td>
-                            <td align="right" style="border:1px solid black;padding:2px 5px;">{{number_format($item->price)}}</td>
-                            <td align="right" style="border:1px solid black;padding:2px 5px;">{{number_format($item->sub)}}</td>
-                            <td align="center" style="border:1px solid black;padding:2px 5px;">{{ $item->desc }}</td>  
+                            <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ ++$i }}</td>
+                            <td align="left" valign="top" style="border:1px solid black;padding:2px 5px;">{{ $item->merk }}</td>
+                            <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ $item->name }}</td>
+                            <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ $item->spec }}</td>
+                            <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ $item->qty }}</td>
+                            <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ $item->unit }}</td>
+                            <td align="right" valign="top" style="border:1px solid black;padding:2px 5px;">{{number_format($item->price)}}</td>
+                            <td align="right" valign="top" style="border:1px solid black;padding:2px 5px;">{{number_format($item->sub)}}</td>
+                            <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ $item->desc }}</td>  
                         </tr>
                         @endforeach
 
@@ -124,7 +134,7 @@
 
         <div class="desc">
 
-            <table border="0" style="font-style: italic;border-collapse: collapse;">
+            <table border="0" style="margin-left:10px;font-style: italic;border-collapse: collapse;">
                 <tr>
                     <td width='200px'>Dana Yang Diberikan atas pengajuan</td>
                     <td width='20px'>Rp.</td>
@@ -147,51 +157,40 @@
 
         </div>
 
-        <div class="desc">
+        <div class="desc" style="padding-left:10px;">
 
-            <table border="0" style="font-style: italic;border-collapse: collapse;">
-                <tr>
-                    <td width='20px'>1</td>
-                    <td>Jika dana berlebih, dikembalikan kepada kasir / masuk ke Kas Kecil</td>
-                </tr>
-                <tr>
-                    <td width='20px'>2</td>
-                    <td>Jika dana kurang di Reimbursment dengan mengajukan pergantian biaya</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Demikian Laporan Pengajuan ini di perbuat untuk dapat dimaklumi dan diketahui sesuai dengan fungsinya</td>
-                </tr>
-                <tr>
-                    <td>NB:</td>
-                    <td> Seluruh Transaksi harus disertai dengan Bukti Transaksi (Kwitansi), Kalau tidak disertai dengan bukti transaksi harus diklarifikasi dengan Voucher</td>
-                </tr>
-            </table>
+        {!! $setting->syarat !!}
 
         </div>
 
-        <div class="footer" style="padding-top: 10px;">
-            <table border='1' style="width:100%">      
+       <div class="footer" style="padding-top: 10px;">
+            <table style="width:100%;border-collapse: collapse;">      
                 <tr>
-                    <th>Diajukan Oleh</th>
+                    <th style="border:1px solid black;border-bottom:0;">Diajukan Oleh</th>
                     @foreach($approvers as $approver)
-                        <th>{{ $approver->subject }}</th>
+                        <th style="border:1px solid black;border-bottom:0;">{{ $approver->subject }}</th>
                     @endforeach
                 </tr>
                 <tr>
-                    <th height='100px'><img src="{{base_path('public/' . $report->applicant->signature)}}" alt="" style="width:100px"></th>
+                    <th height='100px' style="border:1px solid black;border-top:0;border-bottom:0;"><img src="{{base_path('public/' . $report->applicant->signature)}}" alt="" style="width:100px"></th>
                     @foreach($approvers as $approver)
                         @if($approver->status == 'acc')
-                        <th height='100px'><img src="{{base_path('public/' . $approver->user->signature)}}" alt="" style="width:100px"></th>
+                        <th height='100px' style="border:1px solid black;border-top:0;border-bottom:0;"><img src="{{base_path('public/' . $approver->user->signature)}}" alt="" style="width:100px"></th>
                         @else
-                        <th height='100px'></th>
+                        <th height='100px' style="border:1px solid black;border-top:0;border-bottom:0;"></th>
                         @endif
                     @endforeach
                 </tr>
                 <tr>
-                    <th>{{$report->applicant->name}}</th>
+                    <th style="border:1px solid black;border-top:0;border-bottom:0;"> {{$report->applicant->name }} </th>
                     @foreach($approvers as $approver)
-                        <th style="text-transform: capitalize;"> {{$approver->position}} </th>
+                        <th style="text-transform: capitalize;border:1px solid black;border-top:0;border-bottom:0;"> {{$approver->user->name}} </th>
+                    @endforeach
+                </tr>
+                <tr>
+                    <th style="border:1px solid black;border-top:0;">( Pengaju )</th>
+                    @foreach($approvers as $approver)
+                        <th style="text-transform: capitalize;border:1px solid black;border-top:0;">( {{$approver->position}} )</th>
                     @endforeach
                 </tr>
             </table>
