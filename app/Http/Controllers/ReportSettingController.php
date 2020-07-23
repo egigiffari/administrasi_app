@@ -15,21 +15,6 @@ class ReportSettingController extends Controller
         return view('request.report.setting', compact('report'));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request, $id)
     {
         $setting = ReportSetting::whereid($id)->first();
@@ -42,8 +27,4 @@ class ReportSettingController extends Controller
         return redirect()->back()->withSuccess('Settings Has Been Saved');
     }
 
-    public function destroy($id)
-    {
-        //
-    }
 }

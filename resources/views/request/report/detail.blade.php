@@ -166,6 +166,41 @@
                             </table>
                           </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12" style="margin-bottom:20px;">
+                          <p>Please insert Your Bill</p>
+                          <form action="{{ route('report.bill.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="report_id" value="{{ $report->id }}">
+                            <div class="form-group">
+                                <label class="control-label" for="image">Image <span class="required">*</span>
+                                </label>
+                                <input type="file" id="image" name="image" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                            <button class="btn btn-success">Save</button>
+                          </form>
+                        </div>
+                        @foreach($report->bills as $bill)
+                        <div class="col-md-55">
+                          <div class="thumbnail">
+                            <div class="image view view-first">
+                              <img style="width: 100%; display: block;" src="{{asset($bill->bill)}}" alt="image" />
+                              <div class="mask">
+                                <p>...</p>
+                                <div class="tools tools-bottom">
+                                  
+                                </div>
+                              </div>
+                            </div>
+                            <div class="caption">
+                              <form action="{{ route('report.bill.destroy', $bill->id) }}" method="post">
+                                  @csrf
+                                  @method('delete')
+                                  <button onclick="return confirm('Are You Sure Delete This Item?')" class="btn btn-danger">Delete</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        @endforeach
                         <!-- /.col -->
                       </div>
                       <!-- /.row -->
@@ -194,35 +229,42 @@
                             array_push($datas, $temp);
                         ?>
                         @endfor
-                        @foreach($datas as  $data)
-                        @if($data['user_id'] == Auth::id())
-                            <?php $i = $loop->index - 1; ($i <= 0 ? $i = 0 : $i)?>
-                            @if($datas[$i]['status'] == 'acc' || $datas[$i]['user_id'] == Auth::id())
-                                @if($datas[$loop->index]['status'] == 'waiting')
-                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
-                                @break
-                                @elseif($datas[$loop->index]['status'] == 'acc')
-                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
-                                <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
-                                @break
-                                @elseIf($datas[$loop->index]['status'] == 'revision')
-                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                                <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
-                                @break
-                                @elseIf($datas[$loop->index]['status'] == 'hold')
-                                <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                                <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
-                                @break
+                        <!-- Check if bill is not null -->
+                        @if(count($report->bills) != 0)
+
+                          <!-- Loop responsible -->
+                          @foreach($datas as  $data)
+                            @if($data['user_id'] == Auth::id())
+                                <?php $i = $loop->index - 1; ($i <= 0 ? $i = 0 : $i)?>
+                                @if($datas[$i]['status'] == 'acc' || $datas[$i]['user_id'] == Auth::id())
+                                    @if($datas[$loop->index]['status'] == 'waiting')
+                                    <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                    <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                    @break
+                                    @elseif($datas[$loop->index]['status'] == 'acc')
+                                    <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                    <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
+                                    @break
+                                    @elseIf($datas[$loop->index]['status'] == 'revision')
+                                    <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                    <div name="status" value="hold" class="btn btn-info pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Hold</div>
+                                    @break
+                                    @elseIf($datas[$loop->index]['status'] == 'hold')
+                                    <button type="submit" name="status" value="acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                                    <div name="status" value="perbaikan" class="btn btn-warning pull-right btn-confirm" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-check-square-o"></i> Perbaikan</div>
+                                    @break
+                                    @endif
                                 @endif
+                            @elseif(Auth::user()->level->name == 'administrator' || Auth::user()->email == 'superadmin@gmail.com')
+                              <button type="submit" name="status" value="all-acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
+                              <button type="submit" name="status" value="all-revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
+                              <button type="submit" name="status" value="all-reset" class="btn btn-primary pull-right"><i class="fa fa-history"></i> Reset</button>
+                              @break
                             @endif
-                        @elseif(Auth::user()->level->name == 'administrator' || Auth::user()->email == 'superadmin@gmail.com')
-                          <button type="submit" name="status" value="all-acc" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Acc</button>
-                          <button type="submit" name="status" value="all-revision" class="btn btn-warning pull-right"><i class="fa fa-check-square-o"></i> Revisi</button>
-                          <button type="submit" name="status" value="all-reset" class="btn btn-primary pull-right"><i class="fa fa-history"></i> Reset</button>
-                          @break
+                          @endforeach
+                          <!-- End Loop -->
                         @endif
-                        @endforeach
+                        <!-- End If -->
                         </form>
                           <!-- <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button> -->
                           <!-- Modal -->
@@ -264,7 +306,18 @@
 
 
 @endsection
+
+
+@section('css')
+<!-- Dropzone.js -->
+<link href="/frontend/vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+@endsection
+
 @section('js')
+<!-- FastClick -->
+<script src="/frontend/vendors/fastclick/lib/fastclick.js"></script>
+<!-- Dropzone.js -->
+<script src="/frontend/vendors/dropzone/dist/min/dropzone.min.js"></script>
   <script>
     $(function () {
       $('.btn-confirm').click(function (e) { 

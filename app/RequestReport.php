@@ -32,4 +32,9 @@ class RequestReport extends Model
     {
         return $this->hasMany(RequestReportApprove::class, 'report_id', 'id');
     }
+
+    public function bills()
+    {
+        return $this->hasMany(ReportBill::class, 'report_id', 'id');
+    }
 }

@@ -173,6 +173,7 @@
                     </table>
                   </div>
                 </div>
+                
                 <!-- /.col -->
               </div>
               <!-- /.row -->
@@ -280,9 +281,18 @@
 
 
 @endsection
+
+
+
+@section('css')
+<!--  -->
+@endsection
+
 @section('js')
+
   <script>
     $(function () {
+
       $('.btn-confirm').click(function (e) { 
         e.preventDefault();
         var btnConfirm = $(this);

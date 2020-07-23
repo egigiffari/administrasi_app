@@ -22,6 +22,8 @@
             margin: 0;
             padding-left: 35px;
         }
+
+        .page_break { page-break-before: always; }
     </style>
 </head>
 <body>
@@ -103,7 +105,11 @@
                             <td align="center" width="95px" style="border:1px solid black;background:#fff;padding:5px 2px; 10px;text-transform:capitalize; font-weight:bold;">Spesifikasi</td>
                         </tr>
 
-                        <?php $i = 0 ?>
+                        <?php
+
+                                                        use Symfony\Component\VarDumper\VarDumper;
+
+$i = 0 ?>
                         @foreach($items as $result => $item)
                         <tr>
                             <td align="center" valign="top" style="border:1px solid black;padding:2px 5px;">{{ ++$i }}</td>
@@ -197,6 +203,36 @@
         </div>
 
     </div>
+
+    <div class="page_break"></div>
+
+    <div class="container" style="border: 1px solid black;">
+
+    <table border="1" width="100%">
+        <?php $bills = $report->bills; $data = [] ?>
+        <?php for ($i=0; $i < count($bills); $i++) { 
+             $temp = [
+                'bill' => $bills[$i]['bill']
+            ];
+            array_push($data, $temp);
+        } ?>
+        @for($i = 0; $i < count($data) ; $i++)
+        <tr>
+            <td width="50%" align="center"><img style="width:200px;" src="{{ base_path('public/' .$data[$i++]['bill']) }}" alt="Bill"></td>
+            <td width="50%" align="center">
+            @if($i < count($data))
+            <img style="width:200px;" src="{{ base_path('public/' .$data[$i]['bill']) }}" alt="Bill">
+            @else
+            <?php $i-- ?>
+            @endif
+            </td>
+        </tr>
+        @endfor
+
+    </table>
+
+    </div>
+
 
 </body>
 </html>

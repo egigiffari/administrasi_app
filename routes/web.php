@@ -159,15 +159,19 @@ Route::middleware('auth')->group(function(){
     // End Responsible Report
 
     // Report Setting
-    Route::resource('/report/setting', 'ReportSettingController', ['except' => ['show']])
+    Route::resource('/report/setting', 'ReportSettingController', ['only' => ['index', 'update']])
         ->parameters(['setting' => 'id'])
         ->names([
             'index' => 'report.setting.index',
-            'create' => 'report.setting.create',
-            'store' => 'report.setting.store',
-            'edit' => 'report.setting.edit',
             'update' => 'report.setting.update',
-            'destroy' => 'report.setting.destroy',
+        ]);
+
+    // Report Bill
+    Route::resource('/report/bill', 'ReportBillController', ['only' => ['store', 'destroy']])
+        ->parameters(['bill' => 'id'])
+        ->names([
+            'store' => 'report.bill.store',
+            'destroy' => 'report.bill.destroy',
         ]);
 
     // END REQUEST
