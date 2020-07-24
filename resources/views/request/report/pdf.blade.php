@@ -204,34 +204,34 @@ $i = 0 ?>
 
     </div>
 
-    <div class="page_break"></div>
+    <!-- <div class="page_break"></div>
 
     <div class="container" style="border: 1px solid black;">
 
-    <table border="1" width="100%">
-        <?php $bills = $report->bills; $data = [] ?>
-        <?php for ($i=0; $i < count($bills); $i++) { 
-             $temp = [
-                'bill' => $bills[$i]['bill']
-            ];
-            array_push($data, $temp);
-        } ?>
-        @for($i = 0; $i < count($data) ; $i++)
-        <tr>
-            <td width="50%" align="center"><img style="width:200px;" src="{{ base_path('public/' .$data[$i++]['bill']) }}" alt="Bill"></td>
-            <td width="50%" align="center">
-            @if($i < count($data))
-            <img style="width:200px;" src="{{ base_path('public/' .$data[$i]['bill']) }}" alt="Bill">
-            @else
-            <?php $i-- ?>
-            @endif
-            </td>
-        </tr>
-        @endfor
+        <table border="1" width="100%">
+            <?php $bills = $report->bills; $data = [] ?>
+            <?php for ($i=0; $i < count($bills); $i++) { 
+                $temp = [
+                    'bill' => $bills[$i]['bill']
+                ];
+                array_push($data, $temp);
+            } ?>
+            @for($i = 0; $i < count($data) ; $i++)
+            <tr>
+                <td width="50%" align="center"><img style="width:200px;" src="{{ base_path('public/' .$data[$i++]['bill']) }}" alt="Bill"></td>
+                <td width="50%" align="center">
+                @if($i < count($data))
+                <img style="width:200px;" src="{{ base_path('public/' .$data[$i]['bill']) }}" alt="Bill">
+                @else
+                <?php $i-- ?>
+                @endif
+                </td>
+            </tr>
+            @endfor
 
-    </table>
+        </table>
 
-    </div>
+    </div> -->
 
 
 </body>

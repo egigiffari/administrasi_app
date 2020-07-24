@@ -150,7 +150,7 @@
 
                       <div class="row">
                         <!-- /.col -->
-                        <div class="col-xs-6 col-xs-offset-6">
+                        <div class="col-xs-12 col-md-6 col-md-offset-6">
                           <div class="table-responsive">
                             <table class="table">
                               <tbody>
@@ -230,7 +230,7 @@
                         ?>
                         @endfor
                         <!-- Check if bill is not null -->
-                        @if(count($report->bills) != 0)
+                        <!-- @if(count($report->bills) != 0) -->
 
                           <!-- Loop responsible -->
                           @foreach($datas as  $data)
@@ -263,7 +263,7 @@
                             @endif
                           @endforeach
                           <!-- End Loop -->
-                        @endif
+                        <!-- @endif -->
                         <!-- End If -->
                         </form>
                           <!-- <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button> -->
