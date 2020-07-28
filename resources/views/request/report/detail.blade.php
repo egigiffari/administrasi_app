@@ -200,7 +200,7 @@
                             </div>
                           </div>
                         </div>
-                        @endforeach --> <!--THIS INPUT BILL STILL COMMENT
+                        @endforeach <!--THIS INPUT BILL STILL COMMENT -->
                         <!-- /.col -->
                       </div>
                       <!-- /.row -->
@@ -231,6 +231,7 @@
                         @endfor
                         <!-- Check if bill is not null -->
                         {{-- @if(count($report->bills) != 0) --}} <!-- This Blade still comment -->
+                        @if(count($report->bills) != 0) <!-- This Blade is Work -->
 
                           <!-- Loop responsible -->
                           @foreach($datas as  $data)
@@ -263,6 +264,7 @@
                             @endif
                           @endforeach
                           <!-- End Loop -->
+                        @endif
                         {{-- @endif --}}
                         <!-- End If -->
                         </form>
