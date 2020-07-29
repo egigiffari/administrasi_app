@@ -174,10 +174,11 @@ class UserController extends Controller
         }
 
         if ($request->has('image')) {
+            // dd($this->url_file . 'default.png');
             $image = $request->image;
             $this->image_name = time().$image->getClientOriginalName();
             $image_name = $this->url_file . $this->image_name;
-            if ($user->signature != $this->url_file . 'default.png') {
+            if ($user->image != $this->url_file . 'default.png') {
                 File::delete($user->image);
             }
             $image->move($this->url_file, $this->image_name);

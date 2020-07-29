@@ -44,7 +44,7 @@
 
                             <div class="col-xs-12 form-group has-feedback">
                                 <label for="code" class="title">Code</label>
-                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text" <?php ( Auth::user()->level->capacity == 90 ? 'readonly' : '' ) ?>>
+                                <input class="form-control" name="code" value="{{ $request->code }}" id="code" type="text" <?= ( Auth::user()->level->capacity != 90 ? 'readonly' : '' ) ?> >
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">

@@ -36,7 +36,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="menu_section">
+            <!-- <div class="menu_section">
                 <h3>Pemasaran</h3>
                 <ul class="nav side-menu">
                     <li><a href="#"><i class="fa fa-paste"></i> Penawaran <span class="fa fa-chevron-down"></span></a>
@@ -46,7 +46,7 @@
                         </ul>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <div class="menu_section">
                 <h3>Pengajuan</h3>
                 @inject('division', 'App\Division')
@@ -101,7 +101,9 @@
                     </li>
                     @endif
                     @endforeach
+                    @if(Auth::user()->level->capacity > 10)
                     <li><a href="{{ route('request.pengajuan.archive') }}"><i class="fa fa-archive"></i> Archive</a></li>
+                    @endif
                 </ul>
             </div>
 
