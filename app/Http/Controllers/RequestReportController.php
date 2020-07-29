@@ -26,7 +26,7 @@ class RequestReportController extends Controller
      */
     public function index(RequestCategory $id)
     {
-        $reports = RequestReport::where('category_id', $id->id)->paginate(10);
+        $reports = RequestReport::where('category_id', $id->id)->orderBy('updated_at', 'desc')->paginate(10);
         // $reports = RequestReport::where('category_id', 0)->paginate(10);
         // dd($reports);
         $category = $id;

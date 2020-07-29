@@ -101,6 +101,7 @@
                     </li>
                     @endif
                     @endforeach
+                    <li><a href="{{ route('request.pengajuan.archive') }}"><i class="fa fa-archive"></i> Archive</a></li>
                 </ul>
             </div>
 

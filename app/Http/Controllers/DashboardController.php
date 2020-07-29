@@ -20,6 +20,6 @@ class DashboardController extends Controller
         $pengajuan_acc = \App\Request::where('status', 'approve')->get();
         $categories = RequestCategory::all();
 
-        return view('home.index', compact('users', 'divisions','requests', 'pengajuans','pengajuan_user', 'pengajuan_acc', 'categories'));
+        return view('home.index2', compact('users', 'divisions','requests', 'pengajuans','pengajuan_user', 'pengajuan_acc', 'categories'));
     }
 }

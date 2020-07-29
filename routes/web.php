@@ -87,6 +87,8 @@ Route::middleware('auth')->group(function(){
     // Request
     Route::patch('/request/pengajuan/approve/', "RequestController@approve")->name("request.pengajuan.approve");
     Route::delete('/request/pengajuan/{id}/delete-items', "RequestController@deleteItem")->name("request.pengajuan.delete-item");
+    Route::get('/request/pengajuan/archive', 'RequestController@archive')->name('request.pengajuan.archive');
+    Route::get('/request/pengajuan/pdf/{id}', 'RequestController@pdfExport')->name('request.pengajuan.pdfreport');
     Route::resource('/request/pengajuan', "RequestController")->names([
         'index' => 'request.pengajuan.index',
         'create' => 'request.pengajuan.create',

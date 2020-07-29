@@ -9,7 +9,12 @@ use App\RequestApprove;
 use App\RequestItems;
 use Carbon\Carbon;
 
+use PDF;
+
 use App\Providers\AppServiceProvider;
+use App\ReportSetting;
+use App\RequestReport;
+use App\RequestReportApprove;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -229,8 +234,6 @@ class RequestController extends Controller
         
     }
 
-
-
     public function deleteItem($id)
     {
         $item = RequestItems::findOrFail($id);
@@ -238,4 +241,41 @@ class RequestController extends Controller
 
         return redirect()->back()->withSuccess("Items Has Been Deleted");
     }
+
+    public function archive()
+    {
+        $requests = \App\Request::orderBy('id', 'desc')->get();
+        return view('request.archive.index', compact('requests'));
+    }
+
+    public function pdfExport($id)
+    {
+        $request = \App\Request::findOrFail($id);
+        $category = $request->categories;
+        $items_pengajuan = RequestItems::where('request_id', $id)->get();
+        $approvers_pengajuan = RequestApprove::where('request_id', $id)->get();
+
+        $report = RequestReport::where('request_id', $id)->first();
+        $items_laporan = $report->items;
+        $approvers_laporan = RequestReportApprove::where('report_id', $report->id)->get();
+        $setting = ReportSetting::first();
+
+        // dd($approvers_laporan);
+        
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true,'isRemoteEnabled' => true]);
+
+        if($category->types->name == 'pembelian')
+        {
+            $pdf->loadView('request.archive.pdf_pembelian', compact('request', 'items_pengajuan', 'approvers_pengajuan', 'report', 'items_laporan', 'approvers_laporan', 'setting'));
+            return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
+        }
+        elseif($category->types->name == 'biaya')
+        {
+            $pdf->loadView('request.archive.pdf_biaya', compact('request', 'items_pengajuan', 'approvers_pengajuan', 'report', 'items_laporan', 'approvers_laporan', 'setting'));
+            return $pdf->stream($request->code . '-' . $request->categories->name . '.pdf');
+        }
+
+   }
+
+
 }
