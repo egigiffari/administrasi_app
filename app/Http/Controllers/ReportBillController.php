@@ -11,20 +11,39 @@ class ReportBillController extends Controller
 
     private $url = 'uploads/bills';
 
-    public function store(Request $request)
+    // public function store(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'report_id' => 'required',
+    //         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:6144',
+    //     ]);
+        
+    //     $image = $request->file('file');
+
+    //     $imageName = time().'.'.$image->extension();
+    //     $image->move($this->url,$imageName);
+
+    //     ReportBill::create([
+    //         'report_id' => $request->report_id,
+    //         'bill' => $this->url . '/' .$imageName,
+    //     ]);
+   
+    //     return redirect()->back();
+    // }
+    public function store(Request $request, $id)
     {
         $this->validate($request, [
             'report_id' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:6144',
         ]);
         
-        $image = $request->image;
+        $image = $request->file('file');
 
         $imageName = time().'.'.$image->extension();
         $image->move($this->url,$imageName);
 
         ReportBill::create([
-            'report_id' => $request->report_id,
+            'report_id' => $id,
             'bill' => $this->url . '/' .$imageName,
         ]);
    

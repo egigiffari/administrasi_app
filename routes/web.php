@@ -169,6 +169,7 @@ Route::middleware('auth')->group(function(){
         ]);
 
     // Report Bill
+    Route::post('/report/bill/add/{id}', 'ReportBillController@store')->name('report.bill.add');
     Route::resource('/report/bill', 'ReportBillController', ['only' => ['store', 'destroy']])
         ->parameters(['bill' => 'id'])
         ->names([
