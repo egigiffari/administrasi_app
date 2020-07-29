@@ -229,7 +229,7 @@ class RequestReportController extends Controller
         $responsibles = $report->responsibles;
         $category = RequestCategory::findOrFail($report->category_id);
 
-        return view('request.report.detail', compact('report', 'items', 'responsibles', 'category'));
+        return view('request.report.detail2', compact('report', 'items', 'responsibles', 'category'));
     }
 
     /**

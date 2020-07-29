@@ -208,7 +208,7 @@ $i = 0 ?>
 
     <div class="container" style="border: 1px solid black;">
 
-        <table border="1" width="100%">
+        <table border="0" width="100%" style="border-collapse: collapse;">
             <?php $bills = $report->bills; $data = [] ?>
             <?php for ($i=0; $i < count($bills); $i++) { 
                 $temp = [
@@ -218,8 +218,8 @@ $i = 0 ?>
             } ?>
             @for($i = 0; $i < count($data) ; $i++)
             <tr>
-                <td width="50%" align="center"><img style="width:200px;" src="{{ base_path('public/' .$data[$i++]['bill']) }}" alt="Bill"></td>
-                <td width="50%" align="center">
+                <td width="50%" align="center" style="border:1px solid black;"><img style="width:200px;" src="{{ base_path('public/' .$data[$i++]['bill']) }}" alt="Bill"></td>
+                <td width="50%" align="center" style="border:1px solid black;">
                 @if($i < count($data))
                 <img style="width:200px;" src="{{ base_path('public/' .$data[$i]['bill']) }}" alt="Bill">
                 @else

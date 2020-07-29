@@ -148,6 +148,7 @@
                       </div>
                       <!-- /.row -->
 
+                      <!-- Row -->
                       <div class="row">
                         <!-- /.col -->
                         <div class="col-xs-12 col-md-6 col-md-offset-6">
@@ -166,17 +167,29 @@
                             </table>
                           </div>
                         </div>
+                        
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+
+                      <!-- Row -->
+                      <div class="row">
+                        <!-- /.col -->
                         <div class="col-xs-12 col-sm-12" style="margin-bottom:20px;">
                           <p>Please insert Your Bill</p>
                           <form action="{{ route('report.bill.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="report_id" value="{{ $report->id }}">
-                            <div class="form-group">
-                                <label class="control-label" for="image">Image <span class="required">*</span>
-                                </label>
-                                <input type="file" id="image" name="image" required="required" class="form-control col-md-7 col-xs-12">
+                            <div class="row">
+                              <input type="hidden" name="report_id" value="{{ $report->id }}">
+                              <div class="form-group col-12">
+                                  <label class="control-label" for="image">Image <span class="required">*</span>
+                                  </label>
+                                  <input type="file" id="image" name="image" required="required" class="form-control col-md-7 col-xs-12">
+                              </div>
+                              <div class="form-group col-12">
+                                <button class="btn btn-success">Save</button>
+                              </div>
                             </div>
-                            <button class="btn btn-success">Save</button>
                           </form>
                         </div>
                         @foreach($report->bills as $bill)
@@ -311,15 +324,9 @@
 
 
 @section('css')
-<!-- Dropzone.js -->
-<link href="/frontend/vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 @endsection
 
 @section('js')
-<!-- FastClick -->
-<script src="/frontend/vendors/fastclick/lib/fastclick.js"></script>
-<!-- Dropzone.js -->
-<script src="/frontend/vendors/dropzone/dist/min/dropzone.min.js"></script>
   <script>
     $(function () {
       $('.btn-confirm').click(function (e) { 

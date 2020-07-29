@@ -57,7 +57,7 @@
                   <br>
                   <br>
                   <b>Status Pengajuan:</b>
-                      @if($request->status == 'waiting')
+                      @if($request->status === 'on proses')
                       <span class="btn btn-primary btn-xs">{{$request->status}}</span>
                       @elseif($request->status == 'revision')
                       <span class="btn btn-warning btn-xs">{{$request->status}}</span>
@@ -65,7 +65,7 @@
                       <span class="btn btn-danger btn-xs">{{$request->status}}</span>
                       @elseif($request->status == 'hold')
                       <span class="btn btn-info btn-xs">{{$request->status}}</span>
-                      @elseif($request->status == 'acc')
+                      @elseif($request->status == 'approve')
                       <span class="btn btn-success btn-xs">{{$request->status}}</span>
                       @endif
                   <br>
@@ -119,42 +119,43 @@
 
               <!-- Table row -->
               <div class="row">
-              <div class="table-overflow">
-                <div class="table">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th style="width:25%">Nama Item</th>
-                        <th>Qty</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Jumlah Harga</th>
-                        <th style="width:25%">Keterangan</th>
+                <div class="table-overflow">
+                  <div class="table">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th style="width:25%">Nama Item</th>
+                          <th>Qty</th>
+                          <th>Satuan</th>
+                          <th>Harga Satuan</th>
+                          <th>Jumlah Harga</th>
+                          <th style="width:25%">Keterangan</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php $i = 1; ?>
+                        @foreach($items as $result => $item)
+                        <tr>
+                          <td>{{ $i++}}</td>
+                          <td>{{ $item->name . '/' . $item->merk . '/' . $item->spec}}</td>
+                          <td>{{ $item->qty }}</td>
+                          <td>{{ $item->unit }}</td>
+                          <td>{{ number_format($item->price) }}</td>
+                          <td>{{ number_format($item->sub) }}</td>
+                          <td>{{ $item->desc }}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <?php $i = 1; ?>
-                      @foreach($items as $result => $item)
-                      <tr>
-                        <td>{{ $i++}}</td>
-                        <td>{{ $item->name . '/' . $item->merk . '/' . $item->spec}}</td>
-                        <td>{{ $item->qty }}</td>
-                        <td>{{ $item->unit }}</td>
-                        <td>{{ number_format($item->price) }}</td>
-                        <td>{{ number_format($item->sub) }}</td>
-                        <td>{{ $item->desc }}</td>
-                    </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
 
-              </div>
+                </div>
                 <!-- /.col -->
               </div>
               <!-- /.row -->
 
+              <!-- Row -->
               <div class="row">
                 <!-- /.col -->
                 <div class="col-xs-12 col-md-6 col-md-offset-6">

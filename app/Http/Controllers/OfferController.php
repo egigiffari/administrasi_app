@@ -35,8 +35,16 @@ class OfferController extends Controller
         //     return view('penawaran.create', compact('users'));
         // }
 
-            $users = User::all();
-            return view('penawaran.create_with_boq', compact('users'));
+        $user_data = User::all();
+        $users = [];
+        foreach ($user_data as $data) {
+            foreach ($data->positions as $position) {
+                if ($position->name === 'Business Relation') {
+                    array_push($users, $data);
+                }
+            }
+        }
+        return view('penawaran.create_with_boq', compact('users'));
     }
 
     public function store(Request $request)

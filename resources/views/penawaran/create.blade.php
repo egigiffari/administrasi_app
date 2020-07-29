@@ -34,10 +34,10 @@
                             <label for="user_id" class="title">Business Relation</label>
                             <select name="user_id" id="user_id" class="form-control js-example-matcher-start">
                                 @foreach($users as $user)
-                                @if($user->email == 'admin@mahasejahtera.com')
-                                @continue
-                                @endif
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @if($user->email == 'admin@mahasejahtera.com')
+                                    @continue
+                                    @endif
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
